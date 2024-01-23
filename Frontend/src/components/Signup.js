@@ -8,13 +8,42 @@ const Signup = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [cnfrmPass, setCnfrmPass] = useState();
+    const [passwordError, setPasswordError] = useState();
+
+    const handlePassChange = (e) => {
+        setPassword(e.target.value);
+        // Add password validation logic using regex
+        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        // if (!passwordRegex.test(password)) {
+        //     setPasswordError('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+        //     // alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+        // } else {
+        //     setPasswordError('');
+        // }
+    };
+
+    const handleCnfrmPassChange = (e) => {
+        setCnfrmPass(e.target.value);
+    };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+
         // console.log(name, email, password, cnfrmPass);
-        axios.post(baseurl + '/signup', { name, email, password, cnfrmPass })
-            .then(result => console.log(result))
-            .catch(err => console.log(err))
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            setPasswordError('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            // alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            return;
+        }
+        if (password !== cnfrmPass) {
+            console.log('Password did not match')
+            return;
+        }
+        else {
+            axios.post(baseurl + '/signup', { name, email, password, cnfrmPass })
+                .then(result => console.log(result))
+                .catch(err => console.log(err))
+        }
     }
 
     return (
@@ -32,10 +61,19 @@ const Signup = () => {
                             <input type='email' placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
                         </div>
                         <div class='p-1'>
-                            <input type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+                            <input
+                                type='password'
+                                placeholder='Password'
+                                value={password}
+                                onChange={handlePassChange} />
+                            {passwordError && <p class="error">{passwordError}</p>}
                         </div>
                         <div class='p-1'>
-                            <input type='password' placeholder='Confirm Password' onChange={(e) => setCnfrmPass(e.target.value)} />
+                            <input
+                                type='password'
+                                placeholder='Confirm Password'
+                                value={cnfrmPass}
+                                onChange={handleCnfrmPassChange} />
                         </div>
                     </div>
                     <div class="flex justify-center items-center">

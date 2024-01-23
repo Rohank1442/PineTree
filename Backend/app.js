@@ -12,7 +12,7 @@ app.use(cors());
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email, password)    
+        console.log(email, password)
         const usersModel = await userModel.findOne({ email: email });
         if (usersModel) {
             console.log(usersModel.password)
@@ -38,25 +38,23 @@ app.post('/login', async (req, res) => {
 app.post("/signup", async (req, res) => {
     // console.log(req.body)
     const { name, email, password, cnfrmPass } = req.body;
-    console.log(name, email, password, cnfrmPass);
-    if (password !== cnfrmPass) {
-        console.log("Password does not match")
-        return res.status(400).json({ error: 'Passwords do not match' });
-    }
     try {
-        console.log(email)
+        // console.log(email)
+        // console.log(req.body);
         const existingUser = await userModel.findOne({ email });
-        console.log(existingUser)
+        // console.log(existingUser)
         // Existing user
+        console.log("here");
         if (existingUser) {
-            console.log("Existing User")
+            // console.log("Existing User")
             return res.status(400).json({ error: 'User already exists' });
         }
         // Create a new user
+        console.log("here 2");
         const newUser = new User({ name, email, password });
-        await newUser.save();
         console.log("User created succesfully")
-
+        await newUser.save();
+        console.log("here 3");
         return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         console.log("Internal Server Error")

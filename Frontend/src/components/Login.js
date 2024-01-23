@@ -8,32 +8,13 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
-
-    // const handleLogin = (e) => {
-    //     e.preventDefault();
-    //     if (email && password) {
-    //         setLoggedIn(true);
-    //         console.log("Login successful");
-    //         navigate('/');
-    //     } else {
-    //         console.log("Login unsuccessful");
-    //     }
-    // };
-
+    
     const handleLogin = (e) => {
         e.preventDefault();
         // console.log(name, email, password, cnfrmPass);
         axios.post(baseurl + '/login', { email, password })
             .then(result => console.log(result))
             .catch(err => console.log(err))
-        // e.preventDefault();
-        // if (email && password) {
-        //     setLoggedIn(true);
-        //     console.log("Login successful");
-        //     navigate('/');
-        // } else {
-        //     console.log("Login unsuccessful");
-        // }
     }
 
     return (
