@@ -1,24 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken')
 const cors = require('cors');
 const userModel = require('./models/userSchema')
 const bcrypt = require("bcryptjs");
 const app = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.post('/login', async (req, res) => {
     try {
+        let token;
         const { email, password } = req.body;
         // console.log(email, password)
         const usersModel = await userModel.findOne({ email: email });
         if (usersModel) {
             // console.log(usersModel.password)
             const auth = await bcrypt.compare(password, usersModel.password)
+            token = await usersModel.generateAuthToken();
+            console.log(token)
             if (!auth) {
-              return res.json({message:'Incorrect password or email' }) 
+                return res.json({ message: 'Incorrect password or email' })
             }
             else {
                 res.send({ message: "wrong credentials" })
@@ -39,6 +44,10 @@ app.post("/signup", async (req, res) => {
     // console.log(req.body)
     const { username, email, password, cnfrmPass } = req.body;
     // console.log(cnfrmPass)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return res.status(400).json({ error: 'Password does not meet the criteria' });
+    }
     try {
         console.log(email)
         console.log(req.body);
@@ -52,15 +61,11 @@ app.post("/signup", async (req, res) => {
         }
         // Create a new user
         const newUser = new userModel({ username, email, password });
-        console.log("here2")
         console.log("User created succesfully")
         await newUser.save();
         return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
-        console.log("Internal Server Error")
-        console.log("here3")
         console.error('Error:', error);
-        console.log("here4")
         res.status(500).json({ error: 'Internal Server Error' });
     }
 })
