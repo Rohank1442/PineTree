@@ -4,49 +4,38 @@ import axios from 'axios';
 import baseurl from '../Api/baseurl';
 
 const Signup = () => {
-    const [name, setName] = useState('');
+    const [username, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [cnfrmPass, setCnfrmPass] = useState('');
     const [passwordError, setPasswordError] = useState(false);
 
     const handlePassChange = (e) => {
-        console.log(name, email, password, cnfrmPass);
+        console.log(username, email, password, cnfrmPass);
         setPassword(e.target.value);
-        // const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        // if (!passwordRegex.test(password)) {
-        //     setPasswordError('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
-        //     // alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
-        //     // return;
-        // }
     };
-    
+
     const handleCnfrmPassChange = (e) => {
         setCnfrmPass(e.target.value);
-        // if (password !== cnfrmPass) {
-        //     console.log('Password did not match')
-        //     // return;
-        // }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const { password, cnfrmPass } = this.state;
-        // console.log(name, email, password, cnfrmPass);
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).{8,}$/;
+        console.log(passwordRegex.test(password));
         if (!passwordRegex.test(password)) {
             console.log("here1");
             setPasswordError(true);
             alert('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character.');
-            // return;
+            return;
         }
+
+        console.log(password)
         if (password !== cnfrmPass) {
             alert('Password did not match')
-            // return;
-        }
-        else{
+        } else {
             console.log("here2")
-            axios.post(baseurl + '/signup', { name, email, password, cnfrmPass })
+            axios.post(baseurl + '/signup', { username, email, password, cnfrmPass })
                 .then(result => console.log(result))
                 .catch(err => console.log(err))
         }
@@ -64,7 +53,7 @@ const Signup = () => {
                             <input
                                 type='text'
                                 placeholder='Name'
-                                value={name}
+                                value={username}
                                 onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div class='p-1'>

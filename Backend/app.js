@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const userModel = require('./models/userSchema')
-
+const bcrypt = require("bcryptjs");
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,13 +12,13 @@ app.use(cors());
 app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email, password)
+        // console.log(email, password)
         const usersModel = await userModel.findOne({ email: email });
         if (usersModel) {
-            console.log(usersModel.password)
-            if (password === usersModel.password) {
-                res.send({ message: "login succesfull", usersModel: usersModel })
-                console.log("login successfull")
+            // console.log(usersModel.password)
+            const auth = await bcrypt.compare(password, usersModel.password)
+            if (!auth) {
+              return res.json({message:'Incorrect password or email' }) 
             }
             else {
                 res.send({ message: "wrong credentials" })
@@ -37,33 +37,32 @@ app.post('/login', async (req, res) => {
 
 app.post("/signup", async (req, res) => {
     // console.log(req.body)
-    const { name, email, password, cnfrmPass } = req.body;
+    const { username, email, password, cnfrmPass } = req.body;
+    // console.log(cnfrmPass)
     try {
-        // console.log(email)
-        // console.log(req.body);
+        console.log(email)
+        console.log(req.body);
         const existingUser = await userModel.findOne({ email });
-        // console.log(existingUser)
+        console.log(existingUser)
         // Existing user
-        console.log("here");
+        console.log("here 1")
         if (existingUser) {
-            // console.log("Existing User")
+            console.log("Existing User")
             return res.status(400).json({ error: 'User already exists' });
         }
         // Create a new user
-        console.log("here 2");
-        const newUser = new User({ name, email, password });
+        const newUser = new userModel({ username, email, password });
+        console.log("here2")
         console.log("User created succesfully")
         await newUser.save();
-        console.log("here 3");
         return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         console.log("Internal Server Error")
-        // console.error('Error:', error);
-        // res.status(500).json({ error: 'Internal Server Error' });
+        console.log("here3")
+        console.error('Error:', error);
+        console.log("here4")
+        res.status(500).json({ error: 'Internal Server Error' });
     }
-    userModel.create(req.body)
-        .then(ser => res.json(ser))
-        .catch(err => res.json(err))
 })
 
 mongoose.connect("mongodb+srv://Rohan:Wkk9AXaXYpfgkvxH@cluster0.wto2koe.mongodb.net/userSchema")
