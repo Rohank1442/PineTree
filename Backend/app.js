@@ -15,7 +15,7 @@ app.post('/login', async (req, res) => {
     try {
         let token;
         const { email, password } = req.body;
-        // console.log(email, password)
+        console.log(email, password)
         const usersModel = await userModel.findOne({ email: email });
         if (usersModel) {
             // console.log(usersModel.password)

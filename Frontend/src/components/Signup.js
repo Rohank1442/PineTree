@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../Api/baseurl';
+
 
 const Signup = () => {
     const [username, setName] = useState('');
@@ -9,7 +10,8 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [cnfrmPass, setCnfrmPass] = useState('');
     const [passwordError, setPasswordError] = useState(false);
-
+    const navigate = useNavigate();
+    
     const handlePassChange = (e) => {
         console.log(username, email, password, cnfrmPass);
         setPassword(e.target.value);
@@ -36,7 +38,10 @@ const Signup = () => {
         } else {
             console.log("here2")
             axios.post(baseurl + '/signup', { username, email, password, cnfrmPass })
-                .then(result => console.log(result))
+                .then(result => {
+                    console.log(result);
+                    navigate('/login')
+                })
                 .catch(err => console.log(err))
         }
     }

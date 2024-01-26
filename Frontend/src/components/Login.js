@@ -53,7 +53,7 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="flex justify-center items-center">
-                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded" >
+                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded" onClick={() => navigate('/')}>
                             Log In
                         </button>
                     </div>
