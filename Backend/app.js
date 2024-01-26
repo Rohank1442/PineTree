@@ -4,34 +4,52 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const cors = require('cors');
 const userModel = require('./models/userSchema')
+const auth = require('./controllers/AuthController')
 const bcrypt = require("bcryptjs");
-const app = express();
+const dotenv = require('dotenv')
 
+dotenv.config();
+
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.post('/login', async (req, res) => {
     try {
-        let token;
         const { email, password } = req.body;
         console.log(email, password)
-        const usersModel = await userModel.findOne({ email: email });
-        if (usersModel) {
-            // console.log(usersModel.password)
-            const auth = await bcrypt.compare(password, usersModel.password)
-            token = await usersModel.generateAuthToken();
-            console.log(token)
+        const user = await userModel.findOne({ email: email });
+        if (user) {
+            // console.log(user.password)
+            const auth = await bcrypt.compare(password, user.password)
             if (!auth) {
-                return res.json({ message: 'Incorrect password or email' })
+                return res.json({ message: 'Invalid Password' })
             }
             else {
-                res.send({ message: "wrong credentials" })
-                console.log("login unsuccesfull")
+                const token = jwt.sign(
+                    {
+                        userId: user._id,
+                        userEmail: user.email,
+                    },
+                    String(process.env.JWT_SECRET_KEY),
+                    { expiresIn: "3h" }
+                )
+                res.cookie('JWT_HTTPONLY_Cookie', token, {
+                    httpOnly: true,
+                    sameSite: "none",
+                    secure: true,
+                    maxAge: 24 * 60 * 60 * 1000
+                })
+                res.status(200).send({
+                    message: "Login Successful",
+                    email: user.email,
+                    token,
+                })
             }
         }
         else {
-            res.send("not register")
+            res.send("Invalid Email")
             console.log("User is not registered")
         }
     } catch (error) {
@@ -70,7 +88,7 @@ app.post("/signup", async (req, res) => {
     }
 })
 
-mongoose.connect("mongodb+srv://Rohan:Wkk9AXaXYpfgkvxH@cluster0.wto2koe.mongodb.net/userSchema")
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wto2koe.mongodb.net/userSchema`)
     .then(() => {
         console.log("database connected successfullly!");
         app.listen(5000, () => {
