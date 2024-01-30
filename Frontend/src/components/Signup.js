@@ -10,8 +10,8 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [cnfrmPass, setCnfrmPass] = useState('');
     const [passwordError, setPasswordError] = useState(false);
-    const navigate = useNavigate();
-    
+    const navigate = useNavigate('');
+
     const handlePassChange = (e) => {
         console.log(username, email, password, cnfrmPass);
         setPassword(e.target.value);
