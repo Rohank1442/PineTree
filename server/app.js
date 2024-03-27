@@ -21,7 +21,7 @@ app.use(cors());
 let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: String(process.env.AUTH_EMAIL),
+        User: String(process.env.AUTH_EMAIL),
         pass: String(process.env.AUTH_PASS),
     },
 })
@@ -30,18 +30,20 @@ app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         console.log(email, password)
-        const user = await userModel.findOne({ email: email });
-        if (user) {
-            // console.log(user.password)
-            const auth = await bcrypt.compare(password, user.password)
+        const User = await userModel.findOne({ email: email })
+        console.log(User.email)
+        if (User) {
+            console.log(User.password)
+            const auth = await bcrypt.compare(password, User.password)
+            console.log(auth);
             if (!auth) {
-                return res.json({ message: 'Invalid Password' })
+                return res.status(404).json({ message: 'Invalid Password' })
             }
             else {
                 const token = jwt.sign(
                     {
-                        userId: user._id,
-                        userEmail: user.email,
+                        userId: User._id,
+                        userEmail: User.email,
                     },
                     String(process.env.JWT_SECRET_KEY),
                     { expiresIn: "3h" }
@@ -52,9 +54,9 @@ app.post('/login', async (req, res) => {
                     secure: true,
                     maxAge: 24 * 60 * 60 * 1000
                 })
-                res.status(200).send({
+                res.status(200).json({
                     message: "Login Successful",
-                    email: user.email,
+                    email: User.email,
                     token,
                 })
             }

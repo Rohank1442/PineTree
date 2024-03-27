@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
     createdQuizzes: [{
-        type: mongoose.Schema.Types.ObjectId, 
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz'
     }],
     createdAt: {
@@ -43,7 +43,7 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function () {
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, 10);
 });
 
 const User = new mongoose.model('User', userSchema)

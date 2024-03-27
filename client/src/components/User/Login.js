@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import baseurl from '../Api/baseurl';
+import baseurl from '../../Api/baseurl';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -13,13 +13,10 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post(baseurl + '/login', { email, password });
+            console.log(response);
             if (response.status === 200) {
                 console.log(password)
-                if (response.data.success) {
-                    navigate('/');
-                } else {
-                    setError('Login failed. Please check your credentials.');
-                }
+                navigate('/');
             }
         } catch (error) {
             console.error('Error:', error);
