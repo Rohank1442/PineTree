@@ -6,15 +6,25 @@ import baseurl from '../Api/baseurl';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
+    const [error, setError] = useState('');
     const navigate = useNavigate();
-    
-    const handleLogin = (e) => {
+
+    const handleLogin = async (e) => {
         e.preventDefault();
-        // console.log(name, email, password, cnfrmPass);
-        axios.post(baseurl + '/login', { email, password })
-            .then(result => console.log(result))
-            .catch(err => console.log(err))
+        try {
+            const response = await axios.post(baseurl + '/login', { email, password });
+            if (response.status === 200) {
+                console.log(password)
+                if (response.data.success) {
+                    navigate('/');
+                } else {
+                    setError('Login failed. Please check your credentials.');
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('An error occurred. Please try again later.');
+        }
     }
 
     return (
@@ -36,6 +46,7 @@ const Login = () => {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                         </div>
                         <label htmlFor="password" className="p-1">
@@ -49,14 +60,18 @@ const Login = () => {
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
+                                required
                             />
                         </div>
                     </div>
                     <div className="flex justify-center items-center">
-                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded" onClick={() => navigate('/')}>
+                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded">
                             Log In
                         </button>
                     </div>
+                    {error && (
+                        <div className="text-red-500 text-center my-2">{error}</div>
+                    )}
                     <div className="m-2 p-2">
                         Forget Password? <span>Click here!</span>
                     </div>

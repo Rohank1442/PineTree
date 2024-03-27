@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const bcrypt = require("bcryptjs");
 require('dotenv').config();
 
@@ -16,6 +16,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Your password is required"],
     },
+    role: {
+        type: String,
+        enum: ['admin', 'creator', 'user'], default: 'user'
+    },
+    points: {
+        type: Number,
+        default: 0
+    },
+    createdQuizzes: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Quiz'
+    }],
     createdAt: {
         type: Date,
         default: new Date(),
@@ -34,5 +46,5 @@ userSchema.pre('save', async function () {
     this.password = await bcrypt.hash(this.password, 12);
 });
 
-const userModel = new mongoose.model("user", userSchema)
-module.exports = userModel
+const User = new mongoose.model('User', userSchema)
+module.exports = User
