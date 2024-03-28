@@ -81,13 +81,11 @@ app.post("/signup", async (req, res) => {
     try {
         const existingUser = await userModel.findOne({ email });
 
-        // Existing user
         if (existingUser) {
             console.log("Existing User")
             return res.status(400).json({ error: 'User already exists' });
         }
 
-        // Create a new user
         const newUser = new userModel({ username, email, password });
         await newUser.save();
 
@@ -128,20 +126,8 @@ const sendOTPVerificationEmail = async (newUser) => {
             await transporter.sendMail(mailOptions);
 
             resolve();
-            // res.json({
-            //     status: "PENDING",
-            //     message: "Verification otp email sent",
-            //     data: {
-            //         userId: _id,
-            //         email: newUser.email,
-            //     }
-            // })
         } catch (error) {
             reject(error);
-            // res.json({
-            //     status: "FAILED",
-            //     message: error.message,
-            // })
         }
     })
 }

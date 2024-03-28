@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../../Api/baseurl';
 
-
 const Signup = () => {
     const [username, setName] = useState('');
     const [email, setEmail] = useState('');
