@@ -17,8 +17,9 @@ const Homepage = () => {
 
     useEffect(() => {
         getTopic().then(json => {
-            setPosts(json)
-            setSearchResults(json)
+            setPosts([...json.data])
+            setSearchResults([...json.data])
+            // console.log(json);
         })
     }, [])
 
@@ -72,7 +73,7 @@ const Homepage = () => {
             {content}
             <nav className="nav-ex2">
                 <button onClick={firstPage} disabled={isPreviousData || page === 1}>&lt;&lt;</button>
-                    {pagesArray.map(pg => <PageButton pg={pg} setPage={setPage} />)}
+                {pagesArray.map(pg => <PageButton pg={pg} setPage={setPage} />)}
                 <button onClick={lastPage} disabled={isPreviousData || page === users.total_pages}>&gt;&gt;</button>
             </nav>
         </div>
