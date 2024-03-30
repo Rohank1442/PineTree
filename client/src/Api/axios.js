@@ -9,7 +9,7 @@ export const getUsersPage = async (pageParam = 1) => {
     return response.data
 }
 
-export const getTopic = async () => {
-    const response = await axiosTopic.get(`/posts`)
-    return response.data
-}
+// export const getTopic = async () => {
+//     const response = await axiosTopic.get(`/users`)
+//     return response.data
+// }

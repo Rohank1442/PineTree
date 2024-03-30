@@ -16,10 +16,9 @@ const Homepage = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        getTopic().then(json => {
+        getUsersPage().then(json => {
             setPosts([...json.data])
             setSearchResults([...json.data])
-            // console.log(json);
         })
     }, [])
 
@@ -50,6 +49,7 @@ const Homepage = () => {
         e.preventDefault();
         navigate('/signup')
     }
+    
 
     return (
         <div>
@@ -79,5 +79,5 @@ const Homepage = () => {
         </div>
     )
 }
-
+ 
 export default Homepage;

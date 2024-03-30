@@ -1,14 +1,11 @@
 const mongoose = require('mongoose');
 
 const topicSchema = new mongoose.Schema({
-    username: {
+    topicName: {
         type: String,
         req: true
     },
-    desc: {
-        type: String
-    },
-    creator: {
+    creator: {  
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
