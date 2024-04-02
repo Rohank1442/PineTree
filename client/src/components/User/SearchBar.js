@@ -34,15 +34,14 @@ const SearchBar = ({ posts, setSearchResults }) => {
         if (location.search) {
             const hold = location.search.substring(1);
             let queries = hold.split("&");
-            
+
             let title = "";
-            for (let i = 0; i < queries.length; i++) {
+            for (let i=0; i<queries.length; i++) {
                 let query = queries[i].split("=");
                 if (query[0] === "title") {
                     title = query[1];
                 }
             }
-
             console.log(title);
         }
     }, [location])

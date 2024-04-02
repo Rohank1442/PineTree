@@ -49,7 +49,6 @@ const Homepage = () => {
         e.preventDefault();
         navigate('/signup')
     }
-    
 
     return (
         <div>
