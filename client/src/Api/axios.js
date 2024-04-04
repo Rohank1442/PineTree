@@ -1,15 +1,16 @@
 import axios from 'axios'
 
 export const axiosTopic = axios.create({
-    baseURL: 'https://reqres.in/api'
+    baseURL: 'http://localhost:5000'
 })
 
 export const getUsersPage = async (pageParam = 1) => {
-    const response = await axiosTopic.get(`/users?page=${pageParam}`)
+    const response = await axiosTopic.get(`/topics?page=${pageParam}`)
     return response.data
 }
 
 // export const getTopic = async () => {
-//     const response = await axiosTopic.get(`/users`)
+//     const response = await axiosTopic.get(`/topics`)
+//     console.log(response.data)
 //     return response.data
 // }

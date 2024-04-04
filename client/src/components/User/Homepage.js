@@ -1,26 +1,41 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query'
-import { getUsersPage, getTopic } from "../../Api/axios";
+import { getUsersPage } from "../../Api/axios";
 import User from './Userr'
 import PageButton from './PageButton';
 import SearchBar from './SearchBar';
 import ListPage from './ListPage';
 import './homepage.css'
+import axios from 'axios'
+
+const base_url = 'http://localhost:5000/topics'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
     const [posts, setPosts] = useState([])
+    const [obj, setObj] = useState({})
+    const [sort, setSort] = useState({ sort: "topicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        getUsersPage().then(json => {
-            setPosts([...json.data])
-            setSearchResults([...json.data])
-        })
-    }, [])
+        const getAllTopics = async () => {
+            try {
+                const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&searchResults=${searchResults}`;
+                const { data } = await axios.get(url);
+                setObj(data)
+                // console.log(data)
+                setPosts(data);
+                setSearchResults(data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        getAllTopics();
+    }, [sort, page, searchResults]);
 
     const {
         isLoading,
@@ -29,13 +44,16 @@ const Homepage = () => {
         data: users,
         isFetching,
         isPreviousData,
-    } = useQuery(['/users', page], () => getUsersPage(page), {
+    } = useQuery(['/topics', page], () => getUsersPage(page), {
         keepPreviousData: true
     })
 
     if (isLoading) return <p>Loading Users...</p>
     if (isError) return <p>Error: {error.message}</p>
-    const content = users.data.map(user => <User key={user.id} user={user} />)
+    // console.log(users.topics)
+    const content = users.topics.map(user => <User key={user._id} user={user} />)
+    // console.log(content)
+
     const lastPage = () => setPage(users.total_pages)
     const firstPage = () => setPage(1)
     const pagesArray = Array(users.total_pages).fill().map((_, index) => index + 1)
@@ -78,5 +96,5 @@ const Homepage = () => {
         </div>
     )
 }
- 
+
 export default Homepage;

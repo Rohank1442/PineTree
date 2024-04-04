@@ -13,4 +13,4 @@ const UserOTPVerification = mongoose.model(
     UserOTPVerificationSchema
 );
 
-module.exports = UserOTPVerification;   
+module.exports = UserOTPVerification;

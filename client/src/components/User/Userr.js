@@ -1,10 +1,9 @@
 const Userr = ({ user }) => {
     return (
         <article>
-            <img src={user?.avatar} alt={`${user?.first_name} ${user?.last_name}`} />
-            <h2>{`${user?.first_name} ${user?.last_name}`}</h2>
-            <p>Email: {user?.email}</p>
-            <p>User ID: {user?.id}</p>
+            <h2>{`${user?.topicName} ${user?.creator.username}`}</h2>
+            <p>Email: {user?.creator._id}</p>
+            <p>User ID: {user?._id}</p>
         </article>
     )
 }
