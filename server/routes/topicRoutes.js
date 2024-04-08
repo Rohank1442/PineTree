@@ -29,17 +29,16 @@ router.get('/', async (req, res) => {
         .skip(page * limit)
         .limit(limit)
         
-        console.log("topics: ", topics)
+        // console.log("topics: ", topics)
         const total = await Topic.countDocuments({
             topicName: { $regex: search, $options: "i" },
         });
-        const totalPages = Math.ceil(total / limit);
-        console.log("totalPages: ", totalPages)
-        console.log(limit)
-        console.log(page+1*limit)
+        // const totalPages = Math.ceil(total / limit);
+        // console.log("totalPages: ", totalPages)
+        // console.log(limit)
         const response = {
             error: false,
-            totalPages,
+            total,
             page: page + 1,
             limit,
             topics

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query'
-import { getUsersPage } from "../../Api/axios";
-import User from './Userr'
-import PageButton from './PageButton';
-import SearchBar from './SearchBar';
-import ListPage from './ListPage';
-import './homepage.css'
+import { getUsersPage } from "../../../Api/axios";
+import SearchBar from '../Search/SearchBar';
+import ListPage from '../Search/ListPage';
+import Pagination from "../Pagination";
+import Sort from "../Sort";
+import './styles.module.css'
 import axios from 'axios'
 
 const base_url = 'http://localhost:5000/'
@@ -51,14 +51,7 @@ const Homepage = () => {
 
     if (isLoading) return <p>Loading Users...</p>
     if (isError) return <p>Error: {error.message}</p>
-    // console.log(users.topics)
-    const content = users.topics.map(user => <User key={user._id} user={user} />)
-    // console.log(content)
 
-    const lastPage = () => setPage(users.total)
-    const firstPage = () => setPage(1)
-    const pagesArray = Array(users.total).fill().map((_, index) => index + 1)
-    // console.log(lastPage)
     const handleLogin = (e) => {
         e.preventDefault();
         navigate('/login')
@@ -84,16 +77,21 @@ const Homepage = () => {
                     </button>
                 </div>
             </div>
+            <div className="sort">
+                <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+            </div>
             <div>
                 <SearchBar posts={posts} setSearchResults={setSearchResults} />
                 <ListPage searchResults={searchResults} />
             </div>
-            {content}
-            <nav className="nav-ex2">
-                <button onClick={firstPage} disabled={isPreviousData || page === 1}>&lt;&lt;</button>
-                {pagesArray.map(pg => <PageButton pg={pg} setPage={setPage} />)}
-                <button onClick={lastPage} disabled={isPreviousData || page === users.total}>&gt;&gt;</button>
-            </nav>
+            <div className="paginate">
+                <Pagination
+                    page={page}
+                    limit={obj.limit ? obj.limit : 0}
+                    total={obj.total ? obj.total : 0}
+                    setPage={(page) => setPage(page)}
+                />
+            </div>
         </div>
     )
 }

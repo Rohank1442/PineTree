@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  background-color: #d29999;
+  background-color: hsl(0, 0%, 96%);
   font-family: "Nunito", sans-serif;
 }
 
@@ -30,13 +30,13 @@ button {
 }
 
 p {
-  color: whitesmoke;
+  color: rgb(182, 176, 176);
 }
 
 article {
   margin: 1em;
   padding: 1em;
-  background-color: midnightblue;
+  background-color: rgba(6, 139, 28, 0.874);
   color: whitesmoke;
   border-radius: 15px;
 }
@@ -68,7 +68,7 @@ img {
 .nav-ex2 button:focus {
   background-color: yellow;
 }
-
+ 
 .loading {
   position: absolute;
   top: 1rem;
