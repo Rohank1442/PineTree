@@ -9,7 +9,7 @@ import ListPage from './ListPage';
 import './homepage.css'
 import axios from 'axios'
 
-const base_url = 'http://localhost:5000/topics'
+const base_url = 'http://localhost:5000/'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
@@ -28,15 +28,16 @@ const Homepage = () => {
                 setObj(data)
                 // console.log(data)
                 setPosts(data);
-                setSearchResults(data);
+                setSearchResults([...data.topics]);
+                console.log(data)
             } catch (err) {
                 console.log(err);
             }
         };
 
         getAllTopics();
-    }, [sort, page, searchResults]);
-
+    }, [sort, page]);
+    // console.log(searchResults)
     const {
         isLoading,
         isError,
@@ -44,7 +45,7 @@ const Homepage = () => {
         data: users,
         isFetching,
         isPreviousData,
-    } = useQuery(['/topics', page], () => getUsersPage(page), {
+    } = useQuery(['/', page], () => getUsersPage(page), {
         keepPreviousData: true
     })
 
@@ -54,17 +55,17 @@ const Homepage = () => {
     const content = users.topics.map(user => <User key={user._id} user={user} />)
     // console.log(content)
 
-    const lastPage = () => setPage(users.total_pages)
+    const lastPage = () => setPage(users.total)
     const firstPage = () => setPage(1)
-    const pagesArray = Array(users.total_pages).fill().map((_, index) => index + 1)
-
+    const pagesArray = Array(users.total).fill().map((_, index) => index + 1)
+    // console.log(lastPage)
     const handleLogin = (e) => {
         e.preventDefault();
         navigate('/login')
     }
 
     const handleSignup = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         navigate('/signup')
     }
 
@@ -91,7 +92,7 @@ const Homepage = () => {
             <nav className="nav-ex2">
                 <button onClick={firstPage} disabled={isPreviousData || page === 1}>&lt;&lt;</button>
                 {pagesArray.map(pg => <PageButton pg={pg} setPage={setPage} />)}
-                <button onClick={lastPage} disabled={isPreviousData || page === users.total_pages}>&gt;&gt;</button>
+                <button onClick={lastPage} disabled={isPreviousData || page === users.total}>&gt;&gt;</button>
             </nav>
         </div>
     )

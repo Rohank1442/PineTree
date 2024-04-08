@@ -7,9 +7,7 @@ const SearchBar = ({ posts, setSearchResults }) => {
     const navigate = useNavigate();
 
     const handleSearchChange = (e) => {
-        if (!e.target.value) return setSearchResults(posts);
-
-        // navigate(`?title=${e.target.value}`);
+        if (!e.target.value) return setSearchResults([...posts.topics]);
 
         console.log(posts.topics)
         const resultsArray = posts.topics.filter((user) => {
