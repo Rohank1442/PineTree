@@ -1,11 +1,7 @@
 const mongoose = require('mongoose');
 
 const subTopicSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    desc: {
+    subTopicName: {
         type: String,
         required: true
     },
@@ -17,10 +13,13 @@ const subTopicSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic'
     },
-    levels: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Level'
-    }]
+    levels: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'SubTopic'
+        }],
+        default: []
+    }
 });
 
 const SubTopic = mongoose.model('SubTopic', subTopicSchema);

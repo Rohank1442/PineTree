@@ -25,15 +25,18 @@ router.get('/', async (req, res) => {
 
         const topics = await Topic.find({ topicName: { $regex: search, $options: "i" } })
         .populate('creator', '-password')
+        .populate({
+            path: 'subTopics',
+            select: 'subTopicName'
+        })
         .sort(sortBy)
         .skip(page * limit)
         .limit(limit)
         
-        // console.log("topics: ", topics)
+        console.log("topics: ", topics)
         const total = await Topic.countDocuments({
             topicName: { $regex: search, $options: "i" },
         });
-        // const totalPages = Math.ceil(total / limit);
         // console.log("totalPages: ", totalPages)
         // console.log(limit)
         const response = {
@@ -60,7 +63,11 @@ async function getTopicById(req, res, next) {
     try {
         topic = await Topic.findById(req.params.id)
             .populate('creator', '-password')
-        // .populate('subTopics');
+            .populate({
+                path: 'subTopics',
+                select: 'subTopicName'
+            });
+            // console.log(topic)
         if (topic == null) {
             return res.status(404).json({ message: 'Cannot find topic' });
         }
@@ -71,7 +78,7 @@ async function getTopicById(req, res, next) {
     next();
 }
 
-const creatorId = '660c32a1eebdbec892b38961';
+// const creatorId = '660c32a1eebdbec892b38961';
 
 // const additionalTopicNames = [
 //     'Numerical Analysis',
@@ -98,12 +105,13 @@ const creatorId = '660c32a1eebdbec892b38961';
 
 // const newTopics = additionalTopicNames.map(topicName => ({
 //     topicName,
-//     creator: creatorId
+//     creator: creatorId,
+//     subTopics: ['6619189e9d3810b49d7f4e52', '660c32a1eebdbec892b38961']
 // }));
 
 // Topic.create(newTopics)
 //     .then(savedTopics => {
-//         // console.log('New topics saved:', savedTopics);
+//         console.log('New topics saved:', savedTopics);
 //     })
 //     .catch(err => {
 //         console.error('Error saving new topics:', err);

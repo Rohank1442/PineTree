@@ -8,11 +8,14 @@ const topicSchema = new mongoose.Schema({
     creator: {  
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    subTopics: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'SubTopic'
+        }],
+        default: []
     }
-    // subTopics: [{
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: 'SubTopic'
-    // }]
 });
 
 const Topic = mongoose.model('Topic', topicSchema);

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from './components/User/Signup'
 import Login from './components/User/Login'
 import Homepage from './components/User/Homepage'
+import SubHome from './components/Subtopic/SubHome'
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import './App.css';
 
@@ -13,6 +14,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path='/' element={<Homepage />} />
+          <Route path='/subTopics' element={<SubHome />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>
