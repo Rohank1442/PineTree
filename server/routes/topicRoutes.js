@@ -68,6 +68,7 @@ async function getTopicById(req, res, next) {
                 select: 'subTopicName'
             });
             // console.log(topic)
+            // for subtopic pagination apply above CODE
         if (topic == null) {
             return res.status(404).json({ message: 'Cannot find topic' });
         }

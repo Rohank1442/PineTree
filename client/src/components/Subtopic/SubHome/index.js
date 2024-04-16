@@ -28,8 +28,8 @@ const Homepage = () => {
                 console.log("check");
                 const response = await axios.get(`http://localhost:5000/topics/${id}/`);
                 console.log(response);
-
-                // setObj(data);
+                // change response add whole api request similiar to homepage
+                // also change search take reference from topics page
                 setSearchResults([...response.data.subTopics]);
                 setIsLoading(false);
             } catch (error) {
