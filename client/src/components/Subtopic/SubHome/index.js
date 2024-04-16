@@ -6,60 +6,51 @@ import SearchBar from '../Search/SearchBar';
 import ListPage from '../Search/ListPage';
 import Pagination from "../Pagination";
 import Sort from "../Sort";
-import './styles.module.css'
-import axios from 'axios'
+import './styles.module.css';
+import { useParams } from 'react-router-dom';
+import axios from "axios";
 
-const base_url = 'http://localhost:5000/subTopics'
+const base_url = 'http://localhost:5000/'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
-    const [posts, setPosts] = useState([])
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "subTopicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
+    const { id } = useParams();
+    const [isLoading, setIsLoading] = useState(true)
 
-    const navigate = useNavigate()
 
     useEffect(() => {
-        const getAllSubTopics = async () => {
+        const fetchSubtopic = async () => {
+            setIsLoading(true);
             try {
-                const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&searchResults=${searchResults}`;
-                const { data } = await axios.get(url);
-                setObj(data)
-                // console.log(data)
-                setPosts(data);
-                setSearchResults([...data.subTopics]);
-                // console.log(data)
-            } catch (err) {
-                console.log(err);
+                console.log("check");
+                const response = await axios.get(`http://localhost:5000/topics/${id}/`);
+                console.log(response);
+
+                // setObj(data);
+                setSearchResults([...response.data.subTopics]);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching subtopic:', error);
+                setIsLoading(false);
             }
         };
 
-        getAllSubTopics();
-    }, [sort, page]);
-    // console.log(searchResults)
-    const {
-        isLoading,
-        isError,
-        error,
-        data: users,
-        isFetching,
-        isPreviousData,
-    } = useQuery(['/', page], () => getSubTopic(page), {
-        keepPreviousData: true
-    })
+        fetchSubtopic();        
+    }, [id, sort, page]);
 
     if (isLoading) return <p>Loading Users...</p>
-    if (isError) return <p>Error: {error.message}</p>
+    // if (isError) return <p>Error: {error.message}</p>
 
     return (
         <div>
-            {isFetching && <span className="loading">Loading...</span>}
             <div className="sort">
                 <Sort sort={sort} setSort={(sort) => setSort(sort)} />
             </div>
             <div>
-                <SearchBar posts={posts} setSearchResults={setSearchResults} />
+                <SearchBar setSearchResults={setSearchResults} />
                 <ListPage searchResults={searchResults} />
             </div>
             <div className="paginate">

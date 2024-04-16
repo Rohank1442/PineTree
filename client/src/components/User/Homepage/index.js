@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { getUsersPage } from "../../../Api/axios";
 import SearchBar from '../Search/SearchBar';
 import ListPage from '../Search/ListPage';
 import Pagination from "../Pagination";
@@ -17,40 +15,34 @@ const Homepage = () => {
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "topicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
+    const [searchText, setSearchText] = useState("");
+    const [isLoading, setIsLoading] = useState(true); 
 
     const navigate = useNavigate()
 
     useEffect(() => {
         const getAllTopics = async () => {
+            setIsLoading(true);
             try {
-                const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&searchResults=${searchResults}`;
+                const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
+                
                 const { data } = await axios.get(url);
                 setObj(data)
-                console.log(data)
                 setPosts(data);
                 setSearchResults([...data.topics]);
-                console.log(data)
+                // console.log(data)
+                setIsLoading(false);
             } catch (err) {
                 console.log(err);
+                setIsLoading(false);
             }
         };
 
         getAllTopics();
-    }, [sort, page]);
-    // console.log(searchResults)
-    const {
-        isLoading,
-        isError,
-        error,
-        data: users,
-        isFetching,
-        isPreviousData,
-    } = useQuery(['/', page], () => getUsersPage(page), {
-        keepPreviousData: true
-    })
+    }, [sort, page, searchText]);
 
     if (isLoading) return <p>Loading Users...</p>
-    if (isError) return <p>Error: {error.message}</p>
+    // if (isError) return <p>Error: {error.message}</p>
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -64,7 +56,6 @@ const Homepage = () => {
 
     return (
         <div>
-            {isFetching && <span className="loading">Loading...</span>}
             <div className="flex justify-center">
                 <div className="flex justify-center items-center">
                     <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleLogin}>
@@ -81,7 +72,7 @@ const Homepage = () => {
                 <Sort sort={sort} setSort={(sort) => setSort(sort)} />
             </div>
             <div>
-                <SearchBar posts={posts} setSearchResults={setSearchResults} />
+                <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
                 <ListPage searchResults={searchResults} />
             </div>
             <div className="paginate">

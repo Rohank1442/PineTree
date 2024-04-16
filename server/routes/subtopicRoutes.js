@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const SubTopic = require('../models/SubTopic');
 
-router.get('/', async (req, res) => {
+router.get('/', getSubTopicById, async (req, res) => {
     try {
+        // console.log("hiiiiiii");
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 6;
         const search = req.query.search || "";
@@ -29,7 +30,7 @@ router.get('/', async (req, res) => {
         .limit(limit)
         
         // console.log("subTopics: ", subTopics)
-        const total = await SubTopic.countDocuments({
+        const total = await Topic.countDocuments({
             subTopicName: { $regex: search, $options: "i" },
         });
         // console.log("totalPages: ", totalPages)
@@ -49,24 +50,26 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/subTopics/:id', getSubTopicById, (req, res) => {
+router.get('/subtopics/:id', getSubTopicById, (req, res) => {
     res.json(res.subTopic);
 });
 
 async function getSubTopicById(req, res, next) {
+    console.log("------- subtopics -------")
     let subTopic;
     try {
-        subTopic = await SubTopic.findById(req.params.id)
+        subTopic = await Topic.findById(req.params.id)
             .populate('creator', '-password')
-        // .populate('subTopics');
+            .populate('subTopics');
         if (subTopic == null) {
             return res.status(404).json({ message: 'Cannot find topic' });
         }
+        console.log(subTopic)
+        res.subTopic = subTopic;
+        next();
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
-    res.subTopic = subTopic;
-    next();
 }
 // const creatorId = '660c32a1eebdbec892b38961';
 

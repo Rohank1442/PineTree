@@ -5,11 +5,12 @@ export const axiosTopic = axios.create({
 })
 
 export const getUsersPage = async (pageParam = 1) => {
+    console.log("hmmmm");
     const response = await axiosTopic.get(`/?page=${pageParam}`)
     return response.data
 }
 
-export const getSubTopic = async (pageParam = 1) => { 
-    const response = await axiosTopic.get(`/subTopics/?page=${pageParam}`)
+export const getSubTopic = async (id, pageParam = 1) => { 
+    const response = await axiosTopic.get(`/topics/${id}/?page=${pageParam}`)
     return response.data
 }

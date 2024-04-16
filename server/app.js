@@ -16,7 +16,6 @@ app.use(cors());
 
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
-app.use('/subTopics', subTopicRoutes);
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wto2koe.mongodb.net/userSchema`)
     .then(() => {

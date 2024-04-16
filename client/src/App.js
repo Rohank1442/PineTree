@@ -14,7 +14,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path='/' element={<Homepage />} />
-          <Route path='/subTopics' element={<SubHome />} />
+          <Route path='/topics/:id' element={<SubHome />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
         </Routes>

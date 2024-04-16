@@ -1,10 +1,15 @@
 const Userr = ({ user }) => {
+    
     return (
         <article>
-            <h2>{`${user?.subTopicName} ${user?.creator.username}`}</h2>
-            {/* <p>Email: {user?.creator.email}</p> */}
-            <p>User ID: {user?._id}</p>
+            <h2>{user?.subTopicName}</h2>
+            {/* <ul>
+                {user?.subTopics.map(subTopic => (
+                    <li key={subTopic._id}>{subTopic.subTopicName}</li>
+                ))}
+            </ul> */}
         </article> 
-    )
-}
+    );
+};
+
 export default Userr;
