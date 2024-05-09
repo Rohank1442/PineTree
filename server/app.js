@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use('/', authRoutes);
-app.use('/', topicRoutes);
+app.use('/', topicRoutes); 
 
 console.log("hii")
 

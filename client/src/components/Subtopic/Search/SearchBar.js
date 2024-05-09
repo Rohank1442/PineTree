@@ -1,27 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass, faQuestion } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react";
 
-const SearchBar = ({ posts, setSearchResults }) => {
-    const handleSubmit = (e) => e.preventDefault()
-    const navigate = useNavigate();
+const SearchBar = ({ setPage, setSearchText }) => {
+    const [captureSearchText, setCaptureSearchText] = useState("");
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setPage(1);
+        console.log(captureSearchText)
+        setSearchText(captureSearchText);
+    }
 
     const handleSearchChange = (e) => {
-        if (!e.target.value) return setSearchResults([...posts.subTopics]);
-
-        console.log(posts.subTopics)
-        const resultsArray = posts.subTopics.filter((user) => {
-            const { subTopicName } = user;
-            console.log(subTopicName)
-            const nameExists = subTopicName && typeof subTopicName === 'string';
-            // console.log(nameExists)
-            if (nameExists) {
-                return subTopicName.toLowerCase().includes(e.target.value.toLowerCase());
-            }
-            return false;
-        });
-
-        setSearchResults(resultsArray);
+        setCaptureSearchText(e.target.value);
     };
 
     return (
@@ -32,6 +25,7 @@ const SearchBar = ({ posts, setSearchResults }) => {
                     type="text"
                     id="search"
                     onChange={handleSearchChange}
+                    value={captureSearchText}
                 />
                 <button className="search__button">
                     <FontAwesomeIcon icon={faMagnifyingGlass} />

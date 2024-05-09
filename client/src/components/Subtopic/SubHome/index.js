@@ -17,19 +17,21 @@ const Homepage = () => {
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "subTopicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
+    const [searchText, setSearchText] = useState("")
     const { id } = useParams();
     const [isLoading, setIsLoading] = useState(true)
-
 
     useEffect(() => {
         const fetchSubtopic = async () => {
             setIsLoading(true);
             try {
                 console.log("check");
-                const response = await axios.get(`http://localhost:5000/topics/${id}/`);
-                console.log(response);
+                const response = await axios.get(`http://localhost:5000/topics/${id}/?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
+                console.log("Response---------", response);
                 // change response add whole api request similiar to homepage
                 // also change search take reference from topics page
+                setObj(response)
+                // setPosts(response)
                 setSearchResults([...response.data.subTopics]);
                 setIsLoading(false);
             } catch (error) {
@@ -38,8 +40,8 @@ const Homepage = () => {
             }
         };
 
-        fetchSubtopic();        
-    }, [id, sort, page]);
+        fetchSubtopic();
+    }, [id, sort, page, searchText]);
 
     if (isLoading) return <p>Loading Users...</p>
     // if (isError) return <p>Error: {error.message}</p>
@@ -50,7 +52,7 @@ const Homepage = () => {
                 <Sort sort={sort} setSort={(sort) => setSort(sort)} />
             </div>
             <div>
-                <SearchBar setSearchResults={setSearchResults} />
+                <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
                 <ListPage searchResults={searchResults} />
             </div>
             <div className="paginate">

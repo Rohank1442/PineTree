@@ -4,7 +4,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 
 const SearchBar = ({ setPage, setSearchText }) => {
     const [captureSearchText, setCaptureSearchText] = useState(""); 
-
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         setPage(1);

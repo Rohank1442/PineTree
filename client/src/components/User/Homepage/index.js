@@ -20,12 +20,11 @@ const Homepage = () => {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
+    useEffect(() => { 
         const getAllTopics = async () => {
             setIsLoading(true);
             try {
                 const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
-                
                 const { data } = await axios.get(url);
                 setObj(data)
                 setPosts(data);
