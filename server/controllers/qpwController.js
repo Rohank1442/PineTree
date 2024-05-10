@@ -1,0 +1,1 @@
+const quizPlayerWait = require('../models/QuizPlayerWait')

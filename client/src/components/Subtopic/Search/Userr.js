@@ -1,14 +1,13 @@
+import { Link } from 'react-router-dom';
+
 const Userr = ({ user }) => {
-    
+    console.log(user)
     return (
         <article>
-            <h2>{user?.subTopicName}</h2>
-            {/* <ul>
-                {user?.subTopics.map(subTopic => (
-                    <li key={subTopic._id}>{subTopic.subTopicName}</li>
-                ))}
-            </ul> */}
-        </article> 
+            <h2>
+                <Link to={`/topics/${user?._id}/opt`}>{`${user?.subTopicName}`}</Link>
+            </h2>
+        </article>
     );
 };
 

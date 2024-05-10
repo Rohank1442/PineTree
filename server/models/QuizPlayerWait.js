@@ -11,6 +11,11 @@ const quizPlayerWaitSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    mode: {
+        type: String,
+        enum: ['individual', 'multiplayer'],
+        required: true,
+    },
     status: {
         type: String,
         enum: ['waiting', 'joined', 'missed'],

@@ -15,7 +15,7 @@ const Homepage = () => {
     const [sort, setSort] = useState({ sort: "topicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
     const [searchText, setSearchText] = useState("");
-    const [isLoading, setIsLoading] = useState(true); 
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigate = useNavigate()
 

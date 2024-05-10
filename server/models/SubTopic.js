@@ -12,13 +12,6 @@ const subTopicSchema = new mongoose.Schema({
     topic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic'
-    },
-    levels: {
-        type: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'SubTopic'
-        }],
-        default: []
     }
 });
 

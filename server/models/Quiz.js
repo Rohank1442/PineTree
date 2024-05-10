@@ -20,10 +20,6 @@ const quizSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'SubTopic'
     },
-    level: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Level'
-    },
     questions: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Question'
