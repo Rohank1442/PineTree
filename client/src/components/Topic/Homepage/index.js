@@ -11,7 +11,6 @@ const base_url = 'http://localhost:5000/'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
-    const [posts, setPosts] = useState([])
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "topicName", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
@@ -20,14 +19,13 @@ const Homepage = () => {
 
     const navigate = useNavigate()
 
-    useEffect(() => { 
+    useEffect(() => {
         const getAllTopics = async () => {
             setIsLoading(true);
             try {
                 const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
                 const { data } = await axios.get(url);
                 setObj(data)
-                setPosts(data);
                 setSearchResults([...data.topics]);
                 console.log(data)
                 setIsLoading(false);

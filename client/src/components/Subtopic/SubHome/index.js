@@ -7,11 +7,8 @@ import './styles.module.css';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
-const base_url = 'http://localhost:5000/topics/$'
-
 const Homepage = () => {
     const [page, setPage] = useState(1)
-    const [posts, setPosts] = useState([])
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "subTopics", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
@@ -23,8 +20,8 @@ const Homepage = () => {
         const fetchSubtopic = async () => {
             setIsLoading(true);
             try {
-                console.log("check");
-                const response = await axios.get(`http://localhost:5000/topics/${id}/?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
+                const response = await axios.get(`http://localhost:5000/topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
+                console.log(response)
                 setObj(response.data)
                 setSearchResults([...response.data.subTopics]);
                 setIsLoading(false);

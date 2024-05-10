@@ -106,43 +106,4 @@ async function getTopicById(req, res, next) {
     }
 }
 
-// const creatorId = '660c32a1eebdbec892b38961';
-
-// const additionalTopicNames = [
-//     'Numerical Analysis',
-//     'Complex Analysis',
-//     'Combinatorics',
-//     'Graph Theory',
-//     'Discrete Mathematics',
-//     'Abstract Algebra',
-//     'Real Analysis',
-//     'Topology',
-//     'Partial Differential Equations',
-//     'Fourier Analysis',
-//     'Number Systems',
-//     'Logic',
-//     'Game Theory',
-//     'Optimization',
-//     'Cryptography',
-//     'Mathematical Modeling',
-//     'Dynamical Systems',
-//     'Measure Theory',
-//     'Functional Analysis',
-//     'Fractal Geometry'
-// ];
-
-// const newTopics = additionalTopicNames.map(topicName => ({
-//     topicName,
-//     creator: creatorId,
-//     subTopics: ['6619189e9d3810b49d7f4e52', '660c32a1eebdbec892b38961']
-// }));
-
-// Topic.create(newTopics)
-//     .then(savedTopics => {
-//         console.log('New topics saved:', savedTopics);
-//     })
-//     .catch(err => {
-//         console.error('Error saving new topics:', err);
-//     });
-
 module.exports = router;

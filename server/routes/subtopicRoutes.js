@@ -4,7 +4,6 @@ const SubTopic = require('../models/SubTopic');
 
 router.get('/', getSubTopicById, async (req, res) => {
     try {
-        // console.log("hiiiiiii");
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 6;
         const search = req.query.search || "";
@@ -16,7 +15,6 @@ router.get('/', getSubTopicById, async (req, res) => {
         if (creator) {
             req.query.creator = creator;
         }
-        // pagination, search, sort
         let sortBy = {};
         if (sort[1]) {
             sortBy[sort[0]] = sort[1];
@@ -29,11 +27,9 @@ router.get('/', getSubTopicById, async (req, res) => {
         .skip(page * limit)
         .limit(limit)
         
-        // console.log("subTopics: ", subTopics)
         const total = await Topic.countDocuments({
             subTopicName: { $regex: search, $options: "i" },
         });
-        // console.log("totalPages: ", totalPages)
         console.log(limit)
         const response = {
             error: false,
@@ -71,30 +67,5 @@ async function getSubTopicById(req, res, next) {
         return res.status(500).json({ message: err.message });
     }
 }
-// const creatorId = '660c32a1eebdbec892b38961';
-
-// const additionalTopicNames = [
-//     'Manifolds and smooth structures',
-//     'Homotopy theory',
-//     'Fundamental groups and covering spaces',
-//     'Knot theory',
-//     'Algebraic topology',
-//     'Hausdorff spaces',
-//     'Compactness and local compactness',
-//     'Separation axioms: T0, T1, T2, T3, T4 spaces'
-// ];
-
-// const newTopics = additionalTopicNames.map(subTopicName => ({
-//     subTopicName,
-//     creator: creatorId
-// }));
-
-// SubTopic.create(newTopics)
-//     .then(savedTopics => {
-//         console.log('New topics saved:', savedTopics);
-//     })
-//     .catch(err => {
-//         console.error('Error saving new topics:', err);
-//     });
 
 module.exports = router;
