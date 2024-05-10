@@ -1,7 +1,7 @@
 import styles from './styles.module.css';
 
 const Pagination = ({ page, total, limit, setPage }) => {
-    const totalPages = Math.ceil(total / limit);
+	const totalPages = Math.ceil(total / limit);
     
 	const onClick = (newPage) => {
 		setPage(newPage + 1);

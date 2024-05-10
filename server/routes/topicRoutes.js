@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
         if (creator) {
             req.query.creator = creator;
         }
-        // pagination, search, sort
+
         let sortBy = {};
         if (sort[1]) {
             sortBy[sort[0]] = sort[1];
@@ -27,18 +27,14 @@ router.get('/', async (req, res) => {
             .populate('creator', '-password')
             .populate({
                 path: 'subTopics',
-                // select: 'subTopicName'
             })
             .sort(sortBy)
             .skip(page * limit)
             .limit(limit)
 
-        // console.log("topics: ", topics)
         const total = await Topic.countDocuments({
             topicName: { $regex: search, $options: "i" },
         });
-        // console.log("totalPages: ", totalPages)
-        // console.log(limit)
         const response = {
             error: false,
             total,
@@ -63,7 +59,7 @@ async function getTopicById(req, res, next) {
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 1;
         const search = req.query.search || "";
-        let sort = req.query.sort || "Subtopic";
+        let sort = req.query.sort || "subTopics";
         const { creator } = req.query;
 
         req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
@@ -71,7 +67,6 @@ async function getTopicById(req, res, next) {
         if (creator) {
             req.query.creator = creator;
         }
-        // pagination, search, sort
         let sortBy = {};
         if (sort[1]) {
             sortBy[sort[0]] = sort[1];
@@ -81,35 +76,34 @@ async function getTopicById(req, res, next) {
 
         const topic = await Topic.findById(req.params.id)
             .populate('creator', '-password')
-            .populate({
-                path: 'subTopics',
-                select: 'subTopicName',
-                match: { subTopicName: { $regex: new RegExp(search, 'i') } }
-            })
-            .sort(sortBy)
-            .skip(page * limit)
-            .limit(limit)
-        console.log("Topic-----", topic)
-        // for subtopic pagination apply above CODE
-        const subTopics = topic.subTopics;
-        const total = subTopics.length;
-        console.log("totalPages: ", total)
+            .populate('subTopics')
+
+        if (topic == null) {
+            return res.status(404).json({ message: 'Cannot find topic' });
+        }
+
+        const sortedSubTopics = topic.subTopics.filter(st => st.subTopicName.match(new RegExp(search, 'i')))
+            .sort((a, b) => {
+                if (sort[1] === 'desc') {
+                    return b.subTopicName.localeCompare(a.subTopicName);
+                } else {
+                    return a.subTopicName.localeCompare(b.subTopicName);
+                }
+            });
+
+        const paginatedSubTopics = sortedSubTopics.slice(page * limit, page * limit + limit);
+
         const response = {
             error: false,
-            total,
+            total: sortedSubTopics.length,
             page: page + 1,
             limit,
-            subTopics
+            subTopics: paginatedSubTopics
         }
         res.status(200).json(response);
-        // if (topic == null) {
-        //     return res.status(404).json({ message: 'Cannot find topic' });
-        // }
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
-    // res.topic = topic;
-    // next();
 }
 
 // const creatorId = '660c32a1eebdbec892b38961';

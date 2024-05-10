@@ -29,7 +29,7 @@ const Homepage = () => {
                 setObj(data)
                 setPosts(data);
                 setSearchResults([...data.topics]);
-                // console.log(data)
+                console.log(data)
                 setIsLoading(false);
             } catch (err) {
                 console.log(err);
@@ -41,7 +41,6 @@ const Homepage = () => {
     }, [sort, page, searchText]);
 
     if (isLoading) return <p>Loading Users...</p>
-    // if (isError) return <p>Error: {error.message}</p>
 
     const handleLogin = (e) => {
         e.preventDefault();

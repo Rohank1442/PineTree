@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { getSubTopic } from "../../../Api/axios";
 import SearchBar from '../Search/SearchBar';
 import ListPage from '../Search/ListPage';
 import Pagination from "../Pagination";
@@ -10,12 +7,13 @@ import './styles.module.css';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
-const base_url = 'http://localhost:5000/'
+const base_url = 'http://localhost:5000/topics/$'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
+    const [posts, setPosts] = useState([])
     const [obj, setObj] = useState({})
-    const [sort, setSort] = useState({ sort: "subTopicName", order: "desc" })
+    const [sort, setSort] = useState({ sort: "subTopics", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
     const [searchText, setSearchText] = useState("")
     const { id } = useParams();
@@ -27,11 +25,7 @@ const Homepage = () => {
             try {
                 console.log("check");
                 const response = await axios.get(`http://localhost:5000/topics/${id}/?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
-                console.log("Response---------", response);
-                // change response add whole api request similiar to homepage
-                // also change search take reference from topics page
-                setObj(response)
-                // setPosts(response)
+                setObj(response.data)
                 setSearchResults([...response.data.subTopics]);
                 setIsLoading(false);
             } catch (error) {
@@ -44,7 +38,6 @@ const Homepage = () => {
     }, [id, sort, page, searchText]);
 
     if (isLoading) return <p>Loading Users...</p>
-    // if (isError) return <p>Error: {error.message}</p>
 
     return (
         <div>
