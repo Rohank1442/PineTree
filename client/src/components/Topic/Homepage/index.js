@@ -6,6 +6,8 @@ import Pagination from "../Pagination";
 import Sort from "../Sort";
 import './styles.module.css'
 import axios from 'axios'
+import { Routes, Route } from "react-router-dom";
+import Logout from "../../Auth/Logout";
 
 const base_url = 'http://localhost:5000/'
 
@@ -16,8 +18,13 @@ const Homepage = () => {
     const [searchResults, setSearchResults] = useState([])
     const [searchText, setSearchText] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
 
-    const navigate = useNavigate()
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        setUser(token);
+    }, []);
 
     useEffect(() => {
         const getAllTopics = async () => {
@@ -38,6 +45,7 @@ const Homepage = () => {
         getAllTopics();
     }, [sort, page, searchText]);
 
+
     if (isLoading) return <p>Loading Users...</p>
 
     const handleLogin = (e) => {
@@ -52,18 +60,25 @@ const Homepage = () => {
 
     return (
         <div>
-            <div className="flex justify-center">
-                <div className="flex justify-center items-center">
-                    <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleLogin}>
-                        Log In
-                    </button>
+            {!user && (
+                <div className="flex justify-center">
+                    <div className="flex justify-center items-center">
+                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleLogin}>
+                            Log In
+                        </button>
+                    </div>
+                    <div className="flex justify-center items-center m-2 p-2">
+                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleSignup}>
+                            Sign up
+                        </button>
+                    </div>
                 </div>
-                <div className="flex justify-center items-center m-2 p-2">
-                    <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleSignup}>
-                        Sign up
-                    </button>
-                </div>
-            </div>
+            )}
+            {user && (
+                <Routes>
+                    <Route path="/" exact element={<Logout />} />
+                </Routes>
+            )}
             <div className="sort">
                 <Sort sort={sort} setSort={(sort) => setSort(sort)} />
             </div>
