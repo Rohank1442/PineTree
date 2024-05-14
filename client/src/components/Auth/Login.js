@@ -2,22 +2,27 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../../Api/baseurl';
+import { useDispatch } from 'react-redux';
+import { setEmails } from '../Redux/store';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(baseurl + '/login', { email, password });
             if (response.status === 200) {
-                const token = response.data.token;
+                const { email, token } = response.data;
                 localStorage.setItem('token', token);
-                console.log(password)
+                console.log('Logged in as:', email);
+                console.log(password);
                 navigate('/');
+                dispatch(setEmails(email));
             }
         } catch (error) {
             console.error('Error:', error);

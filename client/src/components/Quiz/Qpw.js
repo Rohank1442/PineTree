@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 
 const Qpw = () => {
+  const email = useSelector(state => state.email);
   return (
     <div>
-      hii
+      <div>Never give up!</div>
+      <div>Email: {email}</div>
     </div>
   )
 }

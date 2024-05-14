@@ -9,6 +9,7 @@ exports.login = async (req, res) => {
         console.log(email, password)
         const User = await userModel.findOne({ email: email })
         console.log(User.email)
+        console.log(User.username)
         if (User) {
             console.log(User.password)
             const auth = await bcrypt.compare(password, User.password)
