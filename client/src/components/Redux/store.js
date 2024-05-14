@@ -10,10 +10,33 @@ const emailSlice = createSlice({
     }
 });
 
+const topicNameSlice = createSlice({
+    name: 'topicName',
+    initialState: '',
+    reducers: {
+        setTopicNames: (state, action) => {
+            return action.payload;
+        }
+    }
+});
+
+const subtopicNameSlice = createSlice({
+    name: 'subtopicName',
+    initialState: '',
+    reducers: {
+        setsubtopicNames: (state, action) => {
+            return action.payload;
+        }
+    }
+})
+
 export const { setEmails } = emailSlice.actions;
+export const { setTopicNames } = topicNameSlice.actions;
+export const { setsubtopicNames } = subtopicNameSlice.actions;
 
 export default configureStore({
     reducer: {
-        email: emailSlice.reducer
+        email: emailSlice.reducer,
+        topicName: topicNameSlice.reducer
     }
 });
