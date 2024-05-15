@@ -5,7 +5,6 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const authRoutes = require('./routes/authRoutes')
 const topicRoutes = require('./routes/topicRoutes');
-const subTopicRoutes = require('./routes/subtopicRoutes');
 
 dotenv.config();
 
