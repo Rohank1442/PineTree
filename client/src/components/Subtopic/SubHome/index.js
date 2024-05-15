@@ -6,6 +6,8 @@ import Sort from "../Sort";
 import './styles.module.css';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { setTopicNames } from '../../Redux/store'
 
 const Homepage = () => {
     const [page, setPage] = useState(1)
@@ -13,15 +15,18 @@ const Homepage = () => {
     const [sort, setSort] = useState({ sort: "subTopics", order: "desc" })
     const [searchResults, setSearchResults] = useState([])
     const [searchText, setSearchText] = useState("")
-    const { id } = useParams();
+    const [topicName, setTopicName] = useState('')
+    const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
+    const dispatch = useDispatch()
 
     useEffect(() => {
-        const fetchSubtopic = async () => {
+        const fetchtopic = async () => {
             setIsLoading(true);
             try {
                 const response = await axios.get(`http://localhost:5000/topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
                 console.log(response)
+                setTopicName(response.data.topic.topicName)
                 setObj(response.data)
                 setSearchResults([...response.data.subTopics]);
                 setIsLoading(false);
@@ -31,8 +36,11 @@ const Homepage = () => {
             }
         };
 
-        fetchSubtopic();
+        fetchtopic();
     }, [id, sort, page, searchText]);
+    
+    // console.log(topicName)
+    dispatch(setTopicNames(topicName))
 
     if (isLoading) return <p>Loading Users...</p>
 

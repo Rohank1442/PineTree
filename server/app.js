@@ -5,6 +5,8 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const authRoutes = require('./routes/authRoutes')
 const topicRoutes = require('./routes/topicRoutes');
+const subTopicRoutes = require('./routes/subtopicRoutes');
+const quizPlayerWait = require('./routes/quizPlayerWait');
 
 dotenv.config();
 
@@ -15,6 +17,7 @@ app.use(cors());
 
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
+app.use('/', quizPlayerWait);
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wto2koe.mongodb.net/userSchema`)
     .then(() => {

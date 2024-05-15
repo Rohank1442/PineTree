@@ -48,7 +48,7 @@ exports.getAllTopics = async (req, res) => {
 exports.getTopicById = async (req, res) => {
     try {
         const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 1;
+        const limit = parseInt(req.query.limit) || 6;
         const search = req.query.search || "";
         let sort = req.query.sort || "subTopics";
         const { creator } = req.query;
@@ -66,9 +66,12 @@ exports.getTopicById = async (req, res) => {
             sortBy[sort[0]] = 'asc';
         }
 
+        console.log(req.params.id)
         const topic = await Topic.findById(req.params.id)
             .populate('creator', '-password')
             .populate('subTopics');
+        
+        console.log("topic->", topic);
 
         if (topic == null) {
             return res.status(404).json({ message: 'Cannot find topic' });
@@ -90,7 +93,8 @@ exports.getTopicById = async (req, res) => {
             total: sortedSubTopics.length,
             page: page + 1,
             limit,
-            subTopics: paginatedSubTopics
+            subTopics: paginatedSubTopics,
+            topic
         };
 
         res.status(200).json(response);

@@ -1,13 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setTopicNames } from '../../Redux/store';
 
 const Userr = ({ user }) => {
-    const dispatch = useDispatch();
-    console.log(user);
-    dispatch(setTopicNames(user?.topicName))
-
     return (
         <article>
             <h2>

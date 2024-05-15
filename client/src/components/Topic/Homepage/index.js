@@ -34,7 +34,7 @@ const Homepage = () => {
                 const { data } = await axios.get(url);
                 setObj(data)
                 setSearchResults([...data.topics]);
-                console.log(data)
+                // console.log(data)
                 setIsLoading(false);
             } catch (err) {
                 console.log(err);
