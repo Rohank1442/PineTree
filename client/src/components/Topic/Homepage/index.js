@@ -8,6 +8,7 @@ import './styles.module.css'
 import axios from 'axios'
 import { Routes, Route } from "react-router-dom";
 import Logout from "../../Auth/Logout";
+import styles from './styles.module.css'
 
 const base_url = 'http://localhost:5000/'
 
@@ -59,43 +60,46 @@ const Homepage = () => {
     }
 
     return (
-        <div>
-            {!user && (
-                <div className="flex justify-center">
-                    <div className="flex justify-center items-center">
-                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleLogin}>
-                            Log In
-                        </button>
-                    </div>
-                    <div className="flex justify-center items-center m-2 p-2">
-                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleSignup}>
-                            Sign up
-                        </button>
-                    </div>
-                </div>
-            )}
-            {user && (
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.logo}>Pinetree</div>
+            <div className={styles.nav}>
+              {!user && (
+                <>
+                  <button onClick={handleLogin}>Log In</button>
+                  <button onClick={handleSignup}>Sign Up</button>
+                </>
+              )}
+              {user && (
                 <Routes>
-                    <Route path="/" exact element={<Logout />} />
+                  <Route path="/" exact element={<Logout />} />
                 </Routes>
-            )}
-            <div className="sort">
-                <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+              )}
             </div>
-            <div>
-                <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
-                <ListPage searchResults={searchResults} />
-            </div>
-            <div className="paginate">
-                <Pagination
-                    page={page}
-                    limit={obj.limit ? obj.limit : 0}
-                    total={obj.total ? obj.total : 0}
-                    setPage={(page) => setPage(page)}
-                />
-            </div>
+          </div>
+          <div className={styles.sort}>
+            <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+          </div>
+          <div className={styles.searchBar}>
+            <SearchBar
+              setPage={setPage}
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
+          </div>
+          <div className={styles.listPage}>
+            <ListPage searchResults={searchResults} />
+          </div>
+          <div className={styles.pagination}>
+            <Pagination
+              page={page}
+              limit={obj.limit ? obj.limit : 0}
+              total={obj.total ? obj.total : 0}
+              setPage={(page) => setPage(page)}
+            />
+          </div>
         </div>
-    )
-}
+      );
+    };
 
 export default Homepage;

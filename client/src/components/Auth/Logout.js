@@ -10,15 +10,14 @@ const Logout = () => {
 
 	return (
 		<div className={styles.main_container}>
-			<nav className={styles.navbar}>
-				<h1>Pinetree</h1>
-				<div>Email: {email}</div>
-				<button className={styles.white_btn} onClick={handleLogout}>
-					Logout
-				</button>
-			</nav>
+		  <nav className={styles.navbar}>
+			<div>Email: {email}</div>
+			<button className={styles.white_btn} onClick={handleLogout}>
+			  Logout
+			</button>
+		  </nav>
 		</div>
-	);
-};
+	  );
+	};
 
 export default Logout;
