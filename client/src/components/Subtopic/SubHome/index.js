@@ -25,7 +25,7 @@ const Homepage = () => {
             setIsLoading(true);
             try {
                 const response = await axios.get(`http://localhost:5000/topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
-                console.log(response)
+                // console.log(response)
                 setTopicName(response.data.topic.topicName)
                 setObj(response.data)
                 setSearchResults([...response.data.subTopics]);

@@ -66,12 +66,12 @@ exports.getTopicById = async (req, res) => {
             sortBy[sort[0]] = 'asc';
         }
 
-        console.log(req.params.id)
+        // console.log(req.params.id)
         const topic = await Topic.findById(req.params.id)
             .populate('creator', '-password')
             .populate('subTopics');
         
-        console.log("topic->", topic);
+        // console.log("topic->", topic);
 
         if (topic == null) {
             return res.status(404).json({ message: 'Cannot find topic' });
