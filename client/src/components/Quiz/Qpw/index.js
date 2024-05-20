@@ -3,14 +3,18 @@ import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './styles.module.css';
+import { useDispatch } from 'react-redux';
+import { setSubtopicId } from '../../Redux/store'
 
 const Qpw = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
   const [subtopicName, setSubtopicName] = useState('');
+  const [subId, setSubId] = useState('');
   const email = useSelector(state => state.email);
   const topicName = useSelector(state => state.topicName);
   const { id } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchSubtopic = async () => {
@@ -19,6 +23,7 @@ const Qpw = () => {
         const response = await axios.get(`http://localhost:5000/topics/${id}/opt`);
         // console.log(response)
         // console.log(response.data.subtopic.subTopicName)
+        setSubId(id);
         setSubtopicName(response.data.subtopic.subTopicName);
       } catch (error) {
         console.log('Error ', error);
@@ -28,6 +33,9 @@ const Qpw = () => {
 
     fetchSubtopic();
   }, [id]);
+
+  console.log(subId)
+  dispatch(setSubtopicId(subId));
 
   const handleIndividualClick = () => {
     navigate(`/topics/${id}/opt/indi`);

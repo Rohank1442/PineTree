@@ -28,15 +28,28 @@ const subtopicNameSlice = createSlice({
             return action.payload;
         }
     }
+});
+
+const subtopicIdSlice = createSlice({
+    name: 'subtopicId',
+    initialState: '',
+    reducers: {
+        setSubtopicId: (state, action) => {
+            return action.payload;
+        }
+    }
 })
 
 export const { setEmails } = emailSlice.actions;
 export const { setTopicNames } = topicNameSlice.actions;
 export const { setsubtopicNames } = subtopicNameSlice.actions;
+export const { setSubtopicId } = subtopicIdSlice.actions;
 
 export default configureStore({
     reducer: {
         email: emailSlice.reducer,
-        topicName: topicNameSlice.reducer
+        topicName: topicNameSlice.reducer,
+        subtopicName: subtopicNameSlice.reducer,
+        subtopicId: subtopicIdSlice.reducer
     }
 });

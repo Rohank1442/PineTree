@@ -7,6 +7,7 @@ import Qpw from './components/Quiz/Qpw'
 import Individual from './components/Quiz/Individual'
 import Multiplayer from './components/Quiz/Multiplayer'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Result from './components/Quiz/Result'
 import './App.css';
 
 const queryClient = new QueryClient()
@@ -24,6 +25,7 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='topics/:id/opt/indi' element={<Individual />} />
           <Route path='topics/:id/opt/multi' element={<Multiplayer />} />
+          <Route path='indi/result' element={<Result />} />
         </Routes>
       </QueryClientProvider>
     </BrowserRouter>
