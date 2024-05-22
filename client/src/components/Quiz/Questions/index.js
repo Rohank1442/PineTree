@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import data from '../Database/data';
 import styles from './styles.module.css';
+import { useFetchQuestion } from '../../../hooks/FetchQuestion';
 
 const Questions = () => {
   // const [checked, setChecked] = useState(undefined);
+  const [{ isLoading, apiData, serverError }] = useFetchQuestion();
   const question = data[0];
 
   useEffect(() => {
-    console.log(data);
+    // console.log(isLoading);
+    // console.log(apiData);
+    // console.log(serverError);
   }, []);
 
   const onSelect = () => {

@@ -1,4 +1,11 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit';
+import questionReducer from './question_reducer';
+import resultReducer from './result_reducer';
+
+const rootReducer = combineReducers({
+    questions: questionReducer,
+    result: resultReducer
+})
 
 const emailSlice = createSlice({
     name: 'email',
@@ -50,6 +57,7 @@ export default configureStore({
         email: emailSlice.reducer,
         topicName: topicNameSlice.reducer,
         subtopicName: subtopicNameSlice.reducer,
-        subtopicId: subtopicIdSlice.reducer
+        subtopicId: subtopicIdSlice.reducer,
+        rootReducer
     }
 });
