@@ -1,10 +1,28 @@
 import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit';
-import questionReducer from './question_reducer';
-import resultReducer from './result_reducer';
+// import questionReducer from './question_reducer';
+// import resultReducer from './result_reducer';
 
-const rootReducer = combineReducers({
-    questions: questionReducer,
-    result: resultReducer
+// const rootReducer = combineReducers({
+//     questions: questionReducer,
+//     result: resultReducer
+// })
+
+const questionReducerSlice = createSlice({
+    name: 'questions',
+    initialState: {
+        queue: [],
+        answers: [],
+        trace: 2
+    },
+    reducers: {
+        startExamAction: (state, action) => {
+            // let { question } = action.payload
+            return {
+                ...state,
+                queue: action.payload.question
+            }
+        }
+    }
 })
 
 const emailSlice = createSlice({
@@ -51,6 +69,7 @@ export const { setEmails } = emailSlice.actions;
 export const { setTopicNames } = topicNameSlice.actions;
 export const { setsubtopicNames } = subtopicNameSlice.actions;
 export const { setSubtopicId } = subtopicIdSlice.actions;
+export const { startExamAction } = questionReducerSlice.actions;
 
 export default configureStore({
     reducer: {
@@ -58,6 +77,6 @@ export default configureStore({
         topicName: topicNameSlice.reducer,
         subtopicName: subtopicNameSlice.reducer,
         subtopicId: subtopicIdSlice.reducer,
-        rootReducer
+        questions: questionReducerSlice.reducer
     }
 });

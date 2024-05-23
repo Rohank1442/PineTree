@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import data from '../components/Quiz/Database/data';
 import { useDispatch } from 'react-redux';
-import * as Action from '../components/Redux/question_reducer';
+import * as Action from '../components/Redux/store';
 
 export const useFetchQuestion = () => {
     const dispatch = useDispatch();
@@ -13,10 +13,11 @@ export const useFetchQuestion = () => {
         (async () => {
             try {
                 let question = await data;
+                console.log(question)
                 if (question.length > 0) {
                     setGetData(prev => ({ ...prev, isLoading: false }));
                     setGetData(prev => ({ ...prev, apiData: question }));
-                    dispatch(Action.startExamAction(question));
+                    dispatch(Action.startExamAction({ question }));
                 } else {
                     throw new Error("No Question Available")
                 }
