@@ -1,25 +1,52 @@
-import { configureStore, createSlice, combineReducers } from '@reduxjs/toolkit';
-// import questionReducer from './question_reducer';
-// import resultReducer from './result_reducer';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-// const rootReducer = combineReducers({
-//     questions: questionReducer,
-//     result: resultReducer
-// })
+const resultReducerSlice = createSlice({
+    name: 'result',
+    initialState: {
+        userEmail: null,
+        result: []
+    },
+    reducers: {
+        setUserEmail: (state, action) => {
+            state.userEmail = action.payload
+        },
+        pushResultAction: (state, action) => {
+            state.result.push(action.payload)
+        },
+        resetResultAction: () => {
+            return {
+                userEmail: null,
+                result: []
+            }
+        }
+    }
+})
 
 const questionReducerSlice = createSlice({
     name: 'questions',
     initialState: {
         queue: [],
         answers: [],
-        trace: 2
+        trace: 0
     },
     reducers: {
         startExamAction: (state, action) => {
-            // let { question } = action.payload
             return {
                 ...state,
                 queue: action.payload.question
+            }
+        },
+        moveNextAction: (state) => {
+            return {
+                ...state,
+                trace: state.trace + 1
+            }
+        },
+        resetAllAction: () => {
+            return {
+                queue: [],
+                answers: [],
+                trace: 0
             }
         }
     }
@@ -69,7 +96,8 @@ export const { setEmails } = emailSlice.actions;
 export const { setTopicNames } = topicNameSlice.actions;
 export const { setsubtopicNames } = subtopicNameSlice.actions;
 export const { setSubtopicId } = subtopicIdSlice.actions;
-export const { startExamAction } = questionReducerSlice.actions;
+export const { startExamAction, moveNextAction, resetAllAction } = questionReducerSlice.actions;
+export const { setUserEmail, pushResultAction, resetResultAction } = resultReducerSlice.actions;
 
 export default configureStore({
     reducer: {
@@ -77,6 +105,7 @@ export default configureStore({
         topicName: topicNameSlice.reducer,
         subtopicName: subtopicNameSlice.reducer,
         subtopicId: subtopicIdSlice.reducer,
-        questions: questionReducerSlice.reducer
+        questions: questionReducerSlice.reducer,
+        result: resultReducerSlice.reducer
     }
 });

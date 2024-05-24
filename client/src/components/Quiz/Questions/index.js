@@ -3,21 +3,17 @@ import styles from './styles.module.css';
 import { useFetchQuestion } from '../../../hooks/FetchQuestion';
 import { useSelector } from 'react-redux';
 
-const Questions = () => {
-  // const [checked, setChecked] = useState(undefined);
-  const [{ isLoading, apiData, serverError }] = useFetchQuestion();
+const Questions = ({ onChecked }) => {
+  const [{ isLoading, serverError }] = useFetchQuestion();
   const questions = useSelector(state => state.questions.queue[state.questions.trace]);
-  const trace = useSelector(state => state.questions.trace)
+  // const trace = useSelector(state => state.questions.trace)
 
   useEffect(() => {
-    // console.log(isLoading);
-    // console.log(apiData);
-    // console.log(serverError);
     console.log(questions)
   });
 
-  const onSelect = () => {
-    // console.log('radio hello hii');
+  const onSelect = (i) => {
+    onChecked(i)
   };
 
   if (isLoading) return <h3>isLoading</h3>
@@ -34,7 +30,7 @@ const Questions = () => {
               value={false}
               name="options"
               id={`q${i}-option`}
-              onChange={onSelect()}
+              onChange={() => onSelect(i)}
             />
             <label htmlFor={`q${i}-option`}>{q}</label>
             <div className={styles.check}></div>
