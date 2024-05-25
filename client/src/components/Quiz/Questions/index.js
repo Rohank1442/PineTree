@@ -7,6 +7,7 @@ const Questions = ({ onChecked }) => {
   const [{ isLoading, serverError }] = useFetchQuestion();
   const questions = useSelector(state => state.questions.queue[state.questions.trace]);
   // const trace = useSelector(state => state.questions.trace)
+  useSelector(state => console.log(state))
 
   useEffect(() => {
     console.log(questions)

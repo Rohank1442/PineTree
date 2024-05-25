@@ -22,11 +22,11 @@ const Individual = () => {
   const clickNext = () => {
     console.log('next')
 
-
     if (trace < queue.length) {
       dispatch(MoveNextQuestion())
       dispatch(pushAnswer(check))
     }
+    setChecked(undefined)
   };
 
   function onChecked(check) {
