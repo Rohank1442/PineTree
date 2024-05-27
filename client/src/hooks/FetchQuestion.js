@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import data, { answers } from '../components/Quiz/Database/data';
 import { useDispatch } from 'react-redux';
 import * as Action from '../components/Redux/store';
+import { getServerData } from '../helper';
 
 export const useFetchQuestion = () => {
     const dispatch = useDispatch();
@@ -12,14 +12,14 @@ export const useFetchQuestion = () => {
 
         (async () => {
             try {
-                let question = await data;
-                console.log(answers)
-                if (question.length > 0) {
+                const [{ questions, answers }] = await getServerData(`http://localhost:5000/api/questions`, (data) => data)
+                console.log({ questions, answers })
+                if (questions.length > 0) {
                     setGetData(prev => ({ ...prev, isLoading: false }));
-                    setGetData(prev => ({ ...prev, apiData: { question, answers } }));
-                    dispatch(Action.startExamAction({ question, answers }));
+                    setGetData(prev => ({ ...prev, apiData: questions }));
+                    dispatch(Action.startExamAction({ question: questions, answers }));
                 } else {
-                    throw new Error("No Question Available")
+                    throw new Error("No Question Available");
                 }
             } catch (error) {
                 setGetData(prev => ({ ...prev, isLoading: false }));

@@ -7,6 +7,9 @@ const authRoutes = require('./routes/authRoutes')
 const topicRoutes = require('./routes/topicRoutes');
 const subTopicRoutes = require('./routes/subtopicRoutes');
 const quizPlayerWait = require('./routes/quizPlayerWait');
+const questionRoutes = require('./routes/questionRoutes');
+const resultRoutes = require('./routes/resultRoutes');
+const morgan = require('morgan');
 
 dotenv.config();
 
@@ -14,10 +17,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+app.use(morgan('tiny'))
 
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
 app.use('/', quizPlayerWait);
+app.use('/api', questionRoutes);
+app.use('/api', resultRoutes);
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wto2koe.mongodb.net/userSchema`)
     .then(() => {

@@ -5,6 +5,7 @@ import styles from './styles.module.css';
 import { resetAllAction } from '../../Redux/store';
 import { resetResultAction } from '../../Redux/store';
 import { attempts_Number, earnPoints_Number, flagResult } from '../../../helper';
+import { usePublishResult } from '../../../hooks/setResult';
 
 const Result = () => {
     const dispatch = useDispatch();
@@ -13,14 +14,12 @@ const Result = () => {
     console.log(subId);
     const { questions: { queue, answers }, result: { result, userEmail } } = useSelector(state => state);
 
-    useEffect(() => {
-        console.log(flag)
-    })
-
     const totalPoints = queue.length * 10;
     const attempts = attempts_Number(result);
     const earnPoints = earnPoints_Number(result, answers, 10);
-    const flag = flagResult(totalPoints, earnPoints)
+    const flag = flagResult(totalPoints, earnPoints);
+
+    usePublishResult({ result, username: userEmail, attempts, points: earnPoints, achived : flag ? "Passed" : "Fail" })
 
     const onRestart = () => {
         dispatch(resetAllAction())
