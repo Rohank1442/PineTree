@@ -7,4 +7,7 @@ router.route('/questions')
         .post(questionController.insertQuestions)
         .delete(questionController.dropQuestions)
 
+router.route('/save-time')
+        .post(questionController.timeQuestion)
+
 module.exports = router;

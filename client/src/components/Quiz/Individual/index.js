@@ -12,21 +12,25 @@ const Individual = () => {
 
   const { queue, trace } = useSelector(state => state.questions);
   const result = useSelector(state => state.result.result);
-
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(20);
   const [check, setChecked] = useState(undefined);
-
-  useEffect(() => {
-    console.log(result)
-  })
+  const [quizFinished, setQuizFinished] = useState(false);
 
   const clickNext = () => {
     console.log('next')
-
-    if (trace < queue.length) {
-      dispatch(MoveNextQuestion())
-      dispatch(pushAnswer(check))
-    }
+    dispatch(pushAnswer(check))
     setChecked(undefined)
+
+    if (currentQuestionIndex < queue.length) {
+      console.log("Index: ", currentQuestionIndex)
+      setCurrentQuestionIndex((prev) => prev + 1);
+      setTimeLeft(20);
+      dispatch(MoveNextQuestion())
+    } else {
+      setQuizFinished(true);
+    }
+
   };
 
   function onChecked(check) {
@@ -34,14 +38,19 @@ const Individual = () => {
     setChecked(check)
   }
 
-  if (result.length && result.length >= queue.length) {
+  useEffect(() => {
+    if (result.length && result.length >= queue.length) {
+      setQuizFinished(true)
+    }
+  }, [result, queue.length]);
+
+  if (quizFinished) {
     return <Navigate to='/indi/result' replace={true}></Navigate>
   }
 
-  // Timer not added
   return (
     <div className={styles.wrapper}>
-      <Questions onChecked={onChecked} />
+      <Questions currentQuestionIndex={currentQuestionIndex} setCurrentQuestionIndex={setCurrentQuestionIndex} onChecked={onChecked} timeLeft={timeLeft} setTimeLeft={setTimeLeft} />
       <div className={styles.container}>
         <button className={`${styles.page_btn} ${styles.active}`} onClick={clickNext}>Next</button>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
@@ -35,6 +35,7 @@ const Result = () => {
                 <p>Total questions: {queue.length || 0} </p>
                 <p>Total attempts: {attempts || 0} </p>
                 <p>Score: {earnPoints} </p>
+                <p>Result: {result}</p>
                 <div>
                     <span>Quiz Result</span>
                     <span style={{ color: `${flag ? "#2aff95" : "#ff2a66"}` }} > {flag ? "Passed" : "Failed"} </span>

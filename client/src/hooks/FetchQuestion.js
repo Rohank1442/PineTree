@@ -5,7 +5,7 @@ import { getServerData } from '../helper';
 
 export const useFetchQuestion = () => {
     const dispatch = useDispatch();
-    const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null })
+    const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null });
 
     useEffect(() => {
         setGetData(prev => ({ ...prev, isLoading: true }));
@@ -13,7 +13,7 @@ export const useFetchQuestion = () => {
         (async () => {
             try {
                 const [{ questions, answers }] = await getServerData(`http://localhost:5000/api/questions`, (data) => data)
-                console.log({ questions, answers })
+                // console.log({ questions, answers })
                 if (questions.length > 0) {
                     setGetData(prev => ({ ...prev, isLoading: false }));
                     setGetData(prev => ({ ...prev, apiData: questions }));

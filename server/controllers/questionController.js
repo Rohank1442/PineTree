@@ -1,4 +1,5 @@
 const Questions = require('../models/Question')
+const QuestionTime = require('../models/QuestionTime')
 const questionsData = require('../database/data');
 const answers = questionsData.answers;
 const questions = questionsData;
@@ -27,5 +28,16 @@ exports.dropQuestions = async (req, res) => {
         res.json({ msg: "Questions Deleted Successfully...!" });
     } catch (error) {
         res.json({ error })
+    }
+}
+
+exports.timeQuestion = async (req, res) => {
+    const { questionId, timeTaken } = req.body;
+    try {
+        const questionTime = new QuestionTime({ questionId, timeTaken });
+        await questionTime.save();
+        res.status(200).json({ message: 'Time saved successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error saving time', error });
     }
 }
