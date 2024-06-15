@@ -24,6 +24,7 @@ const Homepage = () => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        console.log(token)
         setUser(token);
     }, []);
 

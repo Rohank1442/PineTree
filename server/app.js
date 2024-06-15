@@ -14,10 +14,12 @@ const morgan = require('morgan');
 dotenv.config();
 
 const app = express();
+const http = require('http').Server(app);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
-app.use(morgan('tiny'))
+app.use(morgan('tiny'));
 
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
@@ -25,10 +27,38 @@ app.use('/', quizPlayerWait);
 app.use('/api', questionRoutes);
 app.use('/api', resultRoutes);
 
+const io = require('socket.io')(http, {
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"]
+    }
+});
+
+let onlineUsers = [];
+
+const usp = io.of('/user-namespace');
+
+usp.on('connection', function (socket) {
+    console.log('User connected:', socket.id);
+
+    socket.on('userConnected', (user) => {
+        user.id = socket.id; // Attach the socket id to the user object
+        onlineUsers.push(user);
+        usp.emit('updateUserList', onlineUsers);
+        console.log(`User joined room: ${user.email}`);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User Disconnected');
+        onlineUsers = onlineUsers.filter(user => user.id !== socket.id);
+        usp.emit('updateUserList', onlineUsers);
+    });
+});
+
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.wto2koe.mongodb.net/userSchema`)
     .then(() => {
         console.log("database connected successfullly!");
-        app.listen(5000, () => {
+        http.listen(5000, () => {
             console.log("started on port 5000")
         })
     })

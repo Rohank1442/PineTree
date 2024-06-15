@@ -100,14 +100,14 @@ export const { setsubtopicNames } = subtopicNameSlice.actions;
 export const { setSubtopicId } = subtopicIdSlice.actions;
 export const { startExamAction, moveNextAction, resetAllAction } = questionReducerSlice.actions;
 export const { setUserEmail, pushResultAction, resetResultAction } = resultReducerSlice.actions;
-
-export default configureStore({
-    reducer: {
-        email: emailSlice.reducer,
-        topicName: topicNameSlice.reducer,
-        subtopicName: subtopicNameSlice.reducer,
+  
+export default configureStore({  
+    reducer: {  
+        email: emailSlice.reducer,  
+        topicName: topicNameSlice.reducer,  
+        subtopicName: subtopicNameSlice.reducer,  
         subtopicId: subtopicIdSlice.reducer,
-        questions: questionReducerSlice.reducer,
-        result: resultReducerSlice.reducer
-    }
-});
+        questions: questionReducerSlice.reducer,  
+        result: resultReducerSlice.reducer  
+    }  
+});  

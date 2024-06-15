@@ -10,6 +10,7 @@ exports.login = async (req, res) => {
         const User = await userModel.findOne({ email: email })
         console.log(User.email)
         console.log(User.username)
+        console.log(User._id)
         if (User) {
             console.log(User.password)
             const auth = await bcrypt.compare(password, User.password)
@@ -35,6 +36,7 @@ exports.login = async (req, res) => {
                 res.status(200).json({
                     message: "Login Successful",
                     email: User.email,
+                    Id: User._id,
                     token,
                 })
             }

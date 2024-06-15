@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import baseurl from '../../Api/baseurl';
 import { useDispatch } from 'react-redux';
 import { setEmails } from '../Redux/store';
+import { UserContext } from '../Context/UserContext';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,18 +12,22 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const { setUser } = useContext(UserContext);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(baseurl + '/login', { email, password });
             if (response.status === 200) {
-                const { email, token } = response.data;
+                const { email, token, Id } = response.data;
+                console.log(response)
                 localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify({ email, id: Id }));
                 console.log('Logged in as:', email);
                 console.log(password);
-                navigate('/');
                 dispatch(setEmails(email));
+                setUser({ email, id: Id });
+                navigate('/');
             }
         } catch (error) {
             console.error('Error:', error);
