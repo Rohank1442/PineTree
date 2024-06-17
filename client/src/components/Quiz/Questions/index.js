@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios'
 import styles from './styles.module.css';
 import { useFetchQuestion } from '../../../hooks/FetchQuestion';
@@ -22,9 +22,9 @@ const Questions = ({ onChecked, currentQuestionIndex, setCurrentQuestionIndex, t
       });
 
       console.log(currentQuestionIndex)
-      if(currentQuestionIndex < questions.length-1){
+      if (currentQuestionIndex < questions.length - 1) {
         console.log("Yes")
-        setCurrentQuestionIndex(currentQuestionIndex+1);
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
         setTimeLeft(20);
       } else {
         console.log('Quiz finished');
@@ -53,12 +53,12 @@ const Questions = ({ onChecked, currentQuestionIndex, setCurrentQuestionIndex, t
         }
       });
     }, 1000);
-
     return () => clearInterval(timerId);
   }, [timeLeft, handleTimeUp]);
 
   if (isLoading) return <h3>isLoading</h3>
   if (serverError) return <h3>{serverError || "Unknown Error"}</h3>
+  
   return (
     <div className={styles.container}>
       <h1>{questions[currentQuestionIndex]?.question}</h1>

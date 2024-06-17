@@ -42,10 +42,17 @@ usp.on('connection', function (socket) {
     console.log('User connected:', socket.id);
 
     socket.on('userConnected', (user) => {
-        user.id = socket.id; // Attach the socket id to the user object
-        onlineUsers.push(user);
-        usp.emit('updateUserList', onlineUsers);
-        console.log(`User joined room: ${user.email}`);
+        console.log('Received user data:', user);
+        if (user) {
+          user.id = socket.id;
+          onlineUsers.push(user);
+          console.log("user-subtopicId: ", user.subtopicId)
+          const filteredUsers = onlineUsers.filter(onlineUsers => onlineUsers.subtopicId === user.subtopicId);
+          usp.emit('updateUserList', filteredUsers);
+          console.log(`User joined room: ${user.email}`);
+        } else {
+          console.error('Received null or undefined user data');
+        }
     });
 
     socket.on('disconnect', () => {

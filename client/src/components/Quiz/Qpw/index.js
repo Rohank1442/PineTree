@@ -38,11 +38,20 @@ const Qpw = () => {
   dispatch(setSubtopicId(subId));
 
   const handleIndividualClick = () => {
-    navigate(`/topics/${id}/opt/indi`);
+    if (!email) {
+      console.log("Login or signup")
+      navigate('/login');
+    } else {
+      navigate(`/topics/${id}/opt/indi`);
+    }
   }
 
   const handleMultiplayerClick = () => {
-    navigate(`/topics/${id}/opt/multi`);
+    if (!email) {
+      navigate('/login');
+    } else {
+      navigate(`/topics/${id}/opt/multi`);
+    }
   }
 
   return (
