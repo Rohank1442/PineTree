@@ -9,7 +9,8 @@ const Multiplayer = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const { user } = useContext(UserContext);
-    const [leftTime, setLeftTime] = useState(20);
+    const [leftTime, setLeftTime] = useState(30);
+    const [gameState, setGameState] = useState('waiting');
     const navigate = useNavigate();
     const { id: subtopicId } = useParams();
 
@@ -18,7 +19,7 @@ const Multiplayer = () => {
     const handleTimeUp = async () => {
         try {
             console.log("Time is up!");
-            navigate(`/topics/${subtopicId}/opt/indi`)
+            navigate(`/topics/${subtopicId}/opt/indi`);
         } catch (error) {
             console.log('Error saving time: ', error);
         }
@@ -42,29 +43,33 @@ const Multiplayer = () => {
             setOnlineUsers(users);
         });
 
+        socket.on('timerUpdate', (timeLeft) => {
+            setLeftTime(timeLeft);
+        });
+
+        socket.on('gameState', (state) => {
+            setGameState(state);
+            if(state === 'ongoing'){
+                alert('Cannot join: game already ongoing.');
+                navigate('/');
+            }
+        })
+
         return () => {
             socket.off('connect');
             socket.off('disconnect');
             socket.off('updateUserList');
+            socket.off('timerUpdate');
+            socket.off('gameState');
         };
     }, [user, subtopicId]);
 
     useEffect(() => {
-        const timerIdMulti = setInterval(() => {
-            setLeftTime((prevTimeLeft) => {
-                if (prevTimeLeft == 1) {
-                    handleTimeUp();
-                    clearInterval(timerIdMulti);
-                    return 0;
-                }
-                else {
-                    return prevTimeLeft - 1;
-                };
-            })
-        }, 1000);
-
-        return () => clearInterval(timerIdMulti);
-    }, [handleTimeUp]);
+        if(leftTime === 0){
+            console.log("left-no-time");
+            handleTimeUp();
+        }
+    }, [leftTime, handleTimeUp]);
 
     return (
         <div>
