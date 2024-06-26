@@ -2,17 +2,21 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const questionModel = new Schema({
-    questions: { 
-        type: Array, 
-        default: [] 
-    },
-    answers: { 
+    questions: {
         type: Array,
-        default: [] 
+        default: []
     },
-    createdAt: { 
-        type: Date, 
-        default: Date.now 
+    answers: {
+        type: Array,
+        default: []
+    },
+    quizzes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quiz'
+    }],
+    createdAt: {
+        type: Date,
+        default: Date.now
     },
 });
 

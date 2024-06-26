@@ -19,6 +19,7 @@ const Individual = () => {
 
   const clickNext = () => {
     console.log('next')
+    console.log(currentQuestionIndex)
     dispatch(pushAnswer(check))
     setChecked(undefined)
 
