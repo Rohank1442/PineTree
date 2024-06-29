@@ -9,6 +9,7 @@ const subTopicRoutes = require('./routes/subtopicRoutes');
 const quizPlayerWait = require('./routes/quizPlayerWait');
 const questionRoutes = require('./routes/questionRoutes');
 const resultRoutes = require('./routes/resultRoutes');
+const quizRoutes = require('./routes/quizRoutes');
 const morgan = require('morgan');
 
 dotenv.config();
@@ -24,8 +25,9 @@ app.use(morgan('tiny'));
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
 app.use('/', quizPlayerWait);
+app.use('/quiz', quizRoutes);
 app.use('/api', questionRoutes);
-app.use('/api', resultRoutes);
+app.use('/api', resultRoutes);  
 
 const io = require('socket.io')(http, {
     cors: {

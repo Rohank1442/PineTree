@@ -21,19 +21,17 @@ const playerResponseSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
-        isCorrect: {
-            type: Boolean,
+        score: {
+            type: Number,
             required: true
         }
     }],
-    score: {
+    finalScore: {
         type: Number,
         default: 0
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+},{
+    timestamps: true
 });
 
 const PlayerResponse = mongoose.model('PlayerResponse', playerResponseSchema);

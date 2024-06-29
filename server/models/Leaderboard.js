@@ -4,7 +4,8 @@ const leaderBoardSchema = new mongoose.Schema({
     quiz: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz',
-        required: true
+        required: true,
+        unique: true
     },
     players: [{
         player: {
@@ -12,15 +13,24 @@ const leaderBoardSchema = new mongoose.Schema({
             ref: 'User',
             required: true
         },
-        score: {
+        responses: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'PlayerResponse'
+        },
+        finalScore: {
             type: Number,
             required: true
         }
-    }],
-    createdAt: {
-        type: Date,
-        default: Date.now
+    }]
+},{
+    timestamps: true
+});
+
+leaderBoardSchema.pre('save', function (next) {
+    if (this.players && this.players.length > 1) {
+        this.players.sort((p1, p2) => p2.finalScore - p1.finalScore);
     }
+    next();
 });
 
 const LeaderBoard = mongoose.model('LeaderBoard', leaderBoardSchema);

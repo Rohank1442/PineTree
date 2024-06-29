@@ -2,22 +2,33 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const questionModel = new Schema({
-    questions: {
-        type: Array,
-        default: []
+    question: { 
+        type: String,
+        required: true
     },
-    answers: {
-        type: Array,
-        default: []
+    answer: { 
+        type: String ,
+        required: true
     },
-    quizzes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Quiz'
+    options: [{
+        type: String,
+        required: true
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now
+    quiz: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Quiz',
+        required: true
     },
+    timeAlloted: {
+        type: Number,
+        required: true
+    },
+    maxMarks: {
+        type: Number,
+        required: true
+    },
+},{
+    timestamps: true
 });
 
 const Question = mongoose.model('Question', questionModel);
