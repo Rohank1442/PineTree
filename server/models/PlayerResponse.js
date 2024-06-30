@@ -29,8 +29,8 @@ const playerResponseSchema = new mongoose.Schema({
     finalScore: {
         type: Number,
         default: 0
-    },
-},{
+    }
+}, {
     timestamps: true
 });
 

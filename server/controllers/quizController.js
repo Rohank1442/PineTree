@@ -4,6 +4,7 @@ const Question = require("../models/Question");
 const Quiz = require("../models/Quiz");
 const Topic = require("../models/Topic");
 const SubTopic = require("../models/SubTopic");
+const User = require("../models/userSchema")
 const randomatic = require('randomatic');
 const alphabet = "0123456789qwertyuiopasdfghjklzxcvbnm!@#$%^&*/QWERTYUIOPASDFGHJKLZXCVBNM"
 
@@ -272,6 +273,38 @@ const getQuizById = async (req, res) => {
     }
 }
 
+const getUserIdByEmail = async (email) => {
+    const user = await User.findOne({ email });
+    return user ? user._id : null;
+};
+
+const storeResponses = async (req, res) => {
+    try {
+        const { email, quiz, responses, finalScore } = req.body;
+        const playerId = await getUserIdByEmail(email);
+        console.log(email, quiz, responses, finalScore)
+        console.log("playerId: ", playerId)
+        
+        if (!playerId) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        const newResponse = new PlayerResponse({
+            player: playerId,
+            quiz,
+            responses,
+            finalScore
+        });
+
+        await newResponse.save();
+
+        res.status(201).json({ message: 'Response saved successfully' });
+    } catch (error) {
+        console.error('Error saving response:', error);
+        res.status(500).json({ message: 'Failed to save response' });
+    }
+}
+
 module.exports = {
     startQuiz,
     createNewQuiz,
@@ -279,4 +312,5 @@ module.exports = {
     getLeaderBoard,
     generateLeaderBoard,
     getQuizById,
+    storeResponses
 }

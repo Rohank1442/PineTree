@@ -19,26 +19,10 @@ const Qpw = () => {
   console.log(id)
 
   useEffect(() => {
-    const getQuizById = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/quiz/getQuizData/${id}`);
-        console.log(response)
-        // return response;
-      } catch (error) {
-        throw error;
-      }
-    };
-
-    getQuizById();
-  })
-
-  useEffect(() => {
     const fetchSubtopic = async () => {
       setIsLoading(true);
       try {
         const response = await axios.get(`http://localhost:5000/topics/${id}/opt`);
-        // console.log(response)
-        // console.log(response.data.subtopic.subTopicName)
         setSubId(id);
         setSubtopicName(response.data.subtopic.subTopicName);
       } catch (error) {
@@ -58,7 +42,7 @@ const Qpw = () => {
       console.log("Login or signup")
       navigate('/login');
     } else {
-      navigate(`/topics/${id}/opt/indi`);
+      navigate(`/quiz/${id}`);
     }
   }
 
@@ -92,4 +76,4 @@ const Qpw = () => {
   )
 }
 
-export default Qpw
+export default Qpw;

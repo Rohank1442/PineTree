@@ -18,4 +18,7 @@ router.route('/getleaderboard')
 router.route('/getQuizData/:subTopicId')
     .get(quizControls.getQuizById);
 
+router.route('/storeResponse')
+    .post(quizControls.storeResponses);
+
 module.exports = router;
