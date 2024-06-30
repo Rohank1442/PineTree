@@ -16,6 +16,22 @@ const Qpw = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.log(id)
+
+  useEffect(() => {
+    const getQuizById = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/quiz/getQuizData/${id}`);
+        console.log(response)
+        // return response;
+      } catch (error) {
+        throw error;
+      }
+    };
+
+    getQuizById();
+  })
+
   useEffect(() => {
     const fetchSubtopic = async () => {
       setIsLoading(true);

@@ -1,32 +1,41 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const quizSchema = new mongoose.Schema({
+const quizSchema = new Schema({
     desc: {
-        type: String
+        type: String,
+        required: true
     },
     creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     topic: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true
     },
     subTopic: {
-        type: String
+        type: Schema.Types.ObjectId,
+        ref: 'SubTopic',
+        required: true
+    },
+    questions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Question'
+    }],
+    joiningId: {
+        type: String,
+        required: true,
+        unique: true
     },
     isActive: {
         type: String,
-        enum: ['Waiting', 'Joining', 'Active', 'Over'],
-        default: "Waiting"
-    },
-    joiningId : {
-        type: String,
-        unique: true,
-        required: true
-    },
-},{
+        default: 'Inactive'
+    }
+}, {
     timestamps: true
 });
 
-const Quiz = mongoose.model('Quiz', quizSchema);
-module.exports = Quiz;
+module.exports = mongoose.model('Quiz', quizSchema);

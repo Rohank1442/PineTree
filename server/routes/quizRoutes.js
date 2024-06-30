@@ -15,4 +15,7 @@ router.route('/generateleaderboard')
 router.route('/getleaderboard')
     .get(authCheck, isLoggedIn, quizControls.getLeaderBoard);
 
+router.route('/getQuizData/:subTopicId')
+    .get(quizControls.getQuizById);
+
 module.exports = router;

@@ -61,16 +61,21 @@ const createNewQuiz = async (req, res) => {
         quiz.joiningId = id;
         await quiz.save();
 
-        await Promise.all(questions.map(async (quest) => {
-            const q = new Question();
-            q.question = quest.question;
-            q.answer = quest.answer;
-            q.options = quest.options;
-            q.quiz = quiz._id;
-            q.timeAlloted = quest.timeAlloted;
-            q.maxMarks = quest.maxMarks;
+        const questionIds = await Promise.all(questions.map(async (quest) => {
+            const q = new Question({
+                question: quest.question,
+                answer: quest.answer,
+                options: quest.options,
+                quiz: quiz._id,
+                timeAlloted: quest.timeAlloted,
+                maxMarks: quest.maxMarks
+            });
             await q.save();
+            return q._id;
         }));
+
+        quiz.questions = questionIds;
+        await quiz.save();
 
         return res.status(200).json({ success: true, quiz });
     } catch (error) {
@@ -246,10 +251,32 @@ const getLeaderBoard = async (req, res) => {
     }
 }
 
+const getQuizById = async (req, res) => {
+    try {
+        const { subTopicId } = req.params;
+        console.log(subTopicId)
+        const quiz = await Quiz.findOne({ subTopic: subTopicId })
+            .populate('topic')
+            .populate('subTopic')
+            .populate({
+                path: 'questions',
+                select: 'question answer options timeAlloted maxMarks'
+            });
+        if (!quiz) {
+            return res.status(404).json({ success: false, message: "Quiz not found" });
+        }
+        res.status(200).json({ success: true, quiz });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 module.exports = {
     startQuiz,
     createNewQuiz,
     acceptJoinings,
     getLeaderBoard,
     generateLeaderBoard,
+    getQuizById,
 }

@@ -27,7 +27,7 @@ app.use('/', topicRoutes);
 app.use('/', quizPlayerWait);
 app.use('/quiz', quizRoutes);
 app.use('/api', questionRoutes);
-app.use('/api', resultRoutes);  
+app.use('/api', resultRoutes);
 
 const io = require('socket.io')(http, {
     cors: {

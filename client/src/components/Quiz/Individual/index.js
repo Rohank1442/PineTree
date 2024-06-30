@@ -31,7 +31,6 @@ const Individual = () => {
     } else {
       setQuizFinished(true);
     }
-
   };
 
   function onChecked(check) {

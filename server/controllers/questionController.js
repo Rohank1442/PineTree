@@ -1,18 +1,17 @@
-const Questions = require('../models/Question');
-const QuestionTime = require('../models/QuestionTime');
+const Questions = require('../models/Question')
+const QuestionTime = require('../models/QuestionTime')
 const questionsData = require('../database/data');
 const answers = questionsData.answers;
 const questions = questionsData;
 
 exports.getQuestions = async (req, res) => {
     try {
-        // Populate the quizzes field
-        const q = await Questions.find().populate('quizzes');
-        res.json(q);
+        const q = await Questions.find();
+        res.json(q)
     } catch (error) {
-        res.json({ error });
+        res.json({ error })
     }
-};
+}
 
 exports.insertQuestions = async (req, res) => {
     try {
@@ -21,16 +20,16 @@ exports.insertQuestions = async (req, res) => {
     } catch (error) {
         res.json({ error });
     }
-};
+}
 
 exports.dropQuestions = async (req, res) => {
     try {
         await Questions.deleteMany();
         res.json({ msg: "Questions Deleted Successfully...!" });
     } catch (error) {
-        res.json({ error });
+        res.json({ error })
     }
-};
+}
 
 exports.timeQuestion = async (req, res) => {
     const { questionId, timeTaken } = req.body;
@@ -41,4 +40,4 @@ exports.timeQuestion = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error saving time', error });
     }
-};
+}
