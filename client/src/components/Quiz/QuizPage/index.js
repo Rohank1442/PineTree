@@ -61,12 +61,22 @@ const QuizPage = () => {
       try {
         const finalScore = responses.reduce((total, response) => total + response.score, 0);
         await axios.post('http://localhost:5000/quiz/storeResponse', {
-          player: email.id,
+          player: email,
           quiz: quiz._id,
           responses,
           finalScore
         });
-        navigate(`/quiz/leaderboard/${quiz._id}`);
+        // await axios.post('http://localhost:5000/leaderboard', {
+        //     player: email,
+        //     quiz: quiz._id,
+        //     responses,
+        //     finalScore
+        // });
+        // const leaderboardResponse = await axios.get(`http://localhost:5000/leaderboard/${quiz._id}`);
+        //     const { quiz: fetchedQuiz, leaderboard } = leaderboardResponse.data;
+        //     console.log(fetchedQuiz);
+        //     setQuiz(fetchedQuiz);
+        navigate(`/leaderboard/${quiz._id}`);
       } catch (error) {
         console.error('Error submitting quiz:', error);
       }

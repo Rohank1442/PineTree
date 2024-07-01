@@ -9,11 +9,11 @@ router.route('/')
 router.route('/allowjoining')
     .post(authCheck, isLoggedIn, quizControls.acceptJoinings);
 
-router.route('/generateleaderboard')
-    .get(authCheck, isLoggedIn, quizControls.generateLeaderBoard);
+// router.route('/generateleaderboard')
+//     .get(authCheck, isLoggedIn, quizControls.generateLeaderBoard);
 
-router.route('/getleaderboard')
-    .get(authCheck, isLoggedIn, quizControls.getLeaderBoard);
+// router.route('/getleaderboard')
+//     .get(authCheck, isLoggedIn, quizControls.getLeaderBoard);
 
 router.route('/getQuizData/:subTopicId')
     .get(quizControls.getQuizById);

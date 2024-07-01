@@ -1,4 +1,3 @@
-const LeaderBoard = require("../models/Leaderboard");
 const PlayerResponse = require("../models/PlayerResponse");
 const Question = require("../models/Question");
 const Quiz = require("../models/Quiz");
@@ -166,92 +165,6 @@ const startQuiz = async (req, res) => {
     }
 }
 
-const generateLeaderBoard = async (req, res) => {
-    try {
-        const { quizId } = req.body;
-        if (!quizId) {
-            return res.status(400).json({
-                success: false,
-                message: "Please Provide the quiz Id"
-            })
-        }
-        const quiz = await Quiz.findById(quizId);
-        if (!quiz) {
-            return res.status(400).json({
-                success: false,
-                message: "Quiz not found with the Id provided"
-            })
-        }
-        if (quiz.creator !== req.user) {
-            return res.status(400).json({
-                success: false,
-                message: "You are not the Creater of the quiz"
-            });
-        }
-        const playersResponses = await PlayerResponse.find({ quiz: quiz });
-        let lb = await LeaderBoard.findOne({ quiz: quiz });
-        if (quiz.isActive === "Over") {
-            return res.status(200).json({
-                success: true,
-                leaderBoard: lb
-            })
-        }
-        if (!lb) {
-            lb = new LeaderBoard();
-            lb.quiz = quiz;
-        }
-        lb.players = [];
-        playersResponses.map((response) => {
-            lb.players.push({
-                player: response.player,
-                responses: response,
-                finalScore: response.finalScore
-            })
-        })
-        await lb.save();
-        const finalLeaderBoard = await LeaderBoard.findOne({ quiz: quiz });
-        return res.status(200).success({
-            success: true,
-            leaderBoard: finalLeaderBoard
-        })
-    } catch (error) {
-        const message = mapErrorDetails(error);
-        return res.status(400).json({
-            status: false,
-            message: message
-        });
-    }
-}
-
-const getLeaderBoard = async (req, res) => {
-    try {
-        const { quizId } = req.body;
-        if (!quizId) {
-            return res.status(200).json({
-                success: false,
-                message: "QuizId Not provided"
-            })
-        }
-        const lb = await LeaderBoard.findOne({ quiz: quizId });
-        if (!lb) {
-            return res.status(400).json({
-                success: false,
-                message: "The Creator has not generated the leaderboard yet."
-            })
-        }
-        return res.status(200).json({
-            success: true,
-            leaderBoard: lb
-        })
-    } catch (error) {
-        const message = mapErrorDetails(error);
-        return res.status(400).json({
-            status: false,
-            message: message
-        });
-    }
-}
-
 const getQuizById = async (req, res) => {
     try {
         const { subTopicId } = req.params;
@@ -280,10 +193,11 @@ const getUserIdByEmail = async (email) => {
 
 const storeResponses = async (req, res) => {
     try {
-        const { email, quiz, responses, finalScore } = req.body;
-        const playerId = await getUserIdByEmail(email);
+        // console.log("requesting data: ", req.body)
+        const { player: email, quiz, responses, finalScore } = req.body;
         console.log(email, quiz, responses, finalScore)
-        console.log("playerId: ", playerId)
+        console.log("email: ", email);
+        const playerId = await getUserIdByEmail(email);
         
         if (!playerId) {
             return res.status(404).json({ message: 'User not found' });
@@ -309,8 +223,6 @@ module.exports = {
     startQuiz,
     createNewQuiz,
     acceptJoinings,
-    getLeaderBoard,
-    generateLeaderBoard,
     getQuizById,
     storeResponses
 }

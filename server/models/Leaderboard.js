@@ -13,10 +13,21 @@ const leaderBoardSchema = new mongoose.Schema({
             ref: 'User',
             required: true
         },
-        responses: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'PlayerResponse'
-        },
+        responses: [{
+            question: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Question',
+                required: true
+            },
+            answer: {
+                type: String,
+                required: true
+            },
+            score: {
+                type: Number,
+                required: true
+            }
+        }],
         finalScore: {
             type: Number,
             required: true
