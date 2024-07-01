@@ -1,4 +1,5 @@
 const LeaderBoard = require('../models/Leaderboard');
+const User = require('../models/userSchema');
 
 const getLeaderboard = async (req, res) => {
     try {
@@ -11,9 +12,9 @@ const getLeaderboard = async (req, res) => {
             })
         }
         const leaderboard = await LeaderBoard.findOne({ quiz: quizId })
-            .populate('players.player', 'name')
-            .populate('players.responses');
-
+            .populate('players.player', 'username')
+            .populate('players.responses.question', 'text');
+            
         if (!leaderboard) {
             return res.status(404).json({ message: 'Leaderboard not found' });
         }
@@ -27,7 +28,13 @@ const getLeaderboard = async (req, res) => {
 
 const updateLeaderboard = async (req, res) => {
     try {
-        const { quiz, player, responses, finalScore } = req.body;
+        const { quiz, player: playerEmail, responses, finalScore } = req.body;
+
+        const user = await User.findOne({ email: playerEmail });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const player = user._id;
 
         let leaderboard = await LeaderBoard.findOne({ quiz });
 
@@ -45,14 +52,14 @@ const updateLeaderboard = async (req, res) => {
             }));
             leaderboard.players[existingPlayerIndex].finalScore = finalScore;
         } else {
-            leaderboard.players.push({ 
-                player, 
+            leaderboard.players.push({
+                player,
                 responses: responses.map(response => ({
                     question: response.question,
                     answer: response.answer,
                     score: response.score
                 })),
-                finalScore 
+                finalScore
             });
         }
 

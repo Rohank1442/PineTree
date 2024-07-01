@@ -66,16 +66,12 @@ const QuizPage = () => {
           responses,
           finalScore
         });
-        // await axios.post('http://localhost:5000/leaderboard', {
-        //     player: email,
-        //     quiz: quiz._id,
-        //     responses,
-        //     finalScore
-        // });
-        // const leaderboardResponse = await axios.get(`http://localhost:5000/leaderboard/${quiz._id}`);
-        //     const { quiz: fetchedQuiz, leaderboard } = leaderboardResponse.data;
-        //     console.log(fetchedQuiz);
-        //     setQuiz(fetchedQuiz);
+        await axios.post('http://localhost:5000/leaderboard/', {
+            quiz: quiz._id,
+            player: email,
+            responses,
+            finalScore
+        });
         navigate(`/leaderboard/${quiz._id}`);
       } catch (error) {
         console.error('Error submitting quiz:', error);
