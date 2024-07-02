@@ -11,6 +11,7 @@ const questionRoutes = require('./routes/questionRoutes');
 const resultRoutes = require('./routes/resultRoutes');
 const quizRoutes = require('./routes/quizRoutes');
 const leaderboardRoutes = require('./routes/leaderboardRoutes');
+const Quiz = require('./models/Quiz')
 const morgan = require('morgan');
 
 dotenv.config();
@@ -26,7 +27,7 @@ app.use(morgan('tiny'));
 app.use('/', authRoutes);
 app.use('/', topicRoutes);
 app.use('/', quizPlayerWait);
-app.use('/quiz', quizRoutes); 
+app.use('/quiz', quizRoutes);
 app.use('/api', questionRoutes);
 app.use('/api', resultRoutes);
 app.use('/leaderboard', leaderboardRoutes);
@@ -44,32 +45,40 @@ let gameStates = {};
 
 const usp = io.of('/user-namespace');
 
-const startTimer = (subtopicId) => {
+const startTimer = async (subtopicId) => {
     if (!timers[subtopicId]) {
-        timers[subtopicId] = {
-            timeLeft: 30,
-            interval: setInterval(() => {
-                if (timers[subtopicId]) {
-                    timers[subtopicId].timeLeft -= 1;
-                    if (timers[subtopicId].timeLeft <= 0) {
-                        clearInterval(timers[subtopicId].interval);
-                        delete timers[subtopicId];
-                        gameStates[subtopicId] = 'ongoing';
-                        usp.to(subtopicId).emit('timerUpdate', 0);
-                        usp.to(subtopicId).emit('gameState', 'ongoing');
-                    } else {
-                        usp.to(subtopicId).emit('timerUpdate', timers[subtopicId].timeLeft);
+        const quiz = await Quiz.findOne({ subTopic: subtopicId });
+
+        if (quiz && quiz.isActive === 'Inactive') {
+            timers[subtopicId] = {
+                timeLeft: 30,
+                interval: setInterval(async () => {
+                    if (timers[subtopicId]) {
+                        timers[subtopicId].timeLeft -= 1;
+                        if (timers[subtopicId].timeLeft <= 0) {
+                            clearInterval(timers[subtopicId].interval);
+                            delete timers[subtopicId];
+                            gameStates[subtopicId] = 'ongoing';
+                            usp.to(subtopicId).emit('timerUpdate', 0);
+                            usp.to(subtopicId).emit('gameState', 'ongoing');
+
+                            await Quiz.updateOne({ subTopic: subtopicId }, { $set: { isActive: 'Ongoing' } });
+                        } else {
+                            usp.to(subtopicId).emit('timerUpdate', timers[subtopicId].timeLeft);
+                        }
                     }
-                }
-            }, 1000)
-        };
+                }, 1000)
+            };
+
+            await Quiz.updateOne({ subTopic: subtopicId }, { $set: { isActive: 'Waiting' } });
+        }
     }
 };
 
-usp.on('connection', function (socket) {
+usp.on('connection', (socket) => {
     console.log('User connected:', socket.id);
 
-    socket.on('userConnected', (user) => {
+    socket.on('userConnected', async (user) => {
         console.log('Received user data:', user);
         if (user) {
             user.id = socket.id;
@@ -79,18 +88,18 @@ usp.on('connection', function (socket) {
                 gameStates[user.subtopicId] = 'waiting';
             }
 
-            // if (gameStates[user.subtopicId] === 'ongoing') {
-            //     socket.emit('gameState', 'ongoing');
-            //     console.log(`User ${user.email} cannot join: game already ongoing.`);
-            //     return;
-            // }
+            if (gameStates[user.subtopicId] === 'ongoing') {
+                socket.emit('gameState', 'ongoing');
+                console.log(`User ${user.email} cannot join: game already ongoing.`);
+                return;
+            }
 
             onlineUsers.push(user);
-            startTimer(user.subtopicId);
+            await startTimer(user.subtopicId);
 
-            const filteredUsers = onlineUsers.filter(onlineUsers => onlineUsers.subtopicId === user.subtopicId);
+            const filteredUsers = onlineUsers.filter(onlineUser => onlineUser.subtopicId === user.subtopicId);
             usp.to(user.subtopicId).emit('updateUserList', filteredUsers);
-            usp.to(user.subtopicId).emit('timerUpdate', timers[user.subtopicId].timeLeft);
+            usp.to(user.subtopicId).emit('timerUpdate', timers[user.subtopicId] ? timers[user.subtopicId].timeLeft : 30);
             console.log(`User joined room: ${user.email}`);
         } else {
             console.error('Received null or undefined user data');
@@ -108,8 +117,11 @@ usp.on('connection', function (socket) {
 
             console.log("filteredUsersLength: ", filteredUsers.length);
             if (filteredUsers.length === 0 && timers[disconnectedUser.subtopicId]) {
+                clearInterval(timers[disconnectedUser.subtopicId].interval);
                 delete timers[disconnectedUser.subtopicId];
                 delete gameStates[disconnectedUser.subtopicId];
+
+                Quiz.updateOne({ subTopic: disconnectedUser.subtopicId }, { $set: { isActive: 'Inactive' } }).catch(console.error);
             }
         }
     });

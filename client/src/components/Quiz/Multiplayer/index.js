@@ -8,20 +8,16 @@ const socket = io('http://localhost:5000/user-namespace');
 const Multiplayer = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
-    const { user } = useContext(UserContext);   
+    const { user } = useContext(UserContext);
     const [leftTime, setLeftTime] = useState(30);
     const [gameState, setGameState] = useState('waiting');
     const navigate = useNavigate();
     const { id: subtopicId } = useParams();
 
-    const handleTimeUp = async () => {
-        try {
-            navigate(`/topics/${subtopicId}/opt/indi`);
-        } catch (error) {
-            console.log('Error saving time: ', error);
-        }
-    }
-    console.log(user)
+    const handleTimeUp = () => {
+        navigate(`/quiz/${subtopicId}`);
+    };
+
     useEffect(() => {
         if (user) {
             socket.on('connect', () => {
@@ -43,10 +39,10 @@ const Multiplayer = () => {
 
             socket.on('gameState', (state) => {
                 setGameState(state);
-                // if (state === 'ongoing') {
-                //     alert('Cannot join: game already ongoing.');
-                //     navigate('/');
-                // }
+                if (state === 'ongoing') {
+                    alert('Cannot join: game already ongoing.');
+                    navigate('/');
+                }
             });
 
             return () => {
@@ -74,7 +70,7 @@ const Multiplayer = () => {
                     <li key={user.id}>{user.email}</li>
                 ))}
             </ul>
-            <h2>TimeLeft: {leftTime} </h2>
+            <h2>TimeLeft: {leftTime}</h2>
         </div>
     );
 };
