@@ -14,6 +14,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import store from './components/Redux/store';
 import { UserProvider } from './components/Context/UserContext';
 import './App.css';
+import CreateGame from './helper/CreateGame';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ function App() {
               <Route path='/topics/:id/opt' element={<Qpw />} />
               <Route path='/login' element={<Login />} />
               <Route path='/signup' element={<Signup />} />
+              <Route path='/create-game' element={<CreateGame/>} />
               <Route path='/topics/:id/opt/multi' element={<Multiplayer />} />
               <Route path='/leaderboard/:quizId' element={<LeaderBoard />} />
               <Route path="/quiz/:id" element={<QuizPage />} />

@@ -41,39 +41,44 @@ const io = require('socket.io')(http, {
 
 let onlineUsers = [];
 let timers = {};
-let gameStates = {};
 
 const usp = io.of('/user-namespace');
 
 const startTimer = async (subtopicId) => {
-    if (!timers[subtopicId]) {
-        const quiz = await Quiz.findOne({ subTopic: subtopicId });
-
-        if (quiz && quiz.isActive === 'Inactive') {
-            timers[subtopicId] = {
-                timeLeft: 30,
-                interval: setInterval(async () => {
+    if (!(subtopicId in timers)) {
+        timers[subtopicId] = {
+            joinInterval: () => {
+                let timeLeft = 30;
+                let hold = setInterval(async () => {
                     if (timers[subtopicId]) {
-                        timers[subtopicId].timeLeft -= 1;
-                        if (timers[subtopicId].timeLeft <= 0) {
-                            clearInterval(timers[subtopicId].interval);
-                            delete timers[subtopicId];
-                            gameStates[subtopicId] = 'ongoing';
+                        console.log(`joining timer${subtopicId}: `, timeLeft)
+                        timeLeft -= 1;
+                        if (timeLeft <= 0) {
+                            clearInterval(hold);
                             usp.to(subtopicId).emit('timerUpdate', 0);
                             usp.to(subtopicId).emit('gameState', 'ongoing');
-
                             await Quiz.updateOne({ subTopic: subtopicId }, { $set: { isActive: 'Ongoing' } });
+                            timers[subtopicId].ongoingInterval();
                         } else {
-                            usp.to(subtopicId).emit('timerUpdate', timers[subtopicId].timeLeft);
+                            usp.to(subtopicId).emit('timerUpdate', timeLeft);
                         }
                     }
                 }, 1000)
-            };
-
-            await Quiz.updateOne({ subTopic: subtopicId }, { $set: { isActive: 'Waiting' } });
-        }
+                timers[subtopicId].joinIntervalInstance = hold;
+            },
+            ongoingInterval: () => {
+                let timeLeft = 180;
+                let hold = setInterval(async () => {
+                    timeLeft -= 1;
+                    
+                    console.log(`ongiong timer(${subtopicId}): `, timeLeft);
+                }, 1000);
+                timers[subtopicId].ongoingIntervalInstance = hold;
+            }
+        };
     }
 };
+
 
 usp.on('connection', (socket) => {
     console.log('User connected:', socket.id);
@@ -81,32 +86,31 @@ usp.on('connection', (socket) => {
     socket.on('userConnected', async (user) => {
         console.log('Received user data:', user);
         if (user) {
-            user.id = socket.id;
-            socket.join(user.subtopicId);
-
-            if (!gameStates[user.subtopicId]) {
-                gameStates[user.subtopicId] = 'waiting';
-            }
-
-            if (gameStates[user.subtopicId] === 'ongoing') {
+            const quiz = await Quiz.findOne({ subTopic: user.subtopicId });
+            console.log(quiz.isActive);
+            if (quiz && (quiz.isActive === 'Inactive' || quiz.isActive === "Joining")) {
+                user.id = socket.id;
+                socket.join(user.subtopicId)
+                if (quiz.isActive === "Inactive") {
+                    startTimer(user.subtopicId);
+                    await timers[user.subtopicId].joinInterval();
+                    await Quiz.updateOne({ subTopic: user.subtopicId }, { $set: { isActive: 'Joining' } });
+                }
+    
+                onlineUsers.push(user);
+                const filteredUsers = onlineUsers.filter(onlineUser => onlineUser.subtopicId === user.subtopicId);
+                usp.to(user.subtopicId).emit('updateUserList', filteredUsers);
+                console.log(`User joined room: ${user.email}`);
+            } else {
                 socket.emit('gameState', 'ongoing');
                 console.log(`User ${user.email} cannot join: game already ongoing.`);
-                return;
             }
-
-            onlineUsers.push(user);
-            await startTimer(user.subtopicId);
-
-            const filteredUsers = onlineUsers.filter(onlineUser => onlineUser.subtopicId === user.subtopicId);
-            usp.to(user.subtopicId).emit('updateUserList', filteredUsers);
-            usp.to(user.subtopicId).emit('timerUpdate', timers[user.subtopicId] ? timers[user.subtopicId].timeLeft : 30);
-            console.log(`User joined room: ${user.email}`);
         } else {
             console.error('Received null or undefined user data');
         }
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
         console.log('User Disconnected');
         const disconnectedUser = onlineUsers.find(user => user.id === socket.id);
         onlineUsers = onlineUsers.filter(user => user.id !== socket.id);
@@ -115,13 +119,11 @@ usp.on('connection', (socket) => {
             const filteredUsers = onlineUsers.filter(onlineUser => onlineUser.subtopicId === disconnectedUser.subtopicId);
             usp.to(disconnectedUser.subtopicId).emit('updateUserList', filteredUsers);
 
+            const quiz = await Quiz.findOne({ subTopic: disconnectedUser.subtopicId });
             console.log("filteredUsersLength: ", filteredUsers.length);
-            if (filteredUsers.length === 0 && timers[disconnectedUser.subtopicId]) {
-                clearInterval(timers[disconnectedUser.subtopicId].interval);
-                delete timers[disconnectedUser.subtopicId];
-                delete gameStates[disconnectedUser.subtopicId];
-
-                Quiz.updateOne({ subTopic: disconnectedUser.subtopicId }, { $set: { isActive: 'Inactive' } }).catch(console.error);
+            if (filteredUsers.length === 0 && quiz.isActive === "Ongoing") {
+                timers[disconnectedUser.subtopicId].ongoingIntervalInstance && clearInterval(timers[disconnectedUser.subtopicId].ongoingIntervalInstance);
+                await Quiz.updateOne({ subTopic: disconnectedUser.subtopicId }, { $set: { isActive: 'Inactive' } });
             }
         }
     });

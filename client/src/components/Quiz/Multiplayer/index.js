@@ -10,7 +10,7 @@ const Multiplayer = () => {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const { user } = useContext(UserContext);
     const [leftTime, setLeftTime] = useState(30);
-    const [gameState, setGameState] = useState('waiting');
+    const [gameState, setGameState] = useState('Inactive');
     const navigate = useNavigate();
     const { id: subtopicId } = useParams();
 
@@ -38,6 +38,7 @@ const Multiplayer = () => {
             });
 
             socket.on('gameState', (state) => {
+                console.log(state)
                 setGameState(state);
                 if (state === 'ongoing') {
                     alert('Cannot join: game already ongoing.');

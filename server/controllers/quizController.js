@@ -212,6 +212,8 @@ const storeResponses = async (req, res) => {
 
         await newResponse.save();
 
+        await Quiz.updateOne({ _id: quiz }, { $set: { isActive: 'Inactive' } });
+
         res.status(201).json({ message: 'Response saved successfully' });
     } catch (error) {
         console.error('Error saving response:', error);
