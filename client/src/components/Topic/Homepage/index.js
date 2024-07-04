@@ -3,6 +3,7 @@ import { useNavigate, Routes, Route } from 'react-router-dom';
 import SearchBar from '../Search/SearchBar';
 import ListPage from '../Search/ListPage';
 import Pagination from "../Pagination";
+import Card from "../Card";
 import Sort from "../Sort";
 import axios from 'axios';
 import Logout from "../../Auth/Logout";
@@ -24,7 +25,6 @@ const Homepage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
     setUser(token);
   }, []);
 
@@ -76,20 +76,20 @@ const Homepage = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.logo}>Pinetree</div>
-        <div className={styles.nav}>
+    <div className="container mx-auto p-4 w-full border-double border-4 border-sky-500 bg-customBackground">
+      <div className={"flex mx-auto w-full border-double border-4 border-pink-500 justify-around items-center"}>
+        <div className="border-double border-4 border-red-500 flex flex-row justify-end">
+          <button onClick={handleCreateGame}>Create Game</button>
+          <button onClick={openJoinGameModal}>Join Game</button>
+        </div>
+        <div className="">Pinetree</div>
+        <div className="">
           {!user && (
             <>
               <button onClick={handleLogin}>Log In</button>
               <button onClick={handleSignup}>Sign Up</button>
             </>
           )}
-          <div className={styles.gameButtons}>
-            <button onClick={handleCreateGame}>Create Game</button>
-            <button onClick={openJoinGameModal}>Join Game</button>
-          </div>
           {user && (
             <Routes>
               <Route path="/" exact element={<Logout />} />
@@ -97,17 +97,24 @@ const Homepage = () => {
           )}
         </div>
       </div>
-      <div className={styles.sort}>
-        <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+      <div className="flex justify-center border-double border-4 border-pink-500">
+        <div className="border-double border-4 border-indigo-500 p-4">
+          <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
+        </div>
+        <div className="">
+          <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+        </div>
       </div>
-      <div className={styles.searchBar}>
-        <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
+      <div className="border-double border-4 border-green-500">
+        <Card />
       </div>
-      <div className={styles.listPage}>
-        <ListPage searchResults={searchResults} />
-      </div>
-      <div className={styles.pagination}>
-        <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} />
+      <div className="border-double border-4 border-blue-500">
+        <div>
+          <ListPage searchResults={searchResults} />
+        </div>
+        <div>
+          {/* <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} /> */}
+        </div>
       </div>
       <Modal
         isOpen={isModalOpen}

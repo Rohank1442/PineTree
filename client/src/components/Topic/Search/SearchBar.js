@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 
 const SearchBar = ({ setPage, setSearchText }) => {
-    const [captureSearchText, setCaptureSearchText] = useState(""); 
-    
+    const [captureSearchText, setCaptureSearchText] = useState("");
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setPage(1);
@@ -17,15 +17,16 @@ const SearchBar = ({ setPage, setSearchText }) => {
 
     return (
         <header className="search" onSubmit={handleSubmit}>
-            <form>
+            <form className="flex items-center">
                 <input
-                    className="search__input"
+                    className="search__input border border-gray-300 rounded-l px-4 py-2"
                     type="text"
                     id="search"
                     onChange={handleSearchChange}
                     value={captureSearchText}
+                    placeholder="Search..."
                 />
-                <button className="search__button">
+                <button className="search__button bg-indigo-500 text-white rounded-r px-4 py-2">
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </button>
             </form>
