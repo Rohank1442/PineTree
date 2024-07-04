@@ -76,13 +76,13 @@ const Homepage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 w-full border-double border-4 border-sky-500 bg-customBackground">
-      <div className={"flex mx-auto w-full border-double border-4 border-pink-500 justify-around items-center"}>
-        <div className="border-double border-4 border-red-500 flex flex-row justify-end">
-          <button onClick={handleCreateGame}>Create Game</button>
-          <button onClick={openJoinGameModal}>Join Game</button>
+    <div className="container mx-auto w-full border-double border-4 border-sky-500 bg-customBackground">
+      <div className="flex mx-auto w-full justify-around items-center">
+        <div className="flex flex-row justify-end">
+          <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
+          <div className="cursor-pointer text-sm" onClick={openJoinGameModal}>Join Game</div>
         </div>
-        <div className="">Pinetree</div>
+        <div className="text-2xl">Pinetree</div>
         <div className="">
           {!user && (
             <>

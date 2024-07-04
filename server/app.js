@@ -102,7 +102,7 @@ usp.on('connection', (socket) => {
                 usp.to(user.subtopicId).emit('updateUserList', filteredUsers);
                 console.log(`User joined room: ${user.email}`);
             } else {
-                socket.emit('gameState', 'ongoing');
+                socket.emit('gameAlreadyStarted');
                 console.log(`User ${user.email} cannot join: game already ongoing.`);
             }
         } else {

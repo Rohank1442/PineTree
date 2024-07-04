@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import io from 'socket.io-client';
 import { UserContext } from '../../Context/UserContext';
 import { useParams, useNavigate } from 'react-router-dom';
-
-const socket = io('http://localhost:5000/user-namespace');
 
 const Multiplayer = () => {
     const [isConnected, setIsConnected] = useState(false);
@@ -13,54 +11,58 @@ const Multiplayer = () => {
     const [gameState, setGameState] = useState('Inactive');
     const navigate = useNavigate();
     const { id: subtopicId } = useParams();
+    const socketInstance = useRef(io('http://localhost:5000/user-namespace'));
 
     const handleTimeUp = () => {
         navigate(`/quiz/${subtopicId}`);
-    };
+    }; 
 
     useEffect(() => {
-        if (user) {
-            socket.on('connect', () => {
+        console.log("hello bro!");
+        if (user && socketInstance) {
+            console.log("hello bro!");
+            socketInstance.current.on('connect', () => {
                 setIsConnected(true);
-                socket.emit('userConnected', { ...user, subtopicId });
-            });
+                socketInstance.current.emit('userConnected', { ...user, subtopicId });
+            }); 
 
-            socket.on('disconnect', () => {
+            socketInstance.current.on('disconnect', () => {
                 setIsConnected(false);
             });
 
-            socket.on('updateUserList', (users) => {
+            socketInstance.current.on('updateUserList', (users) => {
                 setOnlineUsers(users);
             });
 
-            socket.on('timerUpdate', (timeLeft) => {
+            socketInstance.current.on('timerUpdate', (timeLeft) => {
                 setLeftTime(timeLeft);
             });
 
-            socket.on('gameState', (state) => {
+            socketInstance.current.on('gameState', (state) => {
                 console.log(state)
                 setGameState(state);
-                if (state === 'ongoing') {
-                    alert('Cannot join: game already ongoing.');
-                    navigate('/');
-                }
             });
 
+            socketInstance.current.on('gameAlreadyStarted', () => {
+                alert('Cannot join: game already ongoing.');
+                navigate('/');
+            })
+
             return () => {
-                socket.off('connect');
-                socket.off('disconnect');
-                socket.off('updateUserList');
-                socket.off('timerUpdate');
-                socket.off('gameState');
+                socketInstance.current.off('connect');
+                socketInstance.current.off('disconnect');
+                socketInstance.current.off('updateUserList');
+                socketInstance.current.off('timerUpdate');
+                socketInstance.current.off('gameState');
             };
         }
     }, [user, subtopicId]);
 
     useEffect(() => {
-        if (leftTime === 0) {
-            handleTimeUp();
+        if (gameState === "ongoing") {
+            console.log("game started");
         }
-    }, [leftTime]);
+    }, [gameState]); 
 
     return (
         <div>
