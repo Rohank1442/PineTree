@@ -19,15 +19,15 @@ const SearchBar = ({ setPage, setSearchText }) => {
         <header className="search" onSubmit={handleSubmit}>
             <form className="flex items-center">
                 <input
-                    className="search__input border border-gray-300 rounded-l px-4 py-2"
                     type="text"
+                    className="rounded-md p-0.5 mr-1"
                     id="search"
                     onChange={handleSearchChange}
                     value={captureSearchText}
-                    placeholder="Search..."
+                    placeholder="Search topic"
                 />
-                <button className="search__button bg-indigo-500 text-white rounded-r px-4 py-2">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <button className="bg-customBackgroundPink p-1 m-1">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm" />
                 </button>
             </form>
         </header>

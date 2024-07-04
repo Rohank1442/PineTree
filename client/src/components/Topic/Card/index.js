@@ -71,7 +71,7 @@ const Card = () => {
                     </a>
                 </div>
             </div>
-            <header>
+            <header className='headerCard'>
             </header>
         </div>
     );

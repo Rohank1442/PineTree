@@ -76,13 +76,13 @@ const Homepage = () => {
   };
 
   return (
-    <div className="container mx-auto w-full border-double border-4 border-sky-500 bg-customBackground">
+    <div className="container mx-auto p-3 w-full bg-customBackground">
       <div className="flex mx-auto w-full justify-around items-center">
         <div className="flex flex-row justify-end">
           <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
           <div className="cursor-pointer text-sm" onClick={openJoinGameModal}>Join Game</div>
         </div>
-        <div className="text-2xl">Pinetree</div>
+        <div className="text-4xl font-cedarville">Pinetree</div>
         <div className="">
           {!user && (
             <>
@@ -97,23 +97,23 @@ const Homepage = () => {
           )}
         </div>
       </div>
-      <div className="flex justify-center border-double border-4 border-pink-500">
-        <div className="border-double border-4 border-indigo-500 p-4">
+      <div className="">
+        <Card />
+      </div>
+      <div className="flex justify-start m-4">
+        <div className="flex items-center">
           <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
         </div>
-        <div className="">
+        <div className="flex p-1 w-78 h-13 rounded-lg">
           <Sort sort={sort} setSort={(sort) => setSort(sort)} />
         </div>
       </div>
-      <div className="border-double border-4 border-green-500">
-        <Card />
-      </div>
-      <div className="border-double border-4 border-blue-500">
+      <div className="">
         <div>
           <ListPage searchResults={searchResults} />
         </div>
         <div>
-          {/* <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} /> */}
+          <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} />
         </div>
       </div>
       <Modal

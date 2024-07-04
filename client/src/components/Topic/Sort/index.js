@@ -1,10 +1,9 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles.module.css";
 
 const Sort = ({ sort, setSort }) => {
-	const onSelectChange = ({ currentTarget: input }) => {
-		setSort({ sort: input.value, order: sort.order });
-	};
-
 	const onArrowChange = () => {
 		if (sort.order === "asc") {
 			setSort({ sort: sort.sort, order: "desc" });
@@ -14,21 +13,13 @@ const Sort = ({ sort, setSort }) => {
 	};
 
 	return (
-		<div className={styles.container}>
-		  <p className={styles.sort_by}>Sort By :</p>
-		  <select
-			onChange={onSelectChange}
-			className={styles.select}
-			defaultValue={sort.sort}
-		  >
-			<option value="topicName">Topic</option>
-		  </select>
-		  <button className={styles.arrow_btn} onClick={onArrowChange}>
-			<p className={styles.up_arrow}>&uarr;</p>
-			<p className={styles.down_arrow}>&darr;</p>
-		  </button>
+		<div className="flex items-center bg-customBackgroundPink rounded-md">
+			<button className="p-1 m-0 flex flex-col items-center justify-center text-xs bg-customBackgroundPink" onClick={onArrowChange}>
+				<FontAwesomeIcon icon={faArrowUp} className="text-xsm" />
+				<FontAwesomeIcon icon={faArrowDown} className="text-xsm" />
+			</button>
 		</div>
-	  );
-	};
+	);
+};
 
 export default Sort;
