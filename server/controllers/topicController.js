@@ -3,7 +3,7 @@ const Topic = require('../models/Topic');
 exports.getAllTopics = async (req, res) => {
     try {
         const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 6;
+        const limit = parseInt(req.query.limit) || 8;
         const search = req.query.search || "";
         let sort = req.query.sort || "topicName";
         const { creator } = req.query;
@@ -48,7 +48,7 @@ exports.getAllTopics = async (req, res) => {
 exports.getTopicById = async (req, res) => {
     try {
         const page = parseInt(req.query.page) - 1 || 0;
-        const limit = parseInt(req.query.limit) || 6;
+        const limit = parseInt(req.query.limit) || 8;
         const search = req.query.search || "";
         let sort = req.query.sort || "subTopics";
         const { creator } = req.query;

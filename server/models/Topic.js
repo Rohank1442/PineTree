@@ -15,6 +15,9 @@ const topicSchema = new mongoose.Schema({
             ref: 'SubTopic'
         }],
         default: []
+    }, 
+    imageUrl: {
+        type: String
     }
 });
 

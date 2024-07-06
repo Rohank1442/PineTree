@@ -14,15 +14,18 @@ const mapErrorDetails = (err) => {
 
 const createNewQuiz = async (req, res) => {
     try {
+        console.log(req.file)
         const { desc, topicName, subTopicName, questions } = req.body;
-        if (!topicName || !subTopicName || !questions || questions.length < 5) {
+        const imageUrl = req.file.path;
+        const parsedQuestions = JSON.parse(questions);
+        if (!topicName || !subTopicName || !questions || !imageUrl || parsedQuestions.length < 5) {
             return res.json({
                 success: false,
                 message: "Topic, Subtopics and Minimum 5 questions are necessary to be provided"
             });
         }
 
-        questions.forEach((quest) => {
+        parsedQuestions.forEach((quest) => {
             if (!quest.question || !quest.answer || !quest.options || !quest.timeAlloted || !quest.maxMarks || quest.options.length !== 4) {
                 return res.status(400).json({
                     success: false,
@@ -33,7 +36,7 @@ const createNewQuiz = async (req, res) => {
 
         let topic = await Topic.findOne({ topicName });
         if (!topic) {
-            topic = new Topic({ topicName, creator: req.user._id });
+            topic = new Topic({ topicName, creator: req.user._id, imageUrl });
             await topic.save();
         }
 
@@ -61,7 +64,7 @@ const createNewQuiz = async (req, res) => {
         quiz.joiningId = id;
         await quiz.save();
 
-        const questionIds = await Promise.all(questions.map(async (quest) => {
+        const questionIds = await Promise.all(parsedQuestions.map(async (quest) => {
             const q = new Question({
                 question: quest.question,
                 answer: quest.answer,
@@ -74,7 +77,7 @@ const createNewQuiz = async (req, res) => {
             return q._id;
         }));
 
-        quiz.questions = questionIds;
+        quiz.parsedQuestions = questionIds;
         await quiz.save();
 
         return res.status(200).json({ success: true, quiz });

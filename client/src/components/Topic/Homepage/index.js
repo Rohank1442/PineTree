@@ -9,6 +9,7 @@ import axios from 'axios';
 import Logout from "../../Auth/Logout";
 import Modal from 'react-modal';
 import styles from './styles.module.css';
+import Footer from '../Footer';
 
 const base_url = 'http://localhost:5000/'
 
@@ -34,6 +35,7 @@ const Homepage = () => {
       try {
         const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
         const { data } = await axios.get(url);
+        console.log(data)
         setObj(data);
         setSearchResults([...data.topics]);
         setIsLoading(false);
@@ -127,6 +129,7 @@ const Homepage = () => {
         <button onClick={handleJoinGame}>Join Game</button>
         <button onClick={closeJoinGameModal}>Close</button>
       </Modal>
+      <Footer/>
     </div>
   );
 };

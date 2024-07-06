@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use(morgan('tiny'));
+app.use('/uploads', express.static('uploads'));
 
 app.use('/', authRoutes);
 app.use('/', topicRoutes);

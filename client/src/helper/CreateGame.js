@@ -6,6 +6,7 @@ const CreateGame = () => {
     const [desc, setDesc] = useState('');
     const [topicName, setTopicName] = useState('');
     const [subTopicName, setSubTopicName] = useState('');
+    const [image, setImage] = useState('');
     const [questions, setQuestions] = useState([{ question: '', answer: '', options: ['', '', '', ''], timeAlloted: '', maxMarks: '' }]);
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -31,7 +32,6 @@ const CreateGame = () => {
             return;
         }
 
-        // Log the request payload
         console.log({
             desc,
             topicName,
@@ -39,26 +39,30 @@ const CreateGame = () => {
             questions
         });
 
+        const formData = new FormData();
+        formData.append('desc', desc);
+        formData.append('topicName', topicName);
+        formData.append('subTopicName', subTopicName);
+        formData.append('questions', JSON.stringify(questions));
+        formData.append('image', image);
+
         try {
             const token = localStorage.getItem("token");
             const config = {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
             };
-
-            const response = await axios.post('http://localhost:5000/quiz/', {
-                desc,
-                topicName,
-                subTopicName,
-                questions
-            }, config);
+            const response = await axios.post('http://localhost:5000/quiz/', formData, config);
 
             if (response.data.success) {
+                console.log("success");
                 navigate('/');
             } else {
                 setError(response.data.message);
             }
         } catch (err) {
-            // Log the error response from the server
             console.error(err.response ? err.response.data : err.message);
             setError(err.response ? err.response.data.message : err.message);
         }
@@ -87,6 +91,7 @@ const CreateGame = () => {
                         onChange={(e) => setTopicName(e.target.value)}
                         required
                     />
+                    <input onChange={(e) => setImage(e.target.files[0])} type='file' />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700">Sub-Topic Name:</label>
