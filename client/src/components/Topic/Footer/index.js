@@ -1,43 +1,60 @@
-import React from 'react';
+"use client";
 
-const Footer = () => {
+import { Footer } from "flowbite-react";
+import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsTwitter } from "react-icons/bs";
+
+export default function Component() {
     return (
-        <footer className="bg-[#151C25] text-[#E32970] p-8">
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="foot-col-1">
-                    <p>Lorem ipsum dolor sit amet, feugiat delicat liberavisse id cum no quo. Lorem ipsum dolor sit amet, feugiat delicat liberavisse id cum no quo. 
-                        Lorem ipsum dolor sit amet, feugiat delicat liberavisse id cum no quo.</p>
+        <Footer bgDark>
+            <div className="w-full">
+                <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
+                    <div>
+                        <Footer.Title title="Company" className="text-sm text-[#E32970]" />
+                        <Footer.LinkGroup col className="text-sm text-[#f1eeef]">
+                            <Footer.Link href="#">About</Footer.Link>
+                            <Footer.Link href="#">Careers</Footer.Link>
+                            <Footer.Link href="#">Brand Center</Footer.Link>
+                            <Footer.Link href="#">Blog</Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                    <div>
+                        <Footer.Title title="Help Center" className="text-sm text-[#E32970]" />
+                        <Footer.LinkGroup col className="text-sm text-[#e9e5e7]">
+                            <Footer.Link href="#">Discord Server</Footer.Link>
+                            <Footer.Link href="#">Twitter</Footer.Link>
+                            <Footer.Link href="#">Facebook</Footer.Link>
+                            <Footer.Link href="#">Contact Us</Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                    <div>
+                        <Footer.Title title="Legal" className="text-sm text-[#E32970]" />
+                        <Footer.LinkGroup col className="text-sm text-[#ece8e9]">
+                            <Footer.Link href="#">Privacy Policy</Footer.Link>
+                            <Footer.Link href="#">Licensing</Footer.Link>
+                            <Footer.Link href="#">Terms & Conditions</Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
+                    <div>
+                        <Footer.Title title="Download" className="text-sm text-[#E32970]" />
+                        <Footer.LinkGroup col className="text-sm text-[#eeeaeb]">
+                            <Footer.Link href="#">iOS</Footer.Link>
+                            <Footer.Link href="#">Android</Footer.Link>
+                            <Footer.Link href="#">Windows</Footer.Link>
+                            <Footer.Link href="#">MacOS</Footer.Link>
+                        </Footer.LinkGroup>
+                    </div>
                 </div>
-
-                <div className="foot-col-2">
-                    <h4 className="font-bold mb-4">Navigation</h4>
-                    <ul>
-                        <li><a href="#" className="hover:text-pink-500">Home</a></li>
-                        <li><a href="#" className="hover:text-pink-500">Overview</a></li>
-                        <li><a href="#" className="hover:text-pink-500">About</a></li>
-                        <li><a href="#" className="hover:text-pink-500">Buying Options</a></li>
-                        <li><a href="#" className="hover:text-pink-500">Support</a></li>
-                    </ul>
-                </div>
-
-                <div className="foot-col-3">
-                    <h4 className="font-bold mb-4">Extended Navigation</h4>
-                    <ul>
-                        <li><a href="#" className="hover:text-pink-500">More</a></li>
-                        <li><a href="#" className="hover:text-pink-500">More</a></li>
-                        <li><a href="#" className="hover:text-pink-500">More</a></li>
-                        <li><a href="#" className="hover:text-pink-500">More</a></li>
-                        <li><a href="#" className="hover:text-pink-500">More</a></li>
-                    </ul>
-                </div>
-
-                <div className="foot-col-4">
-                    <h4 className="font-bold mb-4">Info</h4>
-                    <p>Wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex commodo consequat. Autem vel hendrerit iriure dolor in hendrerit.</p>
+                <div className="w-full bg-gray-900 px-4 py-6 sm:flex sm:items-center sm:justify-between">
+                    <Footer.Copyright href="#" by="Pinetree™" year={2024} className="text-sm" />
+                    <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+                        <Footer.Icon href="#" icon={BsFacebook} />
+                        <Footer.Icon href="#" icon={BsInstagram} />
+                        <Footer.Icon href="#" icon={BsTwitter} />
+                        <Footer.Icon href="#" icon={BsGithub} />
+                        <Footer.Icon href="#" icon={BsDribbble} />
+                    </div>
                 </div>
             </div>
-        </footer>
+        </Footer>
     );
 }
-
-export default Footer;

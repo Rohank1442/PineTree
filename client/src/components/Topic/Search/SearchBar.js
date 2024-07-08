@@ -26,7 +26,7 @@ const SearchBar = ({ setPage, setSearchText }) => {
                     value={captureSearchText}
                     placeholder="Search topic"
                 />
-                <button className="bg-customBackgroundPink p-1 m-1">
+                <button className="bg-white p-1 m-1">
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm" />
                 </button>
             </form>

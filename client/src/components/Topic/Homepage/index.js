@@ -8,8 +8,9 @@ import Sort from "../Sort";
 import axios from 'axios';
 import Logout from "../../Auth/Logout";
 import Modal from 'react-modal';
-import styles from './styles.module.css';
 import Footer from '../Footer';
+import { FaBars } from 'react-icons/fa'; // Import an icon for the hamburger menu
+import styles from './styles.module.css';
 
 const base_url = 'http://localhost:5000/'
 
@@ -21,6 +22,7 @@ const Homepage = () => {
   const [searchText, setSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control the menu visibility
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -78,45 +80,50 @@ const Homepage = () => {
   };
 
   return (
-    <div className="container mx-auto p-3 w-full bg-customBackground">
-      <div className="flex mx-auto w-full justify-around items-center">
-        <div className="flex flex-row justify-end">
-          <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
-          <div className="cursor-pointer text-sm" onClick={openJoinGameModal}>Join Game</div>
-        </div>
+    <div className="mx-auto p-3 w-full bg-customBackground">
+      <div className="flex justify-between items-center mx-auto w-full">
         <div className="text-4xl font-cedarville">Pinetree</div>
-        <div className="">
-          {!user && (
-            <>
-              <button onClick={handleLogin}>Log In</button>
-              <button onClick={handleSignup}>Sign Up</button>
-            </>
-          )}
-          {user && (
-            <Routes>
-              <Route path="/" exact element={<Logout />} />
-            </Routes>
-          )}
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-2xl">
+            <FaBars />
+          </button>
+        </div>
+        <div className={`flex-col md:flex-row items-center md:flex ${isMenuOpen ? 'flex' : 'hidden'} md:visible absolute md:relative top-16 left-0 md:top-0 md:left-0 w-full md:w-auto bg-white  md:bg-transparent`}>
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto mb-4 md:mb-0">
+            <div className="flex p-4">
+              <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
+              <div className="cursor-pointer text-sm" onClick={openJoinGameModal}>Join Game</div>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto">
+            {!user && (
+              <>
+                <button className="mr-2 text-sm p-2 border rounded-md" onClick={handleLogin}>Log In</button>
+                <button className="text-sm p-2 border rounded-md" onClick={handleSignup}>Sign Up</button>
+              </>
+            )}
+            {user && (
+              <Routes>
+                <Route path="/" exact element={<Logout />} />
+              </Routes>
+            )}
+          </div>
         </div>
       </div>
-      <div className="">
+      <div>
         <Card />
       </div>
-      <div className="flex justify-start m-4">
-        <div className="flex items-center">
+      <div className="flex flex-col md:flex-row justify-start m-4">
+        <div className="flex items-center mb-4 md:mb-0">
           <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
         </div>
-        <div className="flex p-1 w-78 h-13 rounded-lg">
+        <div className="flex p-1 w-full md:w-78 h-13 rounded-lg">
           <Sort sort={sort} setSort={(sort) => setSort(sort)} />
         </div>
       </div>
-      <div className="">
-        <div>
-          <ListPage searchResults={searchResults} />
-        </div>
-        <div>
-          <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} />
-        </div>
+      <div>
+        <ListPage searchResults={searchResults} />
+        <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} />
       </div>
       <Modal
         isOpen={isModalOpen}
@@ -129,7 +136,7 @@ const Homepage = () => {
         <button onClick={handleJoinGame}>Join Game</button>
         <button onClick={closeJoinGameModal}>Close</button>
       </Modal>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

@@ -1,10 +1,8 @@
-import styles from "./styles.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 
 const Sort = ({ sort, setSort }) => {
-	const onSelectChange = ({ currentTarget: input }) => {
-		setSort({ sort: input.value, order: sort.order });
-	};
-
 	const onArrowChange = () => {
 		if (sort.order === "asc") {
 			setSort({ sort: sort.sort, order: "desc" });
@@ -14,18 +12,10 @@ const Sort = ({ sort, setSort }) => {
 	};
 
 	return (
-		<div className={styles.container}>
-			<p className={styles.sort_by}>Sort By :</p>
-			<select
-				onChange={onSelectChange}
-				className={styles.select}
-				defaultValue={sort.sort}
-			>
-				<option value="topicName">Subtopic</option>
-			</select>
-			<button className={styles.arrow_btn} onClick={onArrowChange}>
-				<p className={styles.up_arrow}>&uarr;</p>
-				<p className={styles.down_arrow}>&darr;</p>
+		<div className="flex items-center rounded-md">
+			<button className="p-1 m-0 flex flex-col items-center justify-center text-xs bg-white" onClick={onArrowChange}>
+				<FontAwesomeIcon icon={faArrowUp} className="bg-white text-xsm" />
+				<FontAwesomeIcon icon={faArrowDown} className="bg-white text-xsm" />
 			</button>
 		</div>
 	);

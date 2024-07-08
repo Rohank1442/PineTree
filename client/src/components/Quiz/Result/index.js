@@ -27,7 +27,7 @@ const Result = () => {
     }
 
     return (
-        <div className={styles.container}>
+        <div className="">
             <h1>Scoreboard</h1>
             <div className={styles.info}>
                 <p>Email: {email}</p>

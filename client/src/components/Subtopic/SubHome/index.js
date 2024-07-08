@@ -9,7 +9,7 @@ import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setTopicNames } from '../../Redux/store'
 
-const Homepage = () => {
+const Subhome = () => {
     const [page, setPage] = useState(1)
     const [obj, setObj] = useState({})
     const [sort, setSort] = useState({ sort: "subTopics", order: "desc" })
@@ -38,21 +38,26 @@ const Homepage = () => {
 
         fetchtopic();
     }, [id, sort, page, searchText]);
-    
+
     // console.log(topicName)
     dispatch(setTopicNames(topicName))
 
     if (isLoading) return <p>Loading Users...</p>
 
     return (
-        <div>
-            <div className="sort">
-                <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+        <div className="mx-auto p-3 w-full h-100 bg-customBackground">
+            <h4 className="text-white text-3xl font-bold uppercase text-gradient">
+                Subtopics
+            </h4>
+            <div className="flex flex-col md:flex-row justify-start mb-2">
+                <div className="flex items-center mb-4 md:mb-0">
+                    <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
+                </div>
+                <div className="flex p-1 w-full md:w-78 h-13 rounded-lg">
+                    <Sort sort={sort} setSort={(sort) => setSort(sort)} />
+                </div>
             </div>
-            <div>
-                <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
-                <ListPage searchResults={searchResults} />
-            </div>
+            <ListPage searchResults={searchResults} />
             <div className="paginate">
                 <Pagination
                     page={page}
@@ -65,4 +70,4 @@ const Homepage = () => {
     )
 }
 
-export default Homepage;
+export default Subhome;

@@ -18,16 +18,17 @@ const SearchBar = ({ setPage, setSearchText }) => {
 
     return (
         <header className="search" onSubmit={handleSubmit}>
-            <form>
+            <form className="flex items-center">
                 <input
-                    className="search__input"
+                    className="rounded-md p-0.5 mr-1"
                     type="text"
                     id="search"
                     onChange={handleSearchChange}
                     value={captureSearchText}
+                    placeholder="Search Subtopic"
                 />
-                <button className="search__button">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <button className="bg-white p-1 m-1">
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="text-sm" />
                 </button>
             </form>
         </header>

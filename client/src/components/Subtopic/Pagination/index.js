@@ -8,17 +8,17 @@ const Pagination = ({ page, total, limit, setPage }) => {
 	};
 
 	return (
-		<div className={styles.container}>
+		<div className="flex justify-center mt-4">
 			{totalPages > 0 &&
 				[...Array(totalPages)].map((val, index) => (
 					<button
 						onClick={() => onClick(index)}
-						className={
-							page === index + 1
-								? `${styles.page_btn} ${styles.active}`
-								: styles.page_btn
-						}
-						key={index}
+                        className={`px-3 py-1 mx-1 border rounded-full ${
+                            page === index + 1
+                                ? 'bg-[#E32970] text-white'
+                                : 'bg-white text-[#E32970] border-[#E32970]'
+                        }`}
+                        key={index}
 					>
 						{index + 1}
 					</button>
