@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const Userr = ({ user }) => {
+    console.log(user)
     
     return (
         <article className="w-full shadow-xl shadow-black rounded-md overflow-hidden bg-gray-800 my-2 p-3">

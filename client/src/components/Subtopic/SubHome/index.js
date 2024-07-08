@@ -3,7 +3,6 @@ import SearchBar from '../Search/SearchBar';
 import ListPage from '../Search/ListPage';
 import Pagination from "../Pagination";
 import Sort from "../Sort";
-import './styles.module.css';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 import { useDispatch } from 'react-redux';
@@ -25,7 +24,6 @@ const Subhome = () => {
             setIsLoading(true);
             try {
                 const response = await axios.get(`http://localhost:5000/topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
-                // console.log(response)
                 setTopicName(response.data.topic.topicName)
                 setObj(response.data)
                 setSearchResults([...response.data.subTopics]);
@@ -39,18 +37,17 @@ const Subhome = () => {
         fetchtopic();
     }, [id, sort, page, searchText]);
 
-    // console.log(topicName)
     dispatch(setTopicNames(topicName))
 
     if (isLoading) return <p>Loading Users...</p>
 
     return (
-        <div className="mx-auto p-3 w-full h-100 bg-customBackground">
+        <div className="min-h-screen mx-auto p-3 w-full bg-customBackground">
             <h4 className="text-white text-3xl font-bold uppercase text-gradient">
                 Subtopics
             </h4>
             <div className="flex flex-col md:flex-row justify-start mb-2">
-                <div className="flex items-center mb-4 md:mb-0">
+                <div className="flex items-center mb-4 md:mb-0 font-assist">
                     <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
                 </div>
                 <div className="flex p-1 w-full md:w-78 h-13 rounded-lg">
@@ -58,7 +55,7 @@ const Subhome = () => {
                 </div>
             </div>
             <ListPage searchResults={searchResults} />
-            <div className="paginate">
+            <div>
                 <Pagination
                     page={page}
                     limit={obj.limit ? obj.limit : 0}

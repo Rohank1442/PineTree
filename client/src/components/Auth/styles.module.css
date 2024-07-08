@@ -2,7 +2,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e2e0e0;
+  background-image: url('https://imgs.search.brave.com/_v3kHYVZbs6Ng0tHHxKV6Os6ITMyiTJO-YQIJenFTHY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wdWIt/c3RhdGljLmZvdG9y/LmNvbS9hc3NldHMv/YmcvNTRlNGVjZGUt/ODczOS00ZTI3LTk5/YWItOTBhMTM2ZjNl/MDcwLmpwZw');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
 }
 
 .navbar {

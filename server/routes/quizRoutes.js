@@ -14,6 +14,9 @@ router.route('/allowjoining')
 router.route('/getQuizData/:subTopicId')
     .get(quizControls.getQuizById);
 
+router.route('/getQuizJoinId/:joiningId')
+    .get(quizControls.getQuizJoinId);
+
 router.route('/storeResponse')
     .post(quizControls.storeResponses);
 

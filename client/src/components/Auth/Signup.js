@@ -46,51 +46,59 @@ const Signup = () => {
     }
 
     return (
-        <div class="flex items-center justify-center h-screen">
-            <div class="border-2 rounded-md w-1/5 m-2 p-2 bg-slate-300">
-                <div class='flex justify-center m-2'>
-                    <div class='text-2xl'>Sign Up</div>
+        <div className="flex items-center justify-center h-screen bg-cover bg-center">
+            <div className="border-2 rounded-md w-11/12 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 m-2 p-2 bg-white bg-opacity-90 shadow-lg">
+                <div className="flex justify-center m-2">
+                    <div className="text-2xl font-bold text-customBackground">Sign Up</div>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <div class='m-2 p-2 flex flex-col'>
-                        <div class='p-1'>
+                    <div className="m-2 p-2 flex flex-col">
+                        <div className="p-1">
                             <input
-                                type='text'
-                                placeholder='Name'
+                                type="text"
+                                className="w-full p-2 border border-gray-300 rounded"
+                                placeholder="Name"
                                 value={username}
-                                onChange={(e) => setName(e.target.value)} />
+                                onChange={(e) => setName(e.target.value)}
+                            />
                         </div>
-                        <div class='p-1'>
+                        <div className="p-1">
                             <input
-                                type='email'
-                                placeholder='Email'
+                                type="email"
+                                className="w-full p-2 border border-gray-300 rounded"
+                                placeholder="Email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)} />
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                         </div>
-                        <div class='p-1'>
+                        <div className="p-1">
                             <input
-                                type='password'
-                                placeholder='Password'
+                                type="password"
+                                className="w-full p-2 border border-gray-300 rounded"
+                                placeholder="Password"
                                 value={password}
-                                onChange={handlePassChange} />
-                            {passwordError && <p class="error">{passwordError}</p>}
+                                onChange={handlePassChange}
+                            />
+                            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
                         </div>
-                        <div class='p-1'>
+                        <div className="p-1">
                             <input
-                                type='password'
-                                placeholder='Confirm Password'
+                                type="password"
+                                className="w-full p-2 border border-gray-300 rounded"
+                                placeholder="Confirm Password"
                                 value={cnfrmPass}
-                                onChange={handleCnfrmPassChange} />
+                                onChange={handleCnfrmPassChange}
+                            />
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
-                        <button class="bg-black text-white font-bold py-2 px-4 rounded" onClick={handleSubmit}>
-                            SignUp
+                    <div className="flex justify-center items-center">
+                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
+                            Sign Up
                         </button>
                     </div>
-                    <p class="m-2 p-2">Already have an account</p>
-                    <div class="mt-[-10px] ml-[4px]">
-                        <Link to="/login">Login</Link>
+                    <div className="text-center">
+                        <p className="m-2 text-red-500">Already have an account?</p>
+                        <Link to="/login" className="text-blue-500">Login</Link>
                     </div>
                 </form>
             </div>

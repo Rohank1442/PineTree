@@ -36,13 +36,10 @@ const Login = () => {
     }
 
     return (
-        <div className="flex items-center justify-center h-screen">
-            <div className="border-2 rounded-md w-1/5 m-2 p-2 bg-slate-300">
-                <div className="flex justify-center m-2">
-                    <div className="text-2xl">Login</div>
-                </div>
+        <div className="flex items-center justify-center h-screen bg-cover bg-center bg-customBackground">
+            <div className="border-2 rounded-md w-11/12 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 m-2 p-6 bg-white bg-opacity-95 shadow-lg">
                 <form onSubmit={handleLogin}>
-                    <div className="m-2 p-2 flex flex-col">
+                    <div className="m-2 p-2 flex flex-col text-customBackground">
                         <label htmlFor="email" className="p-1">
                             Email
                         </label>
@@ -50,7 +47,7 @@ const Login = () => {
                             <input
                                 type="email"
                                 id="email"
-                                size="28"
+                                className="w-full p-2 border border-gray-300 rounded"
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -64,7 +61,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 id="password"
-                                size="28"
+                                className="w-full p-2 border border-gray-300 rounded"
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -73,18 +70,15 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="flex justify-center items-center">
-                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded">
+                        <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                             Log In
                         </button>
                     </div>
                     {error && (
                         <div className="text-red-500 text-center my-2">{error}</div>
                     )}
-                    <div className="m-2 p-2">
-                        Forget Password? <span>Click here!</span>
-                    </div>
-                    <div className="mt-[-10px] ml-[14px]">
-                        <Link to="/signup">Signup</Link>
+                    <div className="m-2 p-2 text-center text-customBackground">
+                        <span className="text-blue-500 cursor-pointer">Forget Password?</span>
                     </div>
                 </form>
             </div>

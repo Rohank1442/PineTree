@@ -6,7 +6,7 @@ const Pagination = ({ page, total, limit, setPage }) => {
     };
 
     return (
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-4 mb-4">
             {totalPages > 0 &&
                 [...Array(totalPages)].map((val, index) => (
                     <button

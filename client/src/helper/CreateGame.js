@@ -69,8 +69,8 @@ const CreateGame = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-4">Create a New Quiz</h2>
+        <div className="max-w-2xl mx-auto p-6 rounded-lg shadow-md font-assist bg-white">
+            <h2 className="text-2xl font-bold mb-4 text-customBackground">Create a New Quiz</h2>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -156,14 +156,14 @@ const CreateGame = () => {
                 ))}
                 <button
                     type="button"
-                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    className="bg-customBackgroundPink text-white px-4 py-2 rounded mr-2"
                     onClick={addQuestion}
                 >
                     Add Another Question
                 </button>
                 <button
                     type="submit"
-                    className="bg-green-500 text-white px-4 py-2 rounded"
+                    className="bg-customBackgroundPink text-white px-4 py-2 rounded"
                 >
                     Create Quiz
                 </button>

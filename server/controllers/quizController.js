@@ -189,6 +189,18 @@ const getQuizById = async (req, res) => {
     }
 }
 
+const getQuizJoinId = async (req, res) => {
+    try {
+        const quiz = await Quiz.findOne({ joiningId: req.params.joiningId }).populate('subTopic');
+        if (!quiz) {
+            return res.status(404).json({ error: 'Quiz not found' });
+        }
+        res.json({ quiz });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
 const getUserIdByEmail = async (email) => {
     const user = await User.findOne({ email });
     return user ? user._id : null;
@@ -201,11 +213,11 @@ const storeResponses = async (req, res) => {
         console.log(email, quiz, responses, finalScore)
         console.log("email: ", email);
         const playerId = await getUserIdByEmail(email);
-        
+
         if (!playerId) {
             return res.status(404).json({ message: 'User not found' });
         }
-        
+
         const newResponse = new PlayerResponse({
             player: playerId,
             quiz,
@@ -229,5 +241,6 @@ module.exports = {
     createNewQuiz,
     acceptJoinings,
     getQuizById,
-    storeResponses
+    storeResponses,
+    getQuizJoinId
 }

@@ -1,8 +1,5 @@
 const Questions = require('../models/Question')
 const QuestionTime = require('../models/QuestionTime')
-const questionsData = require('../database/data');
-const answers = questionsData.answers;
-const questions = questionsData;
 
 exports.getQuestions = async (req, res) => {
     try {

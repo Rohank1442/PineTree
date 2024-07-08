@@ -7,9 +7,9 @@ import Card from "../Card";
 import Sort from "../Sort";
 import axios from 'axios';
 import Logout from "../../Auth/Logout";
-import Modal from 'react-modal';
+import JoinGame from "./JoinGame";
 import Footer from '../Footer';
-import { FaBars } from 'react-icons/fa'; // Import an icon for the hamburger menu
+import { FaBars } from 'react-icons/fa';
 import styles from './styles.module.css';
 
 const base_url = 'http://localhost:5000/'
@@ -21,8 +21,7 @@ const Homepage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control the menu visibility
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
@@ -37,7 +36,6 @@ const Homepage = () => {
       try {
         const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
         const { data } = await axios.get(url);
-        console.log(data)
         setObj(data);
         setSearchResults([...data.topics]);
         setIsLoading(false);
@@ -67,18 +65,6 @@ const Homepage = () => {
     navigate('/create-game');
   };
 
-  const openJoinGameModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeJoinGameModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleJoinGame = () => {
-    navigate('/quiz');
-  };
-
   return (
     <div className="mx-auto p-3 w-full bg-customBackground">
       <div className="flex justify-between items-center mx-auto w-full">
@@ -92,14 +78,13 @@ const Homepage = () => {
           <div className="flex flex-col md:flex-row justify-end w-full md:w-auto mb-4 md:mb-0">
             <div className="flex p-4">
               <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
-              <div className="cursor-pointer text-sm" onClick={openJoinGameModal}>Join Game</div>
             </div>
           </div>
           <div className="flex flex-col md:flex-row justify-end w-full md:w-auto">
             {!user && (
               <>
-                <button className="mr-2 text-sm p-2 border rounded-md" onClick={handleLogin}>Log In</button>
-                <button className="text-sm p-2 border rounded-md" onClick={handleSignup}>Sign Up</button>
+                <button className={styles.login_btn} onClick={handleLogin}>Log In</button>
+                <button className={styles.signup_btn} onClick={handleSignup}>Sign Up</button>
               </>
             )}
             {user && (
@@ -113,7 +98,8 @@ const Homepage = () => {
       <div>
         <Card />
       </div>
-      <div className="flex flex-col md:flex-row justify-start m-4">
+      <JoinGame />
+      <div className="flex flex-col md:flex-row justify-start p-2">
         <div className="flex items-center mb-4 md:mb-0">
           <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />
         </div>
@@ -125,17 +111,6 @@ const Homepage = () => {
         <ListPage searchResults={searchResults} />
         <Pagination page={page} limit={obj.limit ? obj.limit : 0} total={obj.total ? obj.total : 0} setPage={(page) => setPage(page)} />
       </div>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeJoinGameModal}
-        contentLabel="Join Game"
-        className={styles.modal}
-        overlayClassName={styles.overlay}
-      >
-        <h2>Join Game</h2>
-        <button onClick={handleJoinGame}>Join Game</button>
-        <button onClick={closeJoinGameModal}>Close</button>
-      </Modal>
       <Footer />
     </div>
   );

@@ -1,7 +1,41 @@
-@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap');
 
 .App {
   text-align: center;
+}
+
+body {
+  background: #151C25;
+  color: #e32970;
+}
+
+html {
+  font-size: 1.5rem;
+}
+
+nav {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loading {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #fff;
+}
+
+h2::first-letter,
+p::first-letter {
+  text-transform: uppercase;
+}
+
+button {
+  font: inherit;
+  border-radius: 15px;
 }
 
 .App-logo {

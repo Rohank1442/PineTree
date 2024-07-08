@@ -10,7 +10,8 @@ module.exports = {
         customBackgroundPink: '#E32970'
       },
       fontFamily: {
-        cedarville: ["'Cedarville Cursive'", "cursive"]
+        cedarville: ["'Cedarville Cursive'", "cursive"],
+        assist: ["'Assistant'", "sans-serif"]
       },
     },
   },

@@ -17,7 +17,7 @@ const SearchBar = ({ setPage, setSearchText }) => {
 
     return (
         <header className="search" onSubmit={handleSubmit}>
-            <form className="flex items-center">
+            <form className="flex items-center font-assist">
                 <input
                     type="text"
                     className="rounded-md p-0.5 mr-1"

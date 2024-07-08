@@ -9,8 +9,8 @@ const Logout = () => {
 	};
 
 	return (
-		<div className="">
-		  <nav className="">
+		<div>
+		  <nav>
 			<div>{email}</div>
 			<button className={styles.white_btn} onClick={handleLogout}>
 			  Logout

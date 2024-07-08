@@ -1,7 +1,7 @@
 body {
   font-family: Hepta Slab, sans-serif;
   font-weight: 500;
-  background: #e32970;
+  background: #151C25;
   color: #e32970;
 }
 * {
@@ -114,7 +114,8 @@ h1 {
   overflow: hidden;
   display: block;
   padding: 1vh;
-  filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+  filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+    drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
   box-shadow: 0 5px 15px #5b3a4b;
 }
 img {
