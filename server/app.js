@@ -32,7 +32,7 @@ app.use('/quiz', quizRoutes);
 app.use('/api', questionRoutes);
 app.use('/api', resultRoutes);
 app.use('/leaderboard', leaderboardRoutes);
-
+// Check
 const io = require('socket.io')(http, {
     cors: {
         origin: process.env.FRONTEND_URL,
