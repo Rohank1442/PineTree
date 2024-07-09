@@ -92,18 +92,26 @@ The Quiz Application is a **web-based platform** designed to facilitate both **i
 │ ├── models/
 │ ├── routes/
 │ ├── middlewares/
+| ├── uploads/
+| ├── utils/
 │ ├── .env
 │ ├── app.js
 │ └── package.json
 ├── client/
+| ├── fonts/
+| ├── public/
 │ ├── src/
+| | ├── Api/
 │ │ ├── components/
-│ │ ├── pages/
-│ │ ├── Redux/
+| | ├── helper/
+| | ├── hooks/
+| | ├── Loader/
 │ │ ├── App.js
 │ │ ├── index.js
-│ ├── public/
 │ ├── .env
+| ├── .gitignore
+| ├── package-lock.json
+| ├── tailwind.config.js
 │ └── package.json
 └── README.md
 ```
