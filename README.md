@@ -86,7 +86,7 @@ The Quiz Application is a **web-based platform** designed to facilitate both **i
 
 ## Project Structure
 
-PineTree/
+```PineTree/
 ├── server/
 │ ├── controllers/
 │ ├── models/
@@ -106,6 +106,7 @@ PineTree/
 │ ├── .env
 │ └── package.json
 └── README.md
+```
 
 ## API Endpoints
 I have shown some example API Endpoints here. Other Endpoints can be seen in the server side code.
