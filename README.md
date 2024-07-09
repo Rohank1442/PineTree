@@ -1,4 +1,4 @@
-# Quiz Application
+# Pinetree
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -85,7 +85,8 @@ The Quiz Application is a **web-based platform** designed to facilitate both **i
     After completing the quiz, view your score and performance.
 
 ## Project Structure
-quiz-app/
+
+PineTree/
 ├── server/
 │ ├── controllers/
 │ ├── models/
@@ -107,6 +108,7 @@ quiz-app/
 └── README.md
 
 ## API Endpoints
+I have shown some example API Endpoints here. Other Endpoints can be seen in the server side code.
 ### Authentication
 - **POST** `/auth/signup`: User registration
 - **POST** `/auth/login`: User login
