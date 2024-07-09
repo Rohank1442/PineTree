@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { setTopicNames } from '../../Redux/store'
+import Loader from "../../../Loader";
 
 const Subhome = () => {
     const [page, setPage] = useState(1)
@@ -39,7 +40,7 @@ const Subhome = () => {
 
     dispatch(setTopicNames(topicName))
 
-    if (isLoading) return <p>Loading Users...</p>
+    if (isLoading) return <Loader />
 
     return (
         <div className="min-h-screen mx-auto p-3 w-full bg-customBackground">

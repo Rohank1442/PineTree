@@ -10,6 +10,7 @@ import Logout from "../../Auth/Logout";
 import JoinGame from "./JoinGame";
 import Footer from '../Footer';
 import { FaBars } from 'react-icons/fa';
+import Loader from "../../../Loader";
 import styles from './styles.module.css';
 
 const Homepage = () => {
@@ -46,7 +47,7 @@ const Homepage = () => {
     getAllTopics();
   }, [sort, page, searchText]);
 
-  if (isLoading) return <p>Loading Users...</p>;
+  if (isLoading) return <Loader />;
 
   const handleLogin = (e) => {
     e.preventDefault();

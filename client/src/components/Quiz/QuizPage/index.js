@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import Loader from '../../../Loader';
 import styles from './styles.module.css';
 
 const QuizPage = () => {
@@ -79,7 +80,7 @@ const QuizPage = () => {
     };
 
     if (!quiz) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (

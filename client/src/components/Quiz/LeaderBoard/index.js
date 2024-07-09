@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Loader from '../../../Loader'
 import styles from './styles.module.css';
 
 const LeaderBoard = () => {
     const { quizId } = useParams();
     const [leaderboard, setLeaderboard] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
@@ -22,12 +24,13 @@ const LeaderBoard = () => {
     }, [quizId]);
 
     if (!leaderboard) {
-        return <div>Loading...</div>;
+        return <Loader />;
     }
 
     return (
         <div className={styles.wrapper}>
             <h1>Leaderboard</h1>
+            <button onClick={() => navigate('/')}>Home</button>
             <div className={styles.leaderboard}>
                 {leaderboard.players.map((playerData, index) => (
                     <div key={playerData.player._id} className={styles.player}>
