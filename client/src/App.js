@@ -9,7 +9,6 @@ import LeaderBoard from './components/Quiz/LeaderBoard';
 import Multiplayer from './components/Quiz/Multiplayer';
 import QuizPage from './components/Quiz/QuizPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Result from './components/Quiz/Result';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './components/Redux/store';
 import { UserProvider } from './components/Context/UserContext';
@@ -34,7 +33,6 @@ function App() {
               <Route path='/topics/:id/opt/multi' element={<Multiplayer />} />
               <Route path='/leaderboard/:quizId' element={<LeaderBoard />} />
               <Route path="/quiz/:id" element={<QuizPage />} />
-              <Route path='indi/result' element={<Result />} />
             </Routes>
           </UserProvider>
         </ReduxProvider>

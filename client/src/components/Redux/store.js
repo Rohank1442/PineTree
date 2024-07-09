@@ -102,7 +102,6 @@ export const { setSubtopicId } = subtopicIdSlice.actions;
 export const { startExamAction, moveNextAction, resetAllAction } = questionReducerSlice.actions;
 export const { setUserEmail, pushResultAction, resetResultAction } = resultReducerSlice.actions;
 
-// Load the persisted state from localStorage
 const persistedState = loadState();
 
 const store = configureStore({
@@ -114,10 +113,9 @@ const store = configureStore({
     questions: questionReducerSlice.reducer,
     result: resultReducerSlice.reducer
   },
-  preloadedState: persistedState // Initialize store with persisted state
+  preloadedState: persistedState
 });
 
-// Subscribe to store updates and save the state to localStorage
 store.subscribe(() => {
   saveState(store.getState());
 });
