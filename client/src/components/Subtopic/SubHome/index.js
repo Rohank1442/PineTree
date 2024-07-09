@@ -23,7 +23,7 @@ const Subhome = () => {
         const fetchtopic = async () => {
             setIsLoading(true);
             try {
-                const response = await axios.get(`http://localhost:5000/topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}topics/${id}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`);
                 setTopicName(response.data.topic.topicName)
                 setObj(response.data)
                 setSearchResults([...response.data.subTopics]);

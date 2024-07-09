@@ -19,9 +19,8 @@ const Qpw = () => {
     const fetchSubtopic = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/topics/${id}/opt`);
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}topics/${id}/opt`);
         setSubId(id);
-        console.log(response)
         setSubtopicName(response.data.subtopic.subTopicName);
       } catch (error) {
         console.log('Error ', error);

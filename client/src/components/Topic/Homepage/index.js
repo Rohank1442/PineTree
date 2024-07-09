@@ -12,8 +12,6 @@ import Footer from '../Footer';
 import { FaBars } from 'react-icons/fa';
 import styles from './styles.module.css';
 
-const base_url = 'http://localhost:5000/'
-
 const Homepage = () => {
   const [page, setPage] = useState(1);
   const [obj, setObj] = useState({});
@@ -34,7 +32,7 @@ const Homepage = () => {
     const getAllTopics = async () => {
       setIsLoading(true);
       try {
-        const url = `${base_url}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
+        const url = `${process.env.REACT_APP_SERVER_NAME}?page=${page}&sort=${sort.sort},${sort.order}&search=${searchText}`;
         const { data } = await axios.get(url);
         setObj(data);
         setSearchResults([...data.topics]);

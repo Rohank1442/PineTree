@@ -1,11 +1,10 @@
 import axios from 'axios'
 
 export const axiosTopic = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: process.env.REACT_APP_SERVER_NAME
 })
 
 export const getUsersPage = async (pageParam = 1) => {
-    console.log("hmmmm");
     const response = await axiosTopic.get(`/?page=${pageParam}`)
     return response.data
 }

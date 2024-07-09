@@ -54,7 +54,7 @@ const CreateGame = () => {
                     'Content-Type': 'multipart/form-data'
                 }
             };
-            const response = await axios.post('http://localhost:5000/quiz/', formData, config);
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_NAME}quiz/`, formData, config);
 
             if (response.data.success) {
                 console.log("success");

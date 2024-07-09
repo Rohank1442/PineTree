@@ -35,7 +35,7 @@ app.use('/leaderboard', leaderboardRoutes);
 
 const io = require('socket.io')(http, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"]
     }
 });
@@ -71,7 +71,7 @@ const startTimer = async (subtopicId) => {
                 let timeLeft = 180;
                 let hold = setInterval(async () => {
                     timeLeft -= 1;
-                    
+
                     console.log(`ongiong timer(${subtopicId}): `, timeLeft);
                 }, 1000);
                 timers[subtopicId].ongoingIntervalInstance = hold;
@@ -97,7 +97,7 @@ usp.on('connection', (socket) => {
                     await timers[user.subtopicId].joinInterval();
                     await Quiz.updateOne({ subTopic: user.subtopicId }, { $set: { isActive: 'Joining' } });
                 }
-    
+
                 onlineUsers.push(user);
                 const filteredUsers = onlineUsers.filter(onlineUser => onlineUser.subtopicId === user.subtopicId);
                 usp.to(user.subtopicId).emit('updateUserList', filteredUsers);

@@ -10,7 +10,7 @@ const LeaderBoard = () => {
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/leaderboard/${quizId}`);
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}leaderboard/${quizId}`);
                 console.log(response.data.players);
                 setLeaderboard(response.data);
             } catch (error) {

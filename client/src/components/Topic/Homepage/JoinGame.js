@@ -11,7 +11,7 @@ const JoinGame = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.get(`http://localhost:5000/quiz/getQuizJoinId/${joiningId}`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}quiz/getQuizJoinId/${joiningId}`);
             const { subTopic } = response.data.quiz;
 
             navigate(`/topics/${subTopic._id}/opt`);

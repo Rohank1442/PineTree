@@ -11,7 +11,7 @@ const Multiplayer = () => {
     const [gameState, setGameState] = useState('Inactive');
     const navigate = useNavigate();
     const { id: subtopicId } = useParams();
-    const socketInstance = useRef(io('http://localhost:5000/user-namespace'));
+    const socketInstance = useRef(io('${process.env.REACT_APP_SERVER_NAME}user-namespace'));
 
     const handleTimeUp = () => {
         navigate(`/quiz/${subtopicId}`);

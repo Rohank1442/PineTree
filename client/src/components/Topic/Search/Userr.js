@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Userr = ({ user }) => {
     const imageUrl = user?.imageUrl ? user.imageUrl.replace(/\\/g, '/') : '';
-    const fullImageUrl = `http://localhost:5000/${imageUrl}`;
+    const fullImageUrl = `${process.env.REACT_APP_SERVER_NAME}${imageUrl}`;
     return (
         <article className="w-full shadow-xl shadow-black rounded-md overflow-hidden bg-gray-800 my-2 p-3">
             <img src={fullImageUrl} alt={`${user?.topicName}`} className="w-full h-64 object-cover" />
-            {console.log(`http://localhost:5000/${user?.imageUrl}`)}
             <h2 className="text-white font-assist">
                 <Link to={`/topics/${user?._id}`}>{`${user?.topicName}`}</Link>
             </h2>

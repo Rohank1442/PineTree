@@ -14,11 +14,11 @@ export const usePublishResult = (resultData) => {
     console.log(resultData)
     const { result, username } = resultData;
     (async () => {
-        try {
-            if (result !== [] && !username) throw new Error("Couldn't get Result");
-            await postServerData(`http://localhost:5000/api/result`, resultData, data => data);
-        } catch (error) {
-            console.log(error)
-        }
+        // try {
+        //     if (result !== [] && !username) throw new Error("Couldn't get Result");
+        //     await postServerData(`${process.env.REACT_APP_SERVER_NAME}api/result`, resultData, data => data);
+        // } catch (error) {
+        //     console.log(error)
+        // }
     })();
 }

@@ -18,7 +18,7 @@ const QuizPage = () => {
     useEffect(() => {
         const getQuizById = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/quiz/getQuizData/${subTopicId}`);
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}quiz/getQuizData/${subTopicId}`);
                 console.log(response)
                 setQuiz(response.data.quiz);
             } catch (error) {
@@ -60,13 +60,13 @@ const QuizPage = () => {
     const handleSubmitQuiz = async () => {
       try {
         const finalScore = responses.reduce((total, response) => total + response.score, 0);
-        await axios.post('http://localhost:5000/quiz/storeResponse', {
+        await axios.post(`${process.env.REACT_APP_SERVER_NAME}quiz/storeResponse`, {
           player: email,
           quiz: quiz._id,
           responses,
           finalScore
         });
-        await axios.post('http://localhost:5000/leaderboard/', {
+        await axios.post(`${process.env.REACT_APP_SERVER_NAME}leaderboard/`, {
             quiz: quiz._id,
             player: email,
             responses,
