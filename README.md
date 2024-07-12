@@ -150,6 +150,7 @@ All players see the same questions simultaneously, with a global timer ensuring 
 - **Socket.io**: Used for real-time communication between the server and clients.
 - **Global Timer Logic**: Managed on the server-side to ensure all clients are in sync.
 - **Player Management**: Handles player joining, leaving, and tracking scores in real-time.
+- **Data Structures**: Implemented Queue and map data structures in pagination and Quiz.
 
 ### Usage
 1. **Select Multiplayer Mode**: Choose a topic and subtopic, then select the multiplayer option.
