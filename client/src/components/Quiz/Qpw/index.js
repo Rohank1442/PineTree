@@ -14,7 +14,7 @@ const Qpw = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const fetchSubtopic = async () => {
       setIsLoading(true);

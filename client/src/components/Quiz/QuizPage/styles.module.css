@@ -26,9 +26,9 @@
   max-width: 600px;
   text-align: center;
   transition: transform 0.6s ease, box-shadow 0.6s ease;
-  position: relative; /* Added to position the timer */
+  position: relative;
   box-sizing: border-box;
-  min-height: 300px; /* Ensuring consistent size */
+  min-height: 300px;
 }
 
 .box:hover {
@@ -77,7 +77,7 @@
   align-items: center;
   justify-content: center;
   border: 2px solid #E32970;
-  margin-top: 20px; /* Adjusted to create space between options and timer */
+  margin-top: 20px;
 }
 
 .timer.red {
