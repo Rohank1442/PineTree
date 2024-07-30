@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 
-const leaderBoardSchema = new mongoose.Schema({
+const multiplayerLeaderBoardSchema = new mongoose.Schema({
     quiz: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Quiz',
-        required: true,
-        unique: true
+        required: true
     },
     players: [{
         player: {
@@ -36,12 +35,12 @@ const leaderBoardSchema = new mongoose.Schema({
     timestamps: true
 });
 
-leaderBoardSchema.pre('save', function (next) {
+multiplayerLeaderBoardSchema.pre('save', function (next) {
     if (this.players && this.players.length > 1) {
         this.players.sort((p1, p2) => p2.finalScore - p1.finalScore);
     }
     next();
 });
 
-const LeaderBoard = mongoose.model('LeaderBoard', leaderBoardSchema);
-module.exports = LeaderBoard;
+const MultiplayerLeaderBoard = mongoose.model('MultiplayerLeaderBoard', multiplayerLeaderBoardSchema);
+module.exports = MultiplayerLeaderBoard;

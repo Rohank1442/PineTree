@@ -17,7 +17,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(baseurl + '/login', { email, password });
+            const response = await axios.post(baseurl + 'login', { email, password });
             if (response.status === 200) {
                 const { email, token, Id } = response.data;
                 console.log(response)

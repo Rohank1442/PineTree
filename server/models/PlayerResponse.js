@@ -18,8 +18,7 @@ const playerResponseSchema = new mongoose.Schema({
             required: true
         },
         answer: {
-            type: String,
-            required: true
+            type: String
         },
         score: {
             type: Number,

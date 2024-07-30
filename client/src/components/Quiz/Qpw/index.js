@@ -46,7 +46,7 @@ const Qpw = () => {
     if (!email) {
       navigate('/login');
     } else {
-      navigate(`/topics/${id}/opt/multi`);
+      navigate(`/topics/${id}/multi/join`);
     }
   }
 
