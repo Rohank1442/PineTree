@@ -6,18 +6,27 @@ import { MultiplayerContext } from '../Provider';
 const JoinPage = () => {
     const { user } = useContext(UserContext);
     const { id: subtopicId } = useParams();
-    const {onlineUsers, joinTimeLeft} = useContext(MultiplayerContext);
+    const { onlineUsers, joinTimeLeft } = useContext(MultiplayerContext);
 
     return (
-        <div>
-            <h1>Multiplayer Page</h1>
-            <h2>Online Users</h2>
-            <ul>
+        <div className="max-w-lg mx-auto p-8 rounded-xl bg-[#151C25] shadow-2xl">
+            <h1 className="text-center text-[#E32970] text-4xl font-extrabold mb-6">Multiplayer Page</h1>
+            <h2 className="text-center text-[#E32970] text-2xl font-semibold mb-4">Online Users</h2>
+            <ul className="space-y-4">
                 {onlineUsers.map((user) => (
-                    <li key={user.id}>{user.email}</li>
+                    <li 
+                        key={user.id} 
+                        className="py-3 px-4 bg-[#1A2430] rounded-lg flex items-center justify-between shadow-md"
+                    >
+                        <span>{user.email}</span>
+                        <span className="text-sm text-gray-400">Online</span>
+                    </li>
                 ))}
             </ul>
-            <h2>TimeLeft: {joinTimeLeft}</h2>
+            <div className="mt-8 text-center">
+                <h2 className="text-[#E32970] text-3xl font-semibold">Time Left</h2>
+                <p className="text-[#E32970] text-6xl font-bold mt-4">{joinTimeLeft}</p>
+            </div>
         </div>
     );
 };
