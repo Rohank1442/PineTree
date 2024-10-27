@@ -7,7 +7,7 @@ export default function Component() {
     return (
         <Footer bgDark>
             <div className="w-full">
-                <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
+                <div className="grid w-full grid-cols-1 sm:grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
                     <div>
                         <Footer.Title title="Company" className="text-sm text-[#E32970]" />
                         <Footer.LinkGroup col className="text-sm text-[#f1eeef]">
@@ -46,7 +46,7 @@ export default function Component() {
                 </div>
                 <div className="w-full bg-gray-900 px-4 py-6 sm:flex sm:items-center sm:justify-between">
                     <Footer.Copyright href="#" by="Pinetree™" year={2024} className="text-sm" />
-                    <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+                    <div className="mt-4 flex sm:mt-0 justify-center flex-wrap gap-4">
                         <Footer.Icon href="#" icon={BsFacebook} />
                         <Footer.Icon href="#" icon={BsInstagram} />
                         <Footer.Icon href="#" icon={BsTwitter} />

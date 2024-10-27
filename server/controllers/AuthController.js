@@ -6,13 +6,9 @@ const { sendOTPVerificationEmail } = require('../utils/email');
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email, password)
         const User = await userModel.findOne({ email: email })
-        console.log(User);
         if (User) {
-            console.log(User.password)
             const auth = await bcrypt.compare(password, User.password)
-            console.log(auth);
             if (!auth) {
                 return res.status(404).json({ message: 'Invalid Password' })
             }
@@ -25,12 +21,12 @@ exports.login = async (req, res) => {
                     String(process.env.JWT_SECRET_KEY),
                     { expiresIn: "3h" }
                 )
-                res.cookie('JWT_HTTPONLY_Cookie', token, {
-                    httpOnly: true,
-                    sameSite: "none",
-                    secure: true,
-                    maxAge: 24 * 60 * 60 * 1000
-                })
+                // res.cookie('JWT_HTTPONLY_Cookie', token, {
+                //     httpOnly: true,
+                //     sameSite: "none",
+                //     secure: true,
+                //     maxAge: 24 * 60 * 60 * 1000 
+                // })
                 res.status(200).json({
                     message: "Login Successful",
                     email: User.email,
@@ -69,7 +65,7 @@ exports.signup = async (req, res) => {
 
         console.log("User created succesfully")
 
-        await sendOTPVerificationEmail(newUser, res)
+        // await sendOTPVerificationEmail(newUser, res)
 
         return res.status(201).json({ message: 'User created successfully and OTP sent successfully' });
     } catch (error) {
@@ -148,6 +144,25 @@ auth = async (req, res, next) => {
     catch (error) {
         res.status(401).json({
             error: new Error("Invalid Request"),
+        })
+    }
+}
+
+exports.checkUser = async (req, res) => {
+    console.log("check user");
+    try {
+        const {token} = req.body;
+        jwt.verify(
+            token,
+            String(process.env.JWT_SECRET_KEY),
+            (err, _) => {
+                if (err) return res.status(401).json({message: "please login again"}); //invalid token
+                return res.status(200).json({message: "authorised!"});
+            }
+        )
+    } catch (err) {
+        res.status(401).json({
+            message: "Not Authorised!"
         })
     }
 }

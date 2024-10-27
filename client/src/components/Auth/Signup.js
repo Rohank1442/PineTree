@@ -35,10 +35,8 @@ const Signup = () => {
         if (password !== cnfrmPass) {
             alert('Password did not match')
         } else {
-            console.log("here2")
             axios.post(baseurl + 'signup', { username, email, password, cnfrmPass })
-                .then(result => {
-                    console.log(result);
+                .then(_ => {
                     navigate('/login')
                 })
                 .catch(err => console.log(err))

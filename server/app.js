@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
@@ -26,7 +27,12 @@ const http = require('http').Server(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+    origin:["http://localhost:3000"],
+    methods:['POST','GET','HEAD','PUT','DELETE'],
+    credentials: true
+}))
+app.use(cookieParser());
 app.use(morgan('tiny'));
 app.use('/uploads', express.static('uploads'));
 
@@ -49,7 +55,6 @@ app.post('/multi/leaderboard', async (req, res) => {
         
         let leaderboardId = _id;
         if (!leaderboardId) {
-            console.log("hmmmm", timers[subtopicId]);
             leaderboardId = timers[subtopicId].leaderBoardId;
         }
 

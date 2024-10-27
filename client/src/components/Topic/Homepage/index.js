@@ -66,24 +66,66 @@ const Homepage = () => {
 
   return (
     <div className="mx-auto p-3 w-full bg-customBackground">
-      <div className="flex justify-between items-center mx-auto w-full">
-        <div className="text-4xl font-cedarville">Pinetree</div>
+      <div className="flex fixed z-50 bg-customBackground justify-between items-center mx-auto w-screen top-0 left-0 p-3">
+        <div className="text-2xl md:text-4xl font-cedarville">Pinetree</div>
         <div className="md:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-2xl">
             <FaBars />
           </button>
         </div>
-        <div className={`flex-col md:flex-row items-center md:flex ${isMenuOpen ? 'flex' : 'hidden'} md:visible absolute md:relative top-16 left-0 md:top-0 md:left-0 w-full md:w-auto bg-white  md:bg-transparent`}>
-          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto mb-4 md:mb-0">
-            <div className="flex p-4">
+
+        <div className={`flex-col md:flex-row z-40 p-2 md:p-0 items-center md:flex ${isMenuOpen ? 'flex' : 'hidden'} absolute hidden md:flex md:relative top-16 right-0 md:top-0 md:left-0 md:w-auto bg-white md:bg-transparent`}>
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto mb-2 md:mb-0">
+            <div className="flex md:p-4">
+              <div className="cursor-pointer text-sm" onClick={handleCreateGame}>Create Game</div>
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto gap-y-2 md:gap-0">
+            {!user && (
+              <>
+                <div className="hidden md:block">
+                  <button className={styles.login_btn} onClick={handleLogin}>Log In</button>
+                </div>
+                <div className="hidden md:block">
+                  <button className={styles.signup_btn} onClick={handleSignup}>Sign Up</button>
+                </div>
+                <div className="flex md:p-4 md:hidden">
+                  <div className="cursor-pointer mr-4 text-sm" onClick={handleLogin}>Log In</div>
+                </div>
+                <div className="flex md:p-4 md:hidden">
+                  <div className="cursor-pointer mr-4 text-sm" onClick={handleSignup}>Sign Up</div>
+                </div>
+              </>
+            )}
+            {user && (
+              <Routes>
+                <Route path="/" exact element={<Logout />} />
+              </Routes>
+            )}
+          </div>
+        </div>
+        
+        <div className={`flex-col md:flex-row z-40 p-2 md:p-0 items-center md:flex ${isMenuOpen ? 'flex' : 'hidden'} absolute md:hidden md:relative top-16 right-0 md:top-0 md:left-0 w-1/2 sm:w-1/3 rounded-md md:w-auto bg-white md:bg-transparent`}>
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto mb-2 md:mb-0">
+            <div className="flex md:p-4">
               <div className="cursor-pointer mr-4 text-sm" onClick={handleCreateGame}>Create Game</div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto">
+          <div className="flex flex-col md:flex-row justify-end w-full md:w-auto gap-y-2 md:gap-0">
             {!user && (
               <>
-                <button className={styles.login_btn} onClick={handleLogin}>Log In</button>
-                <button className={styles.signup_btn} onClick={handleSignup}>Sign Up</button>
+                <div className="hidden md:block">
+                  <button className={styles.login_btn} onClick={handleLogin}>Log In</button>
+                </div>
+                <div className="hidden md:block">
+                  <button className={styles.signup_btn} onClick={handleSignup}>Sign Up</button>
+                </div>
+                <div className="flex md:p-4 md:hidden">
+                  <div className="cursor-pointer mr-4 text-sm" onClick={handleLogin}>Log In</div>
+                </div>
+                <div className="flex md:p-4 md:hidden">
+                  <div className="cursor-pointer mr-4 text-sm" onClick={handleSignup}>Sign Up</div>
+                </div>
               </>
             )}
             {user && (

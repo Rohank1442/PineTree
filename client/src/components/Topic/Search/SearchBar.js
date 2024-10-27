@@ -20,7 +20,7 @@ const SearchBar = ({ setPage, setSearchText }) => {
             <form className="flex items-center font-assist">
                 <input
                     type="text"
-                    className="rounded-md p-0.5 mr-1"
+                    className="rounded-md p-0.5 mr-1 w-full"
                     id="search"
                     onChange={handleSearchChange}
                     value={captureSearchText}

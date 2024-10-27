@@ -17,14 +17,11 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(baseurl + 'login', { email, password });
+            const response = await axios.post(baseurl + 'login', { email, password }, {withCredentials: true});
             if (response.status === 200) {
                 const { email, token, Id } = response.data;
-                console.log(response)
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify({ email, id: Id }));
-                console.log('Logged in as:', email);
-                console.log(password);
                 dispatch(setEmails(email));
                 setUser({ email, id: Id });
                 navigate('/');

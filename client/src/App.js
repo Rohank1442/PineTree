@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from './components/Auth/Signup';
 import Login from './components/Auth/Login';
@@ -9,12 +9,15 @@ import LeaderBoard from './components/Quiz/LeaderBoard';
 import Multiplayer from './components/Quiz/Multiplayer';
 import QuizPage from './components/Quiz/QuizPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Provider as ReduxProvider } from 'react-redux';
-import store from './components/Redux/store';
+import axios from "axios";
 import { UserProvider } from './components/Context/UserContext';
 import './App.css';
 import CreateGame from './helper/CreateGame';
 import MultiplayerLeaderBoard from './components/Quiz/Multiplayer/MultiLeaderBoard';
+import Loader from './Loader';
+import baseurl from './Api/baseurl';
+import WithAuth from './components/Protected/WithAuth';
+import WithoutAuth from './components/Protected/WithoutAuth';
 
 const queryClient = new QueryClient();
 
@@ -22,22 +25,25 @@ function App() {
   return (
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <ReduxProvider store={store}>
           <UserProvider>
             <Routes>
-              <Route path='/' element={<Homepage />} />
-              <Route path='/topics/:id' element={<SubHome />} />
-              <Route path='/topics/:id/opt' element={<Qpw />} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/create-game' element={<CreateGame/>} />
-              <Route path='/topics/:id/multi/*' element={<Multiplayer />} />
-              <Route path='/leaderboard/:quizId' element={<LeaderBoard />} />
-              <Route path='/multi/leaderboard/:leaderboardId' element={<MultiplayerLeaderBoard />} />
-              <Route path="/quiz/:id" element={<QuizPage />} />
+              <Route path='' element={<WithAuth />}>
+                <Route path='/' element={<Homepage />} />
+                <Route path='/topics/:id' element={<SubHome />} />
+                <Route path='/topics/:id/opt' element={<Qpw />} />
+                <Route path='/create-game' element={<CreateGame/>} />
+                <Route path='/topics/:id/multi/*' element={<Multiplayer />} />
+                <Route path='/leaderboard/:quizId' element={<LeaderBoard />} />
+                <Route path='/multi/leaderboard/:leaderboardId' element={<MultiplayerLeaderBoard />} />
+                <Route path="/quiz/:id" element={<QuizPage />} />
+              </Route>
+
+              <Route path='' element={<WithoutAuth />}>
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+              </Route> 
             </Routes>
           </UserProvider>
-        </ReduxProvider>
       </QueryClientProvider>
     </BrowserRouter>
   );
