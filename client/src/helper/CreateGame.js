@@ -32,13 +32,6 @@ const CreateGame = () => {
             return;
         }
 
-        console.log({
-            desc,
-            topicName,
-            subTopicName,
-            questions
-        });
-
         const formData = new FormData();
         formData.append('desc', desc);
         formData.append('topicName', topicName);

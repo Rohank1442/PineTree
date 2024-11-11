@@ -45,7 +45,7 @@ app.use('/api', resultRoutes);
 app.use('/leaderboard', leaderboardRoutes);
 app.post('/multi/leaderboard', async (req, res) => {
     try {
-        const { _id, quiz, subtopicId, player: playerEmail, responses, finalScore } = req.body;
+        const { _id, subtopicId, player: playerEmail, responses, finalScore } = req.body;
         const user = await User.findOne({ email: playerEmail });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -58,7 +58,7 @@ app.post('/multi/leaderboard', async (req, res) => {
             leaderboardId = timers[subtopicId].leaderBoardId;
         }
 
-        console.log(leaderboardId);
+        // console.log(leaderboardId);
 
         let leaderboard = await MultiplayerLeaderBoard.findById(leaderboardId);
 
@@ -121,15 +121,12 @@ app.get("/multi/leaderboard/:leaderboardId", async (req, res) => {
     }
 })
 
-// Check
 const io = require('socket.io')(http, {
     cors: {
         origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"]
     }
 });
-
-
 
 const usp = io.of('/user-namespace');
 

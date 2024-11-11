@@ -149,7 +149,7 @@ auth = async (req, res, next) => {
 }
 
 exports.checkUser = async (req, res) => {
-    console.log("check user");
+    // console.log("check user");
     try {
         const {token} = req.body;
         jwt.verify(

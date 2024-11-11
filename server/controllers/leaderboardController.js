@@ -4,7 +4,6 @@ const User = require('../models/userSchema');
 const getLeaderboard = async (req, res) => {
     try {
         const { quizId } = req.params;
-        console.log("QuizId:", quizId)
         if (!quizId) {
             return res.status(400).json({
                 success: false,

@@ -8,12 +8,12 @@ const LeaderBoard = () => {
     const { quizId } = useParams();
     const [leaderboard, setLeaderboard] = useState(null);
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_NAME}leaderboard/${quizId}`);
-                console.log(response.data.players);
                 setLeaderboard(response.data);
             } catch (error) {
                 console.error('Error fetching leaderboard:', error);

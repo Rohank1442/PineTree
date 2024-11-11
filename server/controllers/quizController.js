@@ -14,7 +14,6 @@ const mapErrorDetails = (err) => {
 
 const createNewQuiz = async (req, res) => {
     try {
-        console.log(req.file)
         const { desc, topicName, subTopicName, questions } = req.body;
         const imageUrl = req.file.path;
         const parsedQuestions = JSON.parse(questions);
@@ -94,6 +93,7 @@ const acceptJoinings = async (req, res) => {
     try {
         const { quizId } = req.body;
         if (!quizId) {
+            console.log("not found")
             return res.status(400).json({
                 success: false,
                 message: "Please Provide the quiz Id"
@@ -123,6 +123,7 @@ const acceptJoinings = async (req, res) => {
             message: "Joinings have started"
         });
     } catch (error) {
+        console.log("not found!!!!")
         const message = mapErrorDetails(error);
         return res.status(400).json({
             status: false,
@@ -132,6 +133,7 @@ const acceptJoinings = async (req, res) => {
 }
 
 const startQuiz = async (req, res) => {
+    console.log("start")
     try {
         const { quizId } = req.body;
         if (!quizId) {
@@ -171,7 +173,7 @@ const startQuiz = async (req, res) => {
 const getQuizById = async (req, res) => {
     try {
         const { subTopicId } = req.params;
-        console.log(subTopicId)
+        console.log("subtopicId", subTopicId)
         const quiz = await Quiz.findOne({ subTopic: subTopicId })
             .populate('topic')
             .populate('subTopic')
@@ -210,8 +212,8 @@ const storeResponses = async (req, res) => {
     try {
         // console.log("requesting data: ", req.body)
         const { player: email, quiz, responses, finalScore } = req.body;
-        console.log(email, quiz, responses, finalScore)
-        console.log("email: ", email);
+        // console.log(email, quiz, responses, finalScore)
+        // console.log("email: ", email);
         const playerId = await getUserIdByEmail(email);
 
         if (!playerId) {

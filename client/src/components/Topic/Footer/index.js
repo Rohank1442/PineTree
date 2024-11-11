@@ -22,7 +22,6 @@ export default function Component() {
                         <Footer.LinkGroup col className="text-sm text-[#e9e5e7]">
                             <Footer.Link href="#">Discord Server</Footer.Link>
                             <Footer.Link href="#">Twitter</Footer.Link>
-                            <Footer.Link href="#">Facebook</Footer.Link>
                             <Footer.Link href="#">Contact Us</Footer.Link>
                         </Footer.LinkGroup>
                     </div>
@@ -47,11 +46,8 @@ export default function Component() {
                 <div className="w-full bg-gray-900 px-4 py-6 sm:flex sm:items-center sm:justify-between">
                     <Footer.Copyright href="#" by="Pinetree™" year={2024} className="text-sm" />
                     <div className="mt-4 flex sm:mt-0 justify-center flex-wrap gap-4">
-                        <Footer.Icon href="#" icon={BsFacebook} />
-                        <Footer.Icon href="#" icon={BsInstagram} />
                         <Footer.Icon href="#" icon={BsTwitter} />
-                        <Footer.Icon href="#" icon={BsGithub} />
-                        <Footer.Icon href="#" icon={BsDribbble} />
+                        <Footer.Icon href="https://github.com/Rohank1442" icon={BsGithub} />
                     </div>
                 </div>
             </div>

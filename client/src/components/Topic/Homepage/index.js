@@ -7,7 +7,6 @@ import Card from "../Card";
 import Sort from "../Sort";
 import axios from 'axios';
 import Logout from "../../Auth/Logout";
-import JoinGame from "./JoinGame";
 import Footer from '../Footer';
 import { FaBars } from 'react-icons/fa';
 import Loader from "../../../Loader";
@@ -139,7 +138,6 @@ const Homepage = () => {
       <div>
         <Card />
       </div>
-      <JoinGame />
       <div className="flex flex-col md:flex-row justify-start p-2">
         <div className="flex items-center mb-4 md:mb-0">
           <SearchBar setPage={setPage} searchText={searchText} setSearchText={setSearchText} />

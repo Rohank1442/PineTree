@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from './components/Auth/Signup';
 import Login from './components/Auth/Login';
@@ -9,13 +8,10 @@ import LeaderBoard from './components/Quiz/LeaderBoard';
 import Multiplayer from './components/Quiz/Multiplayer';
 import QuizPage from './components/Quiz/QuizPage';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import axios from "axios";
 import { UserProvider } from './components/Context/UserContext';
 import './App.css';
 import CreateGame from './helper/CreateGame';
 import MultiplayerLeaderBoard from './components/Quiz/Multiplayer/MultiLeaderBoard';
-import Loader from './Loader';
-import baseurl from './Api/baseurl';
 import WithAuth from './components/Protected/WithAuth';
 import WithoutAuth from './components/Protected/WithoutAuth';
 

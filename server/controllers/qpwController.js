@@ -2,7 +2,7 @@ const Subtopic = require('../models/SubTopic');
 
 exports.getsubtopicById = async (req, res) => {
     try {
-        console.log(req.params.id);
+        // console.log(req.params.id);
         const subtopic = await Subtopic.findById(req.params.id);
         // console.log("subtopic: ", subtopic);
         const response = {
