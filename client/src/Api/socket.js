@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
 
-const socket = io('http://localhost:5000/user-namespace');
+const socket = io('https://pinetree-1.onrender.com/user-namespace');
 
 export default socket;
