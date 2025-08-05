@@ -75,7 +75,9 @@ const Login = () => {
                         <div className="text-red-500 text-center my-2">{error}</div>
                     )}
                     <div className="m-2 p-2 text-center text-customBackground">
-                        <span className="text-blue-500 cursor-pointer">Forget Password?</span>
+                        <Link to="/signup" className="text-blue-500 hover:underline">
+                            Don't have an account? Sign Up
+                        </Link>
                     </div>
                 </form>
             </div>
