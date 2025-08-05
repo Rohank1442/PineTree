@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require("bcryptjs")
 const userModel = require('../models/userSchema');
 const { sendOTPVerificationEmail } = require('../utils/email');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 exports.login = async (req, res) => {
     try {
@@ -166,3 +168,41 @@ exports.checkUser = async (req, res) => {
         })
     }
 }
+
+exports.googleLogin = async (req, res) => {
+    const { token } = req.body;
+
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        const { email, sub: googleId, name } = payload;
+
+        let user = await userModel.findOne({ email });
+
+        if (!user) {
+            // Auto-create user
+            user = new userModel({ email, username: name, password: googleId });
+            await user.save();
+        }
+
+        const jwtToken = jwt.sign(
+            { userId: user._id, userEmail: user.email },
+            String(process.env.JWT_SECRET_KEY),
+            { expiresIn: "3h" }
+        );
+
+        return res.status(200).json({
+            email: user.email,
+            Id: user._id,
+            token: jwtToken
+        });
+
+    } catch (error) {
+        console.error('Error verifying Google token:', error);
+        res.status(401).json({ message: 'Invalid Google token' });
+    }
+};

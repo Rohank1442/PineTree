@@ -5,6 +5,7 @@ import baseurl from '../../Api/baseurl';
 import { useDispatch } from 'react-redux';
 import { setEmails } from '../Redux/store';
 import { UserContext } from '../Context/UserContext';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(baseurl + 'login', { email, password }, {withCredentials: true});
+            const response = await axios.post(baseurl + 'login', { email, password }, { withCredentials: true });
             if (response.status === 200) {
                 const { email, token, Id } = response.data;
                 localStorage.setItem('token', token);
@@ -70,6 +71,30 @@ const Login = () => {
                         <button type="submit" className="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                             Log In
                         </button>
+                    </div>
+                    <div className="flex justify-center mt-4">
+                        <GoogleLogin
+                            onSuccess={async (credentialResponse) => {
+                                try {
+                                    const res = await axios.post(baseurl + 'google-login', {
+                                        token: credentialResponse.credential
+                                    }, { withCredentials: true });
+
+                                    const { email, token, Id } = res.data;
+                                    localStorage.setItem('token', token);
+                                    localStorage.setItem('user', JSON.stringify({ email, id: Id }));
+                                    dispatch(setEmails(email));
+                                    setUser({ email, id: Id });
+                                    navigate('/');
+                                } catch (err) {
+                                    console.error('Google login error:', err);
+                                    setError('Google login failed');
+                                }
+                            }}
+                            onError={() => {
+                                setError('Google login failed');
+                            }}
+                        />
                     </div>
                     {error && (
                         <div className="text-red-500 text-center my-2">{error}</div>

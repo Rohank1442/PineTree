@@ -14,20 +14,23 @@ import CreateGame from './helper/CreateGame';
 import MultiplayerLeaderBoard from './components/Quiz/Multiplayer/MultiLeaderBoard';
 import WithAuth from './components/Protected/WithAuth';
 import WithoutAuth from './components/Protected/WithoutAuth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const queryClient = new QueryClient();
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 function App() {
   return (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+    <GoogleOAuthProvider clientId={clientId}>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
           <UserProvider>
             <Routes>
               <Route path='' element={<WithAuth />}>
                 <Route path='/' element={<Homepage />} />
                 <Route path='/topics/:id' element={<SubHome />} />
                 <Route path='/topics/:id/opt' element={<Qpw />} />
-                <Route path='/create-game' element={<CreateGame/>} />
+                <Route path='/create-game' element={<CreateGame />} />
                 <Route path='/topics/:id/multi/*' element={<Multiplayer />} />
                 <Route path='/leaderboard/:quizId' element={<LeaderBoard />} />
                 <Route path='/multi/leaderboard/:leaderboardId' element={<MultiplayerLeaderBoard />} />
@@ -37,11 +40,12 @@ function App() {
               <Route path='' element={<WithoutAuth />}>
                 <Route path='/login' element={<Login />} />
                 <Route path='/signup' element={<Signup />} />
-              </Route> 
+              </Route>
             </Routes>
           </UserProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 }
 
